@@ -69,7 +69,6 @@ const AuthPage = () => {
                     button_label: t("auth.signIn"),
                     social_provider_text: t("auth.signInWithGoogle"),
                     link_text: t("auth.noAccount"), // "Don't have an account?"
-                    sign_up_link_text: t("nav.signUp"), // "Sign Up"
                   },
                   sign_up: {
                     email_label: t("auth.email"),
@@ -79,7 +78,6 @@ const AuthPage = () => {
                     button_label: t("auth.signUp"),
                     social_provider_text: t("auth.signUpWithGoogle"),
                     link_text: t("auth.hasAccount"), // "Already have an account?"
-                    sign_in_link_text: t("nav.signIn"), // "Sign In"
                   },
                   forgotten_password: {
                     email_label: t("auth.email"),
