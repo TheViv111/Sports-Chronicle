@@ -28,8 +28,8 @@ const Header = () => {
     { name: t("nav.home"), path: "/" },
     { name: t("nav.blog"), path: "/blog" },
     { name: t("nav.about"), path: "/about" },
-    { name: t("nav.contact"), path: "/contact" },
     { name: "Admin", path: "/admin" },
+    { name: t("nav.contact"), path: "/contact" },
   ];
 
   const isActivePage = (path: string) => {
@@ -138,7 +138,7 @@ const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
+                  <Avatar key={session.user?.user_metadata?.avatar_url || "default-avatar"} className="h-8 w-8">
                     <AvatarImage src={session.user?.user_metadata?.avatar_url || undefined} alt="User Avatar" />
                     <AvatarFallback>
                       {session.user?.email?.charAt(0).toUpperCase() || <UserIcon className="h-4 w-4" />}
