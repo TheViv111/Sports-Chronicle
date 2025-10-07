@@ -137,8 +137,12 @@ const Header = () => {
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar key={session.user?.user_metadata?.avatar_url || "default-avatar"} className="h-8 w-8">
+                <Button 
+                  variant="ghost" 
+                  className="relative h-8 w-8 rounded-full"
+                  key={session.user?.user_metadata?.avatar_url || "default-avatar-button"} // Add key here
+                >
+                  <Avatar className="h-8 w-8">
                     <AvatarImage src={session.user?.user_metadata?.avatar_url || undefined} alt="User Avatar" />
                     <AvatarFallback>
                       {session.user?.email?.charAt(0).toUpperCase() || <UserIcon className="h-4 w-4" />}

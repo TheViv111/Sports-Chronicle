@@ -15,6 +15,7 @@ import { toast } from "sonner"; // Using sonner for toasts
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { Tables } from "@/integrations/supabase/types";
+import { useSession } from "@/components/SessionContextProvider"; // Import useSession
 
 // Define a more precise type for comments including the joined profile data
 type CommentWithProfile = Tables<'comments'> & {
@@ -32,53 +33,12 @@ interface CommentsSectionProps {
 const CommentsSection: React.FC<CommentsSectionProps> = ({ postId }) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const [user, setUser] = React.useState<Pick<Tables<'profiles'>, 'display_name' | 'avatar_url'> | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const { session, isLoading: isSessionLoading } = useSession(); // Use useSession hook
 
-  React.useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        setIsAuthenticated(true);
-        const { data: profile, error } = await supabase
-          .from('profiles')
-          .select('display_name, avatar_url')
-          .eq('id', session.user.id)
-          .single();
-        if (profile) {
-          setUser(profile);
-        } else if (error) {
-          console.error("Error fetching profile:", error);
-        }
-      } else {
-        setIsAuthenticated(false);
-        setUser(null);
-      }
-    };
-    fetchUser();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        setIsAuthenticated(true);
-        supabase
-          .from('profiles')
-          .select('display_name, avatar_url')
-          .eq('id', session.user.id)
-          .single()
-          .then(({ data: profile, error }) => {
-            if (profile) setUser(profile);
-            else if (error) console.error("Error fetching profile on auth change:", error);
-          });
-      } else {
-        setIsAuthenticated(false);
-        setUser(null);
-      }
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, []);
+  const isAuthenticated = !!session;
+  const currentUserId = session?.user?.id;
+  const currentUserDisplayName = session?.user?.user_metadata?.display_name || session?.user?.email?.split('@')[0] || "Anonymous";
+  // const currentUserAvatarUrl = session?.user?.user_metadata?.avatar_url; // Not directly used for posting, but available
 
   const { data: comments, isLoading, error } = useQuery<CommentWithProfile[], Error>({
     queryKey: ["comments", postId],
@@ -132,19 +92,17 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ postId }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof commentSchema>) => {
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !currentUserId) {
       toast.error(t("comments.signInRequired"));
       return;
     }
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session && user.display_name) {
-      addCommentMutation.mutate({
-        content: values.content,
-        postId,
-        userId: session.user.id,
-        authorName: user.display_name,
-      });
-    }
+    
+    addCommentMutation.mutate({
+      content: values.content,
+      postId,
+      userId: currentUserId,
+      authorName: currentUserDisplayName,
+    });
   };
 
   return (
