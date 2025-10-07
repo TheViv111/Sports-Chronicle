@@ -7,31 +7,25 @@ import { useTranslation } from "@/contexts/TranslationContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/LoadingScreen";
-// Removed Embla Carousel imports
-// import useEmblaCarousel from 'embla-carousel-react';
-// import Autoplay from 'embla-carousel-autoplay'; 
-import ContinuousCarousel from "@/components/ContinuousCarousel"; // New import
+import ContinuousCarousel from "@/components/ContinuousCarousel";
 
 type BlogPostType = Tables<'blog_posts'>;
 
 const Home = () => {
-  const [posts, setPosts] = useState<BlogPostType[]>([]);
-  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [latestPosts, setLatestPosts] = useState<BlogPostType[]>([]);
+  const [loadingLatestPosts, setLoadingLatestPosts] = useState(true);
+  const [randomPosts, setRandomPosts] = useState<BlogPostType[]>([]);
+  const [loadingRandomPosts, setLoadingRandomPosts] = useState(true);
   const { t } = useTranslation();
 
-  // Removed Embla Carousel initialization
-  // const [emblaRef] = useEmblaCarousel(
-  //   { loop: true, align: 'start' },
-  //   [Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false, stopOnLastSnap: false, direction: 'forward' })]
-  // );
-
   useEffect(() => {
-    loadPosts();
+    loadLatestPosts();
+    loadRandomPosts();
   }, []);
 
-  const loadPosts = async () => {
+  const loadLatestPosts = async () => {
     try {
-      setLoadingPosts(true);
+      setLoadingLatestPosts(true);
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
@@ -39,11 +33,32 @@ const Home = () => {
         .limit(6);
 
       if (error) throw error;
-      setPosts(data || []);
+      setLatestPosts(data || []);
     } catch (error) {
-      console.error('Error loading posts:', error);
+      console.error('Error loading latest posts:', error);
     } finally {
-      setLoadingPosts(false);
+      setLoadingLatestPosts(false);
+    }
+  };
+
+  const loadRandomPosts = async () => {
+    try {
+      setLoadingRandomPosts(true);
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('created_at', { ascending: false }) // Fetch all or a larger set to ensure variety
+        .range(6, 11); // Get posts from index 6 to 11 (total 6 posts), assuming enough posts exist
+
+      if (error) throw error;
+
+      // Shuffle the fetched posts randomly client-side
+      const shuffledData = data ? [...data].sort(() => Math.random() - 0.5) : [];
+      setRandomPosts(shuffledData);
+    } catch (error) {
+      console.error('Error loading random posts:', error);
+    } finally {
+      setLoadingRandomPosts(false);
     }
   };
 
@@ -100,17 +115,17 @@ const Home = () => {
             {t("latestPosts.subtitle")}
           </p>
 
-          {loadingPosts ? (
+          {loadingLatestPosts ? (
             <LoadingScreen message={t("latestPosts.loading")} />
-          ) : posts.length > 0 ? (
-            <ContinuousCarousel posts={posts} />
+          ) : latestPosts.length > 0 ? (
+            <ContinuousCarousel posts={latestPosts} />
           ) : (
             <p className="text-muted-foreground text-center py-8">
               {t("latestPosts.noPosts")}
             </p>
           )}
 
-          {posts.length > 0 && (
+          {latestPosts.length > 0 && (
             <div className="text-center mt-12 reveal-on-scroll">
               <Link to="/blog">
                 <Button variant="outline" size="lg" className="group btn-hover-lift">
@@ -119,6 +134,28 @@ const Home = () => {
                 </Button>
               </Link>
             </div>
+          )}
+        </div>
+      </section>
+
+      {/* Discover More Stories Section with Carousel */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="font-heading text-3xl font-bold mb-8 text-center reveal-on-scroll">
+            {t("home.randomPostsTitle")}
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-12 text-center reveal-on-scroll">
+            {t("home.randomPostsSubtitle")}
+          </p>
+
+          {loadingRandomPosts ? (
+            <LoadingScreen message={t("latestPosts.loading")} />
+          ) : randomPosts.length > 0 ? (
+            <ContinuousCarousel posts={randomPosts} />
+          ) : (
+            <p className="text-muted-foreground text-center py-8">
+              {t("latestPosts.noPosts")}
+            </p>
           )}
         </div>
       </section>
