@@ -13,20 +13,14 @@ const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
 export const SessionContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [minLoadTimerActive, setMinLoadTimerActive] = useState(true); // State for minimum load time
+  const [isLoading, setIsLoading] = useState(true); // Keep isLoading to track actual loading
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Set a minimum loading time to prevent flickering
-    const timer = setTimeout(() => {
-      setMinLoadTimerActive(false);
-    }, 1500); // 1.5 seconds minimum load time
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, currentSession) => {
       setSession(currentSession);
-      setIsLoading(false);
+      setIsLoading(false); // Set isLoading to false once session state is determined
 
       if (currentSession) {
         // User is authenticated
@@ -45,7 +39,7 @@ export const SessionContextProvider: React.FC<{ children: React.ReactNode }> = (
     // Initial session check
     supabase.auth.getSession().then(({ data: { session: initialSession } }) => {
       setSession(initialSession);
-      setIsLoading(false);
+      setIsLoading(false); // Set isLoading to false once initial session is fetched
       if (initialSession && (location.pathname === '/signin' || location.pathname === '/signup')) {
         navigate('/');
       } else if (!initialSession && location.pathname === '/profile') {
@@ -54,12 +48,11 @@ export const SessionContextProvider: React.FC<{ children: React.ReactNode }> = (
     });
 
     return () => {
-      clearTimeout(timer);
       subscription.unsubscribe();
     };
   }, [navigate, location.pathname]);
 
-  if (isLoading || minLoadTimerActive) {
+  if (isLoading) { // Only show loading screen when isLoading is true
     return <LoadingScreen message="Authenticating session..." />;
   }
 

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2, User as UserIcon, Mail, Edit, Save, LogOut } from "lucide-react";
+import { Loader2, User as UserIcon, Mail, Edit, Save, LogOut, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -40,25 +40,55 @@ const Profile = () => {
   // Redirect if not authenticated and session is loaded
   React.useEffect(() => {
     if (!isSessionLoading && !session) {
-      navigate("/signin"); // Changed from /auth to /signin
+      navigate("/signin");
       toast.error("You must be logged in to view your profile.");
     }
   }, [session, isSessionLoading, navigate]);
 
-  const { data: profile, isLoading: isProfileLoading, error: profileError } = useQuery<Tables<'profiles'>, Error>({
+  const { data: profile, isLoading: isProfileLoading, error: profileError } = useQuery<Tables<'profiles'> | null, Error>({
     queryKey: ["profile", userId],
     queryFn: async () => {
-      if (!userId) throw new Error("User not authenticated.");
+      if (!userId) return null;
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", userId)
+        .maybeSingle(); // Changed to maybeSingle()
+
+      if (error) throw error;
+      return data; // data will be null if no profile found
+    },
+    enabled: !!userId, // Only run query if userId is available
+  });
+
+  const createProfileMutation = useMutation({
+    mutationFn: async (values: ProfileFormValues) => {
+      if (!userId) throw new Error("User not authenticated.");
+      const { error } = await supabase
+        .from("profiles")
+        .insert({
+          id: userId,
+          display_name: values.display_name || userEmail?.split('@')[0] || "New User",
+          bio: values.bio,
+          avatar_url: values.avatar_url,
+          first_name: values.display_name?.split(' ')[0] || null,
+          last_name: values.display_name?.split(' ').slice(1).join(' ') || null,
+          preferred_language: 'en', // Default language
+        })
+        .select()
         .single();
 
       if (error) throw error;
-      return data;
     },
-    enabled: !!userId, // Only run query if userId is available
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile", userId] });
+      toast.success("Profile created successfully!");
+      setIsEditing(false);
+    },
+    onError: (err) => {
+      console.error("Error creating profile:", err);
+      toast.error("Failed to create profile. Please try again.");
+    },
   });
 
   const updateProfileMutation = useMutation({
@@ -110,6 +140,14 @@ const Profile = () => {
     }
   };
 
+  const onSubmit = (values: ProfileFormValues) => {
+    if (!profile) {
+      createProfileMutation.mutate(values);
+    } else {
+      updateProfileMutation.mutate(values);
+    }
+  };
+
   if (isSessionLoading || isProfileLoading) {
     return <LoadingScreen message={t("common.loading")} />;
   }
@@ -122,9 +160,82 @@ const Profile = () => {
     );
   }
 
-  if (!session || !profile) {
-    // This case should be handled by the useEffect redirect, but as a fallback
-    return null;
+  // If no profile exists for the user, show a message and allow creation
+  if (!profile && !isProfileLoading && session) {
+    return (
+      <div className="min-h-screen flex items-center justify-center py-12 px-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <CardTitle className="font-heading text-2xl font-bold">
+              {t("profile.noProfileTitle")}
+            </CardTitle>
+            <CardDescription className="text-muted-foreground">
+              {t("profile.noProfileDescription")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="display_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("profile.displayName")}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={t("profile.yourDisplayName")} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("profile.bio")}</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder={t("profile.yourBio")} {...field} className="min-h-[100px]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="avatar_url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("profile.avatarUrl")}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={t("profile.yourAvatarUrl")} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full" disabled={createProfileMutation.isPending}>
+                  {createProfileMutation.isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Plus className="mr-2 h-4 w-4" />
+                  )}
+                  {t("profile.createProfile")}
+                </Button>
+              </form>
+            </Form>
+            <div className="mt-8 pt-6 border-t flex justify-end">
+              <Button variant="destructive" onClick={handleSignOut}>
+                <LogOut className="mr-2 h-4 w-4" />
+                {t("nav.signOut")}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+    );
   }
 
   return (
@@ -147,7 +258,7 @@ const Profile = () => {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit((values) => updateProfileMutation.mutate(values))} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="display_name"
