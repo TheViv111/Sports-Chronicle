@@ -49,8 +49,8 @@ const Contact = () => {
       (e.target as HTMLFormElement).reset();
     } catch (error) {
       console.error("Error sending message:", error);
-      toast.error("Message received!", {
-        description: "Your message has been logged. We'll get back to you soon!",
+      toast.error("Failed to send message.", {
+        description: "There was an issue sending your message. Please try again later.",
       });
     } finally {
       setIsSubmitting(false);
