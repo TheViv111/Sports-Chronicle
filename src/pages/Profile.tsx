@@ -119,13 +119,19 @@ const Profile = () => {
       bio: "",
       avatar_url: "",
     },
-    values: { // Populate form with current profile data
-      display_name: profile?.display_name || "",
-      bio: profile?.bio || "",
-      avatar_url: profile?.avatar_url || "",
-    },
     mode: "onChange",
   });
+
+  // Use useEffect to reset form values when profile data changes
+  React.useEffect(() => {
+    if (profile) {
+      form.reset({
+        display_name: profile.display_name || "",
+        bio: profile.bio || "",
+        avatar_url: profile.avatar_url || "",
+      });
+    }
+  }, [profile, form.reset]);
 
   const [isEditing, setIsEditing] = React.useState(false);
 
