@@ -2,11 +2,12 @@ import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import BlogCard from "@/components/BlogCard";
+import BlogCard from "@/components/BlogCard"; // Keep BlogCard for type definition
 import { useTranslation } from "@/contexts/TranslationContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/LoadingScreen";
+import ContinuousCarousel from "@/components/ContinuousCarousel"; // Import the new carousel component
 
 type BlogPostType = Tables<'blog_posts'>;
 
@@ -55,6 +56,18 @@ const Home = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Prepare posts for the carousel, adding derived fields
+  const postsForCarousel = latestPosts.map(post => ({
+    ...post,
+    date: new Date(post.created_at).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    }),
+    readTime: post.read_time || "5 min read",
+    image: post.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"
+  }));
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -80,7 +93,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Latest Posts Section with Grid */}
+      {/* Latest Posts Section with Carousel */}
       <section className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4">
           <h2 className="font-heading text-3xl font-bold mb-8 text-center reveal-on-scroll">
@@ -92,24 +105,8 @@ const Home = () => {
 
           {loadingLatestPosts ? (
             <LoadingScreen message={t("latestPosts.loading")} />
-          ) : latestPosts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {latestPosts.map((post) => (
-                <BlogCard
-                  key={post.id}
-                  post={{
-                    ...post,
-                    date: new Date(post.created_at).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric"
-                    }),
-                    readTime: post.read_time || "5 min read",
-                    image: post.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"
-                  }}
-                />
-              ))}
-            </div>
+          ) : postsForCarousel.length > 0 ? (
+            <ContinuousCarousel posts={postsForCarousel} />
           ) : (
             <p className="text-muted-foreground text-center py-8">
               {t("latestPosts.noPosts")}
