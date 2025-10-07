@@ -18,7 +18,7 @@ interface BlogCardProps {
 const BlogCard = ({ post, className = "" }: BlogCardProps) => {
   return (
     <Card className={`blog-card group overflow-hidden ${className}`}>
-      <div className="aspect-[4/3] overflow-hidden">
+      <div className="aspect-[16/9] overflow-hidden"> {/* Changed aspect ratio from 4/3 to 16/9 */}
         <img
           src={post.image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"} // Fallback image
           alt={post.title}
