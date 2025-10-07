@@ -99,7 +99,7 @@ const ContinuousCarousel: React.FC<ContinuousCarouselProps> = ({ posts }) => {
             key={`${blogPost.id}-${index}`} 
             // These widths ensure responsive display of cards within the continuous flow.
             // `flex-shrink-0` prevents items from shrinking.
-            className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]"
+            className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-2rem)] lg:w-[calc(25%-2rem)] xl:w-[calc(20%-2rem)]"
           >
             <BlogCard
               post={{
