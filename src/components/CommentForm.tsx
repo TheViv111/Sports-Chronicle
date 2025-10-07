@@ -45,6 +45,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, onCommentPosted }) =>
           post_id: postId,
           user_id: session.user.id,
           content: values.content,
+          author_name: session.user.user_metadata.display_name || t("comments.anonymousUser"), // Added author_name
         });
       if (error) throw error;
     },
