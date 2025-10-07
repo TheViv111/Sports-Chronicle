@@ -84,7 +84,8 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
         import(`../data/translations/blog.json`),
         import(`../data/translations/auth.json`),
         import(`../data/translations/categories.json`),
-        import(`../data/translations/common.json`)
+        import(`../data/translations/common.json`),
+        import(`../data/translations/profile.json`) // Added profile.json here
       ]);
 
       // Combine all translations for the current language
