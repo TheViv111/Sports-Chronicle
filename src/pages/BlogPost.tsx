@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import BlogCard from "@/components/BlogCard";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
+import CommentsSection from "@/components/CommentsSection"; // Import the new component
 
 interface BlogPost {
   id: string;
@@ -139,6 +140,9 @@ const BlogPost = () => {
               {post.content}
             </div>
           </div>
+
+          {/* Comments Section */}
+          <CommentsSection postId={post.id} />
         </div>
       </article>
 

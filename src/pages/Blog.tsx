@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, Loader2 } from "lucide-react"; // Import Loader2 for loading state
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import BlogCard from "@/components/BlogCard";
@@ -58,10 +58,10 @@ const Blog = () => {
   }, [searchParams]);
 
   const categories = [
-    { id: "all", name: "All" },
+    { id: "all", name: t("category.all") || "All" }, // Use translation for "All"
     { id: "basketball", name: t("category.basketball") },
     { id: "soccer", name: t("category.soccer") },
-    { id: "swimming", name: "Swimming" },
+    { id: "swimming", name: t("category.swimming") || "Swimming" }, // Add translation for Swimming
   ];
 
   const filteredPosts = posts
@@ -119,8 +119,9 @@ const Blog = () => {
 
         {/* Blog Posts Grid */}
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">Loading posts...</p>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="ml-2 text-muted-foreground">{t("latestPosts.loading")}</span>
           </div>
         ) : filteredPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

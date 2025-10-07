@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import BlogCard from "@/components/BlogCard";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react"; // Import Loader2 for loading state
 
 interface BlogPost {
   id: string;
@@ -19,8 +20,8 @@ interface BlogPost {
 }
 
 const Home = () => {
-  const [translateX, setTranslateX] = useState(0);
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true); // New loading state
   const { t } = useTranslation();
 
   // Load posts from Supabase
@@ -30,27 +31,21 @@ const Home = () => {
 
   const loadPosts = async () => {
     try {
+      setLoadingPosts(true); // Set loading to true
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(6);
+        .limit(6); // Limit to 6 for the home page display
 
       if (error) throw error;
       setPosts(data || []);
     } catch (error) {
       console.error('Error loading posts:', error);
+    } finally {
+      setLoadingPosts(false); // Set loading to false
     }
   };
-
-  // Continuous carousel movement
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTranslateX((prev) => prev - 1);
-    }, 20);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Scroll reveal effect
   useEffect(() => {
@@ -70,9 +65,6 @@ const Home = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  // Create multiple copies for seamless infinite scroll
-  const extendedPosts = posts.length > 0 ? Array(10).fill(posts).flat() : [];
 
   return (
     <div className="min-h-screen">
@@ -99,20 +91,26 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Blog Carousel Section */}
-      {posts.length > 0 && (
-        <section className="py-16 overflow-hidden reveal-on-scroll">
-        <div className="relative">
-          <div 
-            className="flex gap-6"
-            style={{
-              transform: `translateX(${translateX}px)`,
-              width: `${extendedPosts.length * 424}px`
-            }}
-          >
-            {extendedPosts.map((blogPost, index) => (
-              <div key={`${blogPost.id}-${Math.floor(index / posts.length)}-${index}`} className="flex-shrink-0 w-[400px]">
+      {/* Latest Posts Section (replaces carousel for simplicity and Supabase integration) */}
+      <section className="py-16 bg-secondary/20">
+        <div className="container mx-auto px-4">
+          <h2 className="font-heading text-3xl font-bold mb-8 text-center reveal-on-scroll">
+            {t("latestPosts.title")}
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-12 text-center reveal-on-scroll">
+            {t("latestPosts.subtitle")}
+          </p>
+
+          {loadingPosts ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-2 text-muted-foreground">{t("latestPosts.loading")}</span>
+            </div>
+          ) : posts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {posts.map((blogPost) => (
                 <BlogCard 
+                  key={blogPost.id} 
                   post={{
                     ...blogPost,
                     date: new Date(blogPost.created_at).toLocaleDateString("en-US", { 
@@ -123,14 +121,28 @@ const Home = () => {
                     readTime: blogPost.read_time || "5 min read",
                     image: blogPost.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"
                   }} 
+                  className="scroll-reveal"
                 />
-              </div>
-            ))}
-          </div>
-        </div>
-        </section>
-      )}
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted-foreground text-center py-8">
+              {t("latestPosts.noPosts")}
+            </p>
+          )}
 
+          {posts.length > 0 && (
+            <div className="text-center mt-12 reveal-on-scroll">
+              <Link to="/blog">
+                <Button variant="outline" size="lg" className="group btn-hover-lift">
+                  {t("latestPosts.viewAll")}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
