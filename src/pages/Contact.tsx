@@ -33,7 +33,7 @@ const Contact = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          // Removed 'Authorization' header as it's not needed for this public edge function
         },
         body: JSON.stringify(contactData),
       });
