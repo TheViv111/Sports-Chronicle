@@ -30,11 +30,11 @@ Deno.serve(async (req: Request) => {
     const resendApiKey = Deno.env.get('RESEND_API_KEY');
     
     if (!resendApiKey) {
-      console.error('Resend API key not configured in environment variables.');
+      console.error('CRITICAL ERROR: Resend API key not configured in environment variables. Please set RESEND_API_KEY in Supabase Edge Function secrets.');
       return new Response(
         JSON.stringify({ 
           success: false, 
-          error: "Server configuration error: Resend API key is missing." 
+          error: "Server configuration error: Resend API key is missing. Please contact support." 
         }),
         {
           status: 500,
