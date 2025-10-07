@@ -144,8 +144,8 @@ const About = () => {
               <li><strong>{t("category.basketball")}</strong> - {t("about.basketballCoverage")}</li>
               <li><strong>{t("category.baseball")}</strong> - {t("about.baseballCoverage")}</li>
               <li><strong>{t("category.tennis")}</strong> - {t("about.tennisCoverage")}</li>
-              <li><strong>Olympic Sports</strong> - {t("about.olympicCoverage")}</li>
-              <li><strong>Emerging Sports</strong> - {t("about.emergingSports")}</li>
+              <li><strong>{t("about.olympicSports")}</strong> - {t("about.olympicCoverage")}</li>
+              <li><strong>{t("about.emergingSportsTitle")}</strong> - {t("about.emergingSports")}</li>
             </ul>
 
             <h2 className="font-heading text-2xl font-semibold mt-8 mb-4">

@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tables } from "@/integrations/supabase/types";
+import { useTranslation } from "@/contexts/TranslationContext"; // Import useTranslation
 
 // Use the Supabase generated type for blog posts
 interface BlogCardProps {
@@ -15,6 +16,8 @@ interface BlogCardProps {
 }
 
 const BlogCard = ({ post, className = "" }: BlogCardProps) => {
+  const { t } = useTranslation(); // Use useTranslation hook
+
   return (
     <Link to={`/blog/${post.slug}`} className="block"> {/* Wrap the entire card with Link */}
       <Card className={`blog-card group overflow-hidden h-full ${className}`}> {/* Ensure card takes full height */}
@@ -50,7 +53,7 @@ const BlogCard = ({ post, className = "" }: BlogCardProps) => {
           
           {/* Replaced the Button with a styled span and icon for visual consistency, as the whole card is now clickable */}
           <span className="group flex items-center text-sm font-medium text-primary hover:text-primary/90 transition-colors self-start">
-            Read article
+            {t("blog.readArticle")}
             <ArrowRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
           </span>
         </CardContent>

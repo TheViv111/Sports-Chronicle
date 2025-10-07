@@ -9,11 +9,13 @@ import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/LoadingScreen";
 import CommentsSection from "@/components/CommentsSection";
 import ReactMarkdown from "react-markdown";
+import { useTranslation } from "@/contexts/TranslationContext"; // Import useTranslation
 
 type BlogPostType = Tables<'blog_posts'>;
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation(); // Use useTranslation hook
   
   if (!slug) {
     return <Navigate to="/blog" replace />;
@@ -60,7 +62,7 @@ const BlogPost = () => {
   });
 
   if (isPostLoading) {
-    return <LoadingScreen message="Loading post..." />;
+    return <LoadingScreen message={t("latestPosts.loading")} />;
   }
 
   if (postError) {
@@ -87,7 +89,7 @@ const BlogPost = () => {
         <Link to="/blog">
           <Button variant="ghost" className="group">
             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Blog
+            {t("blog.backToBlog")}
           </Button>
         </Link>
       </div>
@@ -108,7 +110,7 @@ const BlogPost = () => {
           {/* Hero Image */}
           <div className="aspect-[21/9] mb-8 overflow-hidden rounded-lg">
             <img
-              src={post.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"}
+              src={post.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"} // Fallback image
               alt={post.title}
               className="w-full h-full object-cover"
             />
@@ -144,13 +146,13 @@ const BlogPost = () => {
       {isRelatedPostsLoading ? (
         <div className="py-16 bg-secondary/20 text-center">
           <Loader2 className="h-6 w-6 animate-spin text-primary mx-auto" />
-          <p className="text-muted-foreground mt-2">Loading related posts...</p>
+          <p className="text-muted-foreground mt-2">{t("blog.loadingRelatedPosts")}</p>
         </div>
       ) : relatedPosts && relatedPosts.length > 0 && (
         <section className="py-16 bg-secondary/20">
           <div className="container mx-auto px-4">
             <h2 className="font-heading text-2xl font-bold mb-8 text-center">
-              Related Articles
+              {t("blog.relatedArticles")}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {relatedPosts.map((relatedPost) => (

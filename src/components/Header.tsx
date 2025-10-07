@@ -28,7 +28,7 @@ const Header = () => {
     { name: t("nav.home"), path: "/" },
     { name: t("nav.blog"), path: "/blog" },
     { name: t("nav.about"), path: "/about" },
-    { name: "Admin", path: "/admin" },
+    { name: t("nav.admin"), path: "/admin" },
     { name: t("nav.contact"), path: "/contact" },
   ];
 
@@ -51,9 +51,11 @@ const Header = () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Error signing out:", error);
-      toast.error("Failed to sign out. Please try again.");
+      toast.error(t("auth.signOutError"), {
+        description: t("common.tryAgain"),
+      });
     } else {
-      toast.success("You have been signed out.");
+      toast.success(t("auth.signOutSuccess"));
       navigate("/signin"); // Redirect to sign-in page after logout
     }
   };

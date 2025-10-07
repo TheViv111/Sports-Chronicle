@@ -18,15 +18,15 @@ interface LanguageSelectorProps {
 }
 
 export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps) {
-  const { currentLanguage, setLanguage } = useTranslation();
+  const { currentLanguage, setLanguage, t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
 
   // Organize languages by regions - Default first, then by region
   const languageGroups = {
-    "Default": {
+    "default": {
       en: supportedLanguages.en,
     },
-    "Indian Languages": {
+    "indian": {
       hi: supportedLanguages.hi,
       bn: supportedLanguages.bn,
       ta: supportedLanguages.ta,
@@ -34,7 +34,7 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
       mr: supportedLanguages.mr,
       gu: supportedLanguages.gu,
     },
-    "European Languages": {
+    "european": {
       es: supportedLanguages.es,
       fr: supportedLanguages.fr,
       de: supportedLanguages.de,
@@ -48,17 +48,17 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
       da: supportedLanguages.da,
       fi: supportedLanguages.fi,
     },
-    "East Asian Languages": {
+    "eastAsian": {
       zh: supportedLanguages.zh,
       ja: supportedLanguages.ja,
       ko: supportedLanguages.ko,
     },
-    "Middle Eastern Languages": {
+    "middleEastern": {
       ar: supportedLanguages.ar,
       he: supportedLanguages.he,
       fa: supportedLanguages.fa,
     },
-    "Other Languages": {
+    "other": {
       tr: supportedLanguages.tr,
       th: supportedLanguages.th,
     },
@@ -100,7 +100,7 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search languages..."
+                placeholder={t("languages.searchPlaceholder")}
                 className="pl-8 bg-background"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -111,7 +111,7 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
             {Object.entries(filteredGroups).map(([groupName, languages]) => (
               <div key={groupName}>
                 <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase px-2 py-1">
-                  {groupName}
+                  {t(`languages.group.${groupName}`)}
                 </DropdownMenuLabel>
                 {Object.entries(languages).map(([code, lang]) => (
                   <DropdownMenuItem
@@ -130,13 +130,13 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
                       </div>
                       {currentLanguage === code && (
                         <span className="text-xs bg-foreground text-background px-2 py-1 rounded-full">
-                          Current
+                          {t("languages.current")}
                         </span>
                       )}
                     </span>
                   </DropdownMenuItem>
                 ))}
-                {groupName !== "Other Languages" && <DropdownMenuSeparator className="my-1" />}
+                {groupName !== "other" && <DropdownMenuSeparator className="my-1" />}
               </div>
             ))}
           </ScrollArea>
@@ -158,7 +158,7 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search languages..."
+              placeholder={t("languages.searchPlaceholder")}
               className="pl-8 bg-background"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -169,7 +169,7 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
           {Object.entries(filteredGroups).map(([groupName, languages]) => (
             <div key={groupName}>
               <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase px-2 py-1">
-                {groupName}
+                {t(`languages.group.${groupName}`)}
               </DropdownMenuLabel>
               {Object.entries(languages).map(([code, lang]) => (
                 <DropdownMenuItem
@@ -188,13 +188,13 @@ export function LanguageSelector({ variant = "desktop" }: LanguageSelectorProps)
                     </div>
                     {currentLanguage === code && (
                       <span className="text-xs bg-foreground text-background px-2 py-1 rounded-full">
-                        Current
+                        {t("languages.current")}
                       </span>
                     )}
                   </span>
                 </DropdownMenuItem>
               ))}
-              {groupName !== "Other Languages" && <DropdownMenuSeparator className="my-1" />}
+              {groupName !== "other" && <DropdownMenuSeparator className="my-1" />}
             </div>
           ))}
         </ScrollArea>

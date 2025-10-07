@@ -16,7 +16,15 @@
     "common.delete": "Delete",
     "common.confirm": "Confirm",
     "common.yes": "Yes",
-    "common.no": "No"
+    "common.no": "No",
+    "common.uploading": "Uploading...",
+    "common.uploadSuccess": "Upload successful!",
+    "common.uploadError": "Upload failed.",
+    "common.noFileSelected": "No file selected.",
+    "common.authenticationRequired": "Authentication required.",
+    "common.tryAgain": "Please try again.",
+    "common.backToSite": "Back to Site",
+    "common.loadingMessage": "Loading..."
   },
   "es": {
     "common.search": "Buscar...",
@@ -35,7 +43,15 @@
     "common.delete": "Eliminar",
     "common.confirm": "Confirmar",
     "common.yes": "Sí",
-    "common.no": "No"
+    "common.no": "No",
+    "common.uploading": "Subiendo...",
+    "common.uploadSuccess": "¡Subida exitosa!",
+    "common.uploadError": "Error al subir.",
+    "common.noFileSelected": "Ningún archivo seleccionado.",
+    "common.authenticationRequired": "Autenticación requerida.",
+    "common.tryAgain": "Por favor, inténtalo de nuevo.",
+    "common.backToSite": "Volver al Sitio",
+    "common.loadingMessage": "Cargando..."
   },
   "fr": {
     "common.search": "Rechercher...",
@@ -54,7 +70,15 @@
     "common.delete": "Supprimer",
     "common.confirm": "Confirmer",
     "common.yes": "Oui",
-    "common.no": "Non"
+    "common.no": "Non",
+    "common.uploading": "Téléchargement...",
+    "common.uploadSuccess": "Téléchargement réussi !",
+    "common.uploadError": "Échec du téléchargement.",
+    "common.noFileSelected": "Aucun fichier sélectionné.",
+    "common.authenticationRequired": "Authentification requise.",
+    "common.tryAgain": "Veuillez réessayer.",
+    "common.backToSite": "Retour au Site",
+    "common.loadingMessage": "Chargement..."
   },
   "de": {
     "common.search": "Suchen...",
@@ -73,7 +97,15 @@
     "common.delete": "Löschen",
     "common.confirm": "Bestätigen",
     "common.yes": "Ja",
-    "common.no": "Nein"
+    "common.no": "Nein",
+    "common.uploading": "Hochladen...",
+    "common.uploadSuccess": "Upload erfolgreich!",
+    "common.uploadError": "Upload fehlgeschlagen.",
+    "common.noFileSelected": "Keine Datei ausgewählt.",
+    "common.authenticationRequired": "Authentifizierung erforderlich.",
+    "common.tryAgain": "Bitte versuchen Sie es erneut.",
+    "common.backToSite": "Zurück zur Seite",
+    "common.loadingMessage": "Laden..."
   },
   "it": {
     "common.search": "Cerca...",
@@ -92,7 +124,15 @@
     "common.delete": "Elimina",
     "common.confirm": "Conferma",
     "common.yes": "Sì",
-    "common.no": "No"
+    "common.no": "No",
+    "common.uploading": "Caricamento...",
+    "common.uploadSuccess": "Caricamento riuscito!",
+    "common.uploadError": "Caricamento fallito.",
+    "common.noFileSelected": "Nessun file selezionato.",
+    "common.authenticationRequired": "Autenticazione richiesta.",
+    "common.tryAgain": "Riprova.",
+    "common.backToSite": "Torna al Sito",
+    "common.loadingMessage": "Caricamento..."
   },
   "pt": {
     "common.search": "Pesquisar...",
@@ -111,7 +151,15 @@
     "common.delete": "Excluir",
     "common.confirm": "Confirmar",
     "common.yes": "Sim",
-    "common.no": "Não"
+    "common.no": "Não",
+    "common.uploading": "Enviando...",
+    "common.uploadSuccess": "Envio bem-sucedido!",
+    "common.uploadError": "Falha no envio.",
+    "common.noFileSelected": "Nenhum arquivo selecionado.",
+    "common.authenticationRequired": "Autenticação necessária.",
+    "common.tryAgain": "Por favor, tente novamente.",
+    "common.backToSite": "Voltar ao Site",
+    "common.loadingMessage": "Carregando..."
   },
   "ru": {
     "common.search": "Поиск...",
@@ -130,7 +178,15 @@
     "common.delete": "Удалить",
     "common.confirm": "Подтвердить",
     "common.yes": "Да",
-    "common.no": "Нет"
+    "common.no": "Нет",
+    "common.uploading": "Загрузка...",
+    "common.uploadSuccess": "Загрузка успешно завершена!",
+    "common.uploadError": "Ошибка загрузки.",
+    "common.noFileSelected": "Файл не выбран.",
+    "common.authenticationRequired": "Требуется аутентификация.",
+    "common.tryAgain": "Пожалуйста, попробуйте снова.",
+    "common.backToSite": "Вернуться на сайт",
+    "common.loadingMessage": "Загрузка..."
   },
   "pl": {
     "common.search": "Szukaj...",
@@ -149,7 +205,15 @@
     "common.delete": "Usuń",
     "common.confirm": "Potwierdź",
     "common.yes": "Tak",
-    "common.no": "Nie"
+    "common.no": "Nie",
+    "common.uploading": "Przesyłanie...",
+    "common.uploadSuccess": "Przesyłanie zakończone sukcesem!",
+    "common.uploadError": "Błąd przesyłania.",
+    "common.noFileSelected": "Nie wybrano pliku.",
+    "common.authenticationRequired": "Wymagana autoryzacja.",
+    "common.tryAgain": "Spróbuj ponownie.",
+    "common.backToSite": "Wróć do strony",
+    "common.loadingMessage": "Ładowanie..."
   },
   "nl": {
     "common.search": "Zoeken...",
@@ -168,7 +232,15 @@
     "common.delete": "Verwijderen",
     "common.confirm": "Bevestigen",
     "common.yes": "Ja",
-    "common.no": "Nee"
+    "common.no": "Nee",
+    "common.uploading": "Uploaden...",
+    "common.uploadSuccess": "Upload succesvol!",
+    "common.uploadError": "Upload mislukt.",
+    "common.noFileSelected": "Geen bestand geselecteerd.",
+    "common.authenticationRequired": "Authenticatie vereist.",
+    "common.tryAgain": "Probeer opnieuw.",
+    "common.backToSite": "Terug naar Site",
+    "common.loadingMessage": "Laden..."
   },
   "sv": {
     "common.search": "Sök...",
@@ -187,7 +259,15 @@
     "common.delete": "Radera",
     "common.confirm": "Bekräfta",
     "common.yes": "Ja",
-    "common.no": "Nej"
+    "common.no": "Nej",
+    "common.uploading": "Laddar upp...",
+    "common.uploadSuccess": "Uppladdning lyckades!",
+    "common.uploadError": "Uppladdning misslyckades.",
+    "common.noFileSelected": "Ingen fil vald.",
+    "common.authenticationRequired": "Autentisering krävs.",
+    "common.tryAgain": "Vänligen försök igen.",
+    "common.backToSite": "Tillbaka till webbplatsen",
+    "common.loadingMessage": "Laddar..."
   },
   "no": {
     "common.search": "Søk...",
@@ -206,7 +286,15 @@
     "common.delete": "Slett",
     "common.confirm": "Bekreft",
     "common.yes": "Ja",
-    "common.no": "Nei"
+    "common.no": "Nei",
+    "common.uploading": "Laster opp...",
+    "common.uploadSuccess": "Opplasting vellykket!",
+    "common.uploadError": "Opplasting mislyktes.",
+    "common.noFileSelected": "Ingen fil valgt.",
+    "common.authenticationRequired": "Autentisering kreves.",
+    "common.tryAgain": "Vennligst prøv igjen.",
+    "common.backToSite": "Tilbake til nettstedet",
+    "common.loadingMessage": "Laster..."
   },
   "da": {
     "common.search": "Søg...",
@@ -225,7 +313,15 @@
     "common.delete": "Slet",
     "common.confirm": "Bekræft",
     "common.yes": "Ja",
-    "common.no": "Nej"
+    "common.no": "Nej",
+    "common.uploading": "Uploader...",
+    "common.uploadSuccess": "Upload lykkedes!",
+    "common.uploadError": "Upload mislykkedes.",
+    "common.noFileSelected": "Ingen fil valgt.",
+    "common.authenticationRequired": "Godkendelse påkrævet.",
+    "common.tryAgain": "Prøv venligst igen.",
+    "common.backToSite": "Tilbage til side",
+    "common.loadingMessage": "Indlæser..."
   },
   "fi": {
     "common.search": "Hae...",
@@ -244,7 +340,15 @@
     "common.delete": "Poista",
     "common.confirm": "Vahvista",
     "common.yes": "Kyllä",
-    "common.no": "Ei"
+    "common.no": "Ei",
+    "common.uploading": "Ladataan...",
+    "common.uploadSuccess": "Lataus onnistui!",
+    "common.uploadError": "Lataus epäonnistui.",
+    "common.noFileSelected": "Ei tiedostoa valittu.",
+    "common.authenticationRequired": "Todennus vaaditaan.",
+    "common.tryAgain": "Yritä uudelleen.",
+    "common.backToSite": "Takaisin sivustolle",
+    "common.loadingMessage": "Ladataan..."
   },
   "zh": {
     "common.search": "搜索...",
@@ -263,7 +367,15 @@
     "common.delete": "删除",
     "common.confirm": "确认",
     "common.yes": "是",
-    "common.no": "否"
+    "common.no": "否",
+    "common.uploading": "上传中...",
+    "common.uploadSuccess": "上传成功！",
+    "common.uploadError": "上传失败。",
+    "common.noFileSelected": "未选择文件。",
+    "common.authenticationRequired": "需要身份验证。",
+    "common.tryAgain": "请重试。",
+    "common.backToSite": "返回网站",
+    "common.loadingMessage": "加载中..."
   },
   "ja": {
     "common.search": "検索...",
@@ -282,7 +394,15 @@
     "common.delete": "削除",
     "common.confirm": "確認",
     "common.yes": "はい",
-    "common.no": "いいえ"
+    "common.no": "いいえ",
+    "common.uploading": "アップロード中...",
+    "common.uploadSuccess": "アップロード成功！",
+    "common.uploadError": "アップロード失敗。",
+    "common.noFileSelected": "ファイルが選択されていません。",
+    "common.authenticationRequired": "認証が必要です。",
+    "common.tryAgain": "もう一度お試しください。",
+    "common.backToSite": "サイトに戻る",
+    "common.loadingMessage": "読み込み中..."
   },
   "ko": {
     "common.search": "검색...",
@@ -301,7 +421,15 @@
     "common.delete": "삭제",
     "common.confirm": "확인",
     "common.yes": "예",
-    "common.no": "아니요"
+    "common.no": "아니요",
+    "common.uploading": "업로드 중...",
+    "common.uploadSuccess": "업로드 성공!",
+    "common.uploadError": "업로드 실패.",
+    "common.noFileSelected": "선택된 파일이 없습니다.",
+    "common.authenticationRequired": "인증이 필요합니다.",
+    "common.tryAgain": "다시 시도해 주세요.",
+    "common.backToSite": "사이트로 돌아가기",
+    "common.loadingMessage": "로딩 중..."
   },
   "hi": {
     "common.search": "खोजें...",
@@ -320,7 +448,15 @@
     "common.delete": "हटाएं",
     "common.confirm": "पुष्टि करें",
     "common.yes": "हां",
-    "common.no": "नहीं"
+    "common.no": "नहीं",
+    "common.uploading": "अपलोड हो रहा है...",
+    "common.uploadSuccess": "अपलोड सफल!",
+    "common.uploadError": "अपलोड विफल।",
+    "common.noFileSelected": "कोई फ़ाइल चयनित नहीं है।",
+    "common.authenticationRequired": "प्रमाणीकरण आवश्यक है।",
+    "common.tryAgain": "कृपया पुनः प्रयास करें।",
+    "common.backToSite": "साइट पर वापस",
+    "common.loadingMessage": "लोड हो रहा है..."
   },
   "bn": {
     "common.search": "অনুসন্ধান...",
@@ -339,7 +475,15 @@
     "common.delete": "মুছে ফেলুন",
     "common.confirm": "নিশ্চিত করুন",
     "common.yes": "হ্যাঁ",
-    "common.no": "না"
+    "common.no": "না",
+    "common.uploading": "আপলোড হচ্ছে...",
+    "common.uploadSuccess": "আপলোড সফল!",
+    "common.uploadError": "আপলোড ব্যর্থ হয়েছে।",
+    "common.noFileSelected": "কোনো ফাইল নির্বাচন করা হয়নি।",
+    "common.authenticationRequired": "প্রমাণীকরণ প্রয়োজন।",
+    "common.tryAgain": "অনুগ্রহ করে আবার চেষ্টা করুন।",
+    "common.backToSite": "সাইটে ফিরে যান",
+    "common.loadingMessage": "লোড হচ্ছে..."
   },
   "ta": {
     "common.search": "தேடு...",
@@ -358,7 +502,15 @@
     "common.delete": "அழிக்கவும்",
     "common.confirm": "உறுதிப்படுத்தவும்",
     "common.yes": "ஆம்",
-    "common.no": "இல்லை"
+    "common.no": "இல்லை",
+    "common.uploading": "பதிவேற்றுகிறது...",
+    "common.uploadSuccess": "பதிவேற்றம் வெற்றிகரமாக முடிந்தது!",
+    "common.uploadError": "பதிவேற்றம் தோல்வியடைந்தது.",
+    "common.noFileSelected": "கோப்பு எதுவும் தேர்ந்தெடுக்கப்படவில்லை.",
+    "common.authenticationRequired": "அங்கீகாரம் தேவை.",
+    "common.tryAgain": "மீண்டும் முயற்சிக்கவும்.",
+    "common.backToSite": "தளத்திற்குத் திரும்பு",
+    "common.loadingMessage": "ஏற்றுகிறது..."
   },
   "te": {
     "common.search": "వెతకండి...",
@@ -377,7 +529,15 @@
     "common.delete": "తొలగించండి",
     "common.confirm": "నిర్ధారించండి",
     "common.yes": "అవును",
-    "common.no": "లేదు"
+    "common.no": "లేదు",
+    "common.uploading": "అప్‌లోడ్ అవుతోంది...",
+    "common.uploadSuccess": "అప్‌లోడ్ విజయవంతమైంది!",
+    "common.uploadError": "అప్‌లోడ్ విఫలమైంది.",
+    "common.noFileSelected": "ఫైల్ ఎంపిక చేయబడలేదు.",
+    "common.authenticationRequired": "ప్రామాణీకరణ అవసరం.",
+    "common.tryAgain": "దయచేసి మళ్లీ ప్రయత్నించండి.",
+    "common.backToSite": "సైట్‌కు తిరిగి వెళ్ళు",
+    "common.loadingMessage": "లోడ్ అవుతోంది..."
   },
   "mr": {
     "common.search": "शोधा...",
@@ -396,7 +556,15 @@
     "common.delete": "हटवा",
     "common.confirm": "पुष्टी करा",
     "common.yes": "होय",
-    "common.no": "नाही"
+    "common.no": "नाही",
+    "common.uploading": "अपलोड करत आहे...",
+    "common.uploadSuccess": "अपलोड यशस्वी!",
+    "common.uploadError": "अपलोड अयशस्वी.",
+    "common.noFileSelected": "कोणतीही फाइल निवडलेली नाही.",
+    "common.authenticationRequired": "प्रमाणीकरण आवश्यक आहे.",
+    "common.tryAgain": "कृपया पुन्हा प्रयत्न करा.",
+    "common.backToSite": "साइटवर परत",
+    "common.loadingMessage": "लोड होत आहे..."
   },
   "gu": {
     "common.search": "શોધો...",
@@ -415,7 +583,15 @@
     "common.delete": "ડિલીટ કરો",
     "common.confirm": "પુષ્ટિ કરો",
     "common.yes": "હા",
-    "common.no": "ના"
+    "common.no": "ના",
+    "common.uploading": "અપલોડ કરી રહ્યું છે...",
+    "common.uploadSuccess": "અપલોડ સફળ!",
+    "common.uploadError": "અપલોડ નિષ્ફળ.",
+    "common.noFileSelected": "કોઈ ફાઇલ પસંદ કરેલ નથી.",
+    "common.authenticationRequired": "પ્રમાણીકરણ આવશ્યક છે.",
+    "common.tryAgain": "કૃપા કરીને ફરી પ્રયાસ કરો.",
+    "common.backToSite": "સાઇટ પર પાછા",
+    "common.loadingMessage": "લોડ થઈ રહ્યું છે..."
   },
   "ar": {
     "common.search": "بحث...",
@@ -434,7 +610,15 @@
     "common.delete": "حذف",
     "common.confirm": "تأكيد",
     "common.yes": "نعم",
-    "common.no": "لا"
+    "common.no": "لا",
+    "common.uploading": "جارٍ الرفع...",
+    "common.uploadSuccess": "تم الرفع بنجاح!",
+    "common.uploadError": "فشل الرفع.",
+    "common.noFileSelected": "لم يتم تحديد ملف.",
+    "common.authenticationRequired": "التحقق مطلوب.",
+    "common.tryAgain": "يرجى المحاولة مرة أخرى.",
+    "common.backToSite": "العودة إلى الموقع",
+    "common.loadingMessage": "جارٍ التحميل..."
   },
   "he": {
     "common.search": "חפש...",
@@ -453,7 +637,15 @@
     "common.delete": "מחק",
     "common.confirm": "אשר",
     "common.yes": "כן",
-    "common.no": "לא"
+    "common.no": "לא",
+    "common.uploading": "מעלה...",
+    "common.uploadSuccess": "העלאה מוצלחת!",
+    "common.uploadError": "העלאה נכשלה.",
+    "common.noFileSelected": "לא נבחר קובץ.",
+    "common.authenticationRequired": "נדרשת אימות.",
+    "common.tryAgain": "אנא נסה שוב.",
+    "common.backToSite": "חזרה לאתר",
+    "common.loadingMessage": "טוען..."
   },
   "fa": {
     "common.search": "جستجو...",
@@ -472,7 +664,15 @@
     "common.delete": "حذف",
     "common.confirm": "تأیید",
     "common.yes": "بله",
-    "common.no": "خیر"
+    "common.no": "خیر",
+    "common.uploading": "در حال آپلود...",
+    "common.uploadSuccess": "آپلود موفقیت‌آمیز بود!",
+    "common.uploadError": "آپلود ناموفق بود.",
+    "common.noFileSelected": "هیچ فایلی انتخاب نشده است.",
+    "common.authenticationRequired": "احراز هویت لازم است.",
+    "common.tryAgain": "لطفاً دوباره تلاش کنید.",
+    "common.backToSite": "بازگشت به سایت",
+    "common.loadingMessage": "در حال بارگذاری..."
   },
   "tr": {
     "common.search": "Ara...",
@@ -491,7 +691,15 @@
     "common.delete": "Sil",
     "common.confirm": "Onayla",
     "common.yes": "Evet",
-    "common.no": "Hayır"
+    "common.no": "Hayır",
+    "common.uploading": "Yükleniyor...",
+    "common.uploadSuccess": "Yükleme başarılı!",
+    "common.uploadError": "Yükleme başarısız.",
+    "common.noFileSelected": "Dosya seçilmedi.",
+    "common.authenticationRequired": "Kimlik doğrulama gerekli.",
+    "common.tryAgain": "Lütfen tekrar deneyin.",
+    "common.backToSite": "Siteye Geri Dön",
+    "common.loadingMessage": "Yükleniyor..."
   },
   "th": {
     "common.search": "ค้นหา...",
@@ -510,6 +718,14 @@
     "common.delete": "ลบ",
     "common.confirm": "ยืนยัน",
     "common.yes": "ใช่",
-    "common.no": "ไม่"
+    "common.no": "ไม่",
+    "common.uploading": "กำลังอัปโหลด...",
+    "common.uploadSuccess": "อัปโหลดสำเร็จ!",
+    "common.uploadError": "อัปโหลดล้มเหลว",
+    "common.noFileSelected": "ไม่ได้เลือกไฟล์",
+    "common.authenticationRequired": "ต้องมีการยืนยันตัวตน",
+    "common.tryAgain": "กรุณาลองอีกครั้ง",
+    "common.backToSite": "กลับสู่เว็บไซต์",
+    "common.loadingMessage": "กำลังโหลด..."
   }
 }

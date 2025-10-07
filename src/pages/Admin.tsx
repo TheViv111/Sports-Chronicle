@@ -11,6 +11,7 @@ import { toast } from "sonner"; // Using sonner for toasts
 import { Trash2, Edit, Plus, Loader2, ArrowLeft, Home } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types"; // Import Supabase types
+import { useTranslation } from "@/contexts/TranslationContext"; // Import useTranslation
 
 type BlogPost = Tables<'blog_posts'>; // Use Supabase type for blog posts
 
@@ -23,6 +24,7 @@ const Admin = () => {
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [activeTab, setActiveTab] = useState("posts");
+  const { t } = useTranslation(); // Use useTranslation hook
 
   // Check if already authenticated on component mount
   useEffect(() => {
@@ -45,8 +47,8 @@ const Admin = () => {
       setPosts(data || []);
     } catch (error) {
       console.error('Error loading posts:', error);
-      toast.error("Error loading posts", {
-        description: "Failed to load blog posts from database.",
+      toast.error(t("admin.errorLoadingPosts"), {
+        description: t("admin.failedToLoadPosts"),
       });
     } finally {
       setLoadingPosts(false);
@@ -64,12 +66,12 @@ const Admin = () => {
       setIsAuthenticated(true);
       localStorage.setItem("admin_authenticated", "true");
       await loadPosts();
-      toast.success("Login successful!", {
-        description: "Welcome to the admin dashboard.",
+      toast.success(t("admin.loginSuccess"), {
+        description: t("admin.welcomeDashboard"),
       });
     } else {
-      toast.error("Login failed", {
-        description: "Invalid username or password.",
+      toast.error(t("admin.loginFailed"), {
+        description: t("admin.invalidCredentials"),
       });
     }
 
@@ -82,8 +84,8 @@ const Admin = () => {
     setUsername("");
     setPassword("");
     setPosts([]);
-    toast.info("Logged out", {
-      description: "You have been logged out successfully.",
+    toast.info(t("admin.loggedOut"), {
+      description: t("admin.loggedOutSuccessfully"),
     });
   };
 
@@ -116,13 +118,13 @@ const Admin = () => {
       (e.target as HTMLFormElement).reset();
       setActiveTab("posts"); // Switch back to posts list
       
-      toast.success("Post created!", {
-        description: "Your blog post has been created successfully.",
+      toast.success(t("admin.postCreated"), {
+        description: t("admin.postCreatedSuccess"),
       });
     } catch (error) {
       console.error('Error creating post:', error);
-      toast.error("Error creating post", {
-        description: "Failed to create blog post. Please try again.",
+      toast.error(t("admin.errorCreatingPost"), {
+        description: t("admin.failedToCreatePost"),
       });
     }
   };
@@ -156,13 +158,13 @@ const Admin = () => {
       setEditingPost(null);
       setActiveTab("posts"); // Switch back to posts list
       
-      toast.success("Post updated!", {
-        description: "Your blog post has been updated successfully.",
+      toast.success(t("admin.postUpdated"), {
+        description: t("admin.postUpdatedSuccess"),
       });
     } catch (error) {
       console.error('Error updating post:', error);
-      toast.error("Error updating post", {
-        description: "Failed to update blog post. Please try again.",
+      toast.error(t("admin.errorUpdatingPost"), {
+        description: t("admin.failedToUpdatePost"),
       });
     }
   };
@@ -182,13 +184,13 @@ const Admin = () => {
       if (error) throw error;
 
       setPosts(posts.filter(post => post.id !== postId));
-      toast.success("Post deleted!", {
-        description: "The blog post has been deleted successfully.",
+      toast.success(t("admin.postDeleted"), {
+        description: t("admin.postDeletedSuccess"),
       });
     } catch (error) {
       console.error('Error deleting post:', error);
-      toast.error("Error deleting post", {
-        description: "Failed to delete blog post. Please try again.",
+      toast.error(t("admin.errorDeletingPost"), {
+        description: t("admin.failedToDeletePost"),
       });
     }
   };
@@ -201,38 +203,38 @@ const Admin = () => {
             <Link to="/">
               <Button variant="ghost" className="btn-hover-lift">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Site
+                {t("common.backToSite")}
               </Button>
             </Link>
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-center">Admin Login</CardTitle>
+              <CardTitle className="text-center">{t("admin.loginTitle")}</CardTitle>
               <CardDescription className="text-center">
-                Enter your credentials to access the admin dashboard
+                {t("admin.loginSubtitle")}
               </CardDescription>
             </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">{t("admin.username")}</Label>
                 <Input
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter username"
+                  placeholder={t("admin.username")}
                   required
                   className="mt-1"
                 />
               </div>
               <div>
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t("admin.password")}</Label>
                 <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
+                  placeholder={t("admin.password")}
                   required
                   className="mt-1"
                 />
@@ -242,13 +244,13 @@ const Admin = () => {
                 className="w-full"
                 disabled={isLoading}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading ? t("admin.loggingIn") : t("admin.loginButton")}
               </Button>
             </form>
             <div className="mt-4 p-3 bg-muted rounded text-sm text-muted-foreground">
-              <p><strong>Demo credentials:</strong></p>
-              <p>Username: admin</p>
-              <p>Password: admin123</p>
+              <p><strong>{t("admin.demoCredentials")}</strong></p>
+              <p>{t("admin.usernameDemo")}</p>
+              <p>{t("admin.passwordDemo")}</p>
             </div>
           </CardContent>
         </Card>
@@ -263,43 +265,43 @@ const Admin = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="font-heading text-3xl font-bold">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage your blog posts and content</p>
+            <h1 className="font-heading text-3xl font-bold">{t("admin.dashboardTitle")}</h1>
+            <p className="text-muted-foreground">{t("admin.dashboardSubtitle")}</p>
           </div>
           <div className="flex gap-2">
             <Link to="/">
               <Button variant="outline" className="btn-hover-lift">
                 <Home className="h-4 w-4 mr-2" />
-                Back to Site
+                {t("common.backToSite")}
               </Button>
             </Link>
             <Button onClick={handleLogout} variant="outline">
-              Logout
+              {t("admin.logout")}
             </Button>
           </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList>
-            <TabsTrigger value="posts">Manage Posts</TabsTrigger>
+            <TabsTrigger value="posts">{t("admin.managePosts")}</TabsTrigger>
             <TabsTrigger value="create">
-              {editingPost ? "Edit Post" : "Create Post"}
+              {editingPost ? t("admin.editPost") : t("admin.createPost")}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="posts">
             <Card>
               <CardHeader>
-                <CardTitle>Blog Posts</CardTitle>
+                <CardTitle>{t("admin.blogPosts")}</CardTitle>
                 <CardDescription>
-                  Manage your existing blog posts
+                  {t("admin.manageExistingPosts")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {loadingPosts ? (
                   <div className="flex items-center justify-center p-8">
                     <Loader2 className="h-8 w-8 animate-spin" />
-                    <span className="ml-2">Loading posts...</span>
+                    <span className="ml-2">{t("admin.loadingPosts")}</span>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -351,12 +353,12 @@ const Admin = () => {
             <Card>
               <CardHeader>
                 <CardTitle>
-                  {editingPost ? "Edit Post" : "Create New Post"}
+                  {editingPost ? t("admin.editPost") : t("admin.createPost")}
                 </CardTitle>
                 <CardDescription>
                   {editingPost 
-                    ? "Update the details of your blog post"
-                    : "Add a new blog post to your website"
+                    ? t("admin.updatePostDetails")
+                    : t("admin.addNewPost")
                   }
                 </CardDescription>
               </CardHeader>
@@ -366,48 +368,48 @@ const Admin = () => {
                   className="space-y-4"
                 >
                   <div>
-                    <Label htmlFor="title">Title</Label>
+                    <Label htmlFor="title">{t("admin.postTitle")}</Label>
                     <Input
                       id="title"
                       name="title"
                       defaultValue={editingPost?.title || ""}
-                      placeholder="Enter post title"
+                      placeholder={t("admin.enterPostTitle")}
                       required
                       className="mt-1"
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor="category">Category</Label>
+                    <Label htmlFor="category">{t("admin.postCategory")}</Label>
                     <Input
                       id="category"
                       name="category"
                       defaultValue={editingPost?.category || ""}
-                      placeholder="e.g. Basketball, Soccer, Swimming"
+                      placeholder={t("admin.enterCategory")}
                       required
                       className="mt-1"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="excerpt">Excerpt</Label>
+                    <Label htmlFor="excerpt">{t("admin.postExcerpt")}</Label>
                     <Textarea
                       id="excerpt"
                       name="excerpt"
                       defaultValue={editingPost?.excerpt || ""}
-                      placeholder="Brief description of the post"
+                      placeholder={t("admin.briefDescription")}
                       required
                       className="mt-1"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="content">Content</Label>
+                    <Label htmlFor="content">{t("admin.postContent")}</Label>
                     <Textarea
                       id="content"
                       name="content"
                       defaultValue={editingPost?.content || ""}
-                      placeholder="Write your blog post content here..."
+                      placeholder={t("admin.writeContent")}
                       required
                       className="mt-1 min-h-[300px]"
                     />
@@ -416,7 +418,7 @@ const Admin = () => {
                   <div className="flex gap-2">
                     <Button type="submit">
                       <Plus className="h-4 w-4 mr-2" />
-                      {editingPost ? "Update Post" : "Create Post"}
+                      {editingPost ? t("admin.updatePost") : t("admin.createPost")}
                     </Button>
                     {editingPost && (
                       <Button 
@@ -427,7 +429,7 @@ const Admin = () => {
                           setActiveTab("posts");
                         }}
                       >
-                        Cancel
+                        {t("common.cancel")}
                       </Button>
                     )}
                   </div>

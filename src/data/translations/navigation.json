@@ -7,7 +7,8 @@
     "nav.signIn": "Sign In",
     "nav.signUp": "Sign Up",
     "nav.signOut": "Sign Out",
-    "nav.profile": "Profile"
+    "nav.profile": "Profile",
+    "nav.admin": "Admin"
   },
   "es": {
     "nav.home": "Inicio",
@@ -17,7 +18,8 @@
     "nav.signIn": "Iniciar Sesión",
     "nav.signUp": "Registrarse",
     "nav.signOut": "Cerrar Sesión",
-    "nav.profile": "Perfil"
+    "nav.profile": "Perfil",
+    "nav.admin": "Administrador"
   },
   "fr": {
     "nav.home": "Accueil",
@@ -27,7 +29,8 @@
     "nav.signIn": "Se connecter",
     "nav.signUp": "S'inscrire",
     "nav.signOut": "Se déconnecter",
-    "nav.profile": "Profil"
+    "nav.profile": "Profil",
+    "nav.admin": "Admin"
   },
   "de": {
     "nav.home": "Startseite",
@@ -37,7 +40,8 @@
     "nav.signIn": "Anmelden",
     "nav.signUp": "Registrieren",
     "nav.signOut": "Abmelden",
-    "nav.profile": "Profil"
+    "nav.profile": "Profil",
+    "nav.admin": "Admin"
   },
   "it": {
     "nav.home": "Home",
@@ -47,7 +51,8 @@
     "nav.signIn": "Accedi",
     "nav.signUp": "Registrati",
     "nav.signOut": "Esci",
-    "nav.profile": "Profilo"
+    "nav.profile": "Profilo",
+    "nav.admin": "Admin"
   },
   "pt": {
     "nav.home": "Início",
@@ -57,7 +62,8 @@
     "nav.signIn": "Entrar",
     "nav.signUp": "Cadastrar",
     "nav.signOut": "Sair",
-    "nav.profile": "Perfil"
+    "nav.profile": "Perfil",
+    "nav.admin": "Admin"
   },
   "ru": {
     "nav.home": "Главная",
@@ -67,7 +73,8 @@
     "nav.signIn": "Войти",
     "nav.signUp": "Регистрация",
     "nav.signOut": "Выйти",
-    "nav.profile": "Профиль"
+    "nav.profile": "Профиль",
+    "nav.admin": "Админ"
   },
   "pl": {
     "nav.home": "Główna",
@@ -77,7 +84,8 @@
     "nav.signIn": "Zaloguj się",
     "nav.signUp": "Zarejestruj się",
     "nav.signOut": "Wyloguj się",
-    "nav.profile": "Profil"
+    "nav.profile": "Profil",
+    "nav.admin": "Admin"
   },
   "nl": {
     "nav.home": "Home",
@@ -87,7 +95,8 @@
     "nav.signIn": "Inloggen",
     "nav.signUp": "Registreren",
     "nav.signOut": "Uitloggen",
-    "nav.profile": "Profiel"
+    "nav.profile": "Profiel",
+    "nav.admin": "Admin"
   },
   "sv": {
     "nav.home": "Hem",
@@ -97,7 +106,8 @@
     "nav.signIn": "Logga in",
     "nav.signUp": "Registrera",
     "nav.signOut": "Logga ut",
-    "nav.profile": "Profil"
+    "nav.profile": "Profil",
+    "nav.admin": "Admin"
   },
   "no": {
     "nav.home": "Hjem",
@@ -107,7 +117,8 @@
     "nav.signIn": "Logg inn",
     "nav.signUp": "Registrer deg",
     "nav.signOut": "Logg ut",
-    "nav.profile": "Profil"
+    "nav.profile": "Profil",
+    "nav.admin": "Admin"
   },
   "da": {
     "nav.home": "Hjem",
@@ -117,7 +128,8 @@
     "nav.signIn": "Log ind",
     "nav.signUp": "Tilmeld dig",
     "nav.signOut": "Log ud",
-    "nav.profile": "Profil"
+    "nav.profile": "Profil",
+    "nav.admin": "Admin"
   },
   "fi": {
     "nav.home": "Koti",
@@ -127,7 +139,8 @@
     "nav.signIn": "Kirjaudu sisään",
     "nav.signUp": "Rekisteröidy",
     "nav.signOut": "Kirjaudu ulos",
-    "nav.profile": "Profiili"
+    "nav.profile": "Profiili",
+    "nav.admin": "Admin"
   },
   "zh": {
     "nav.home": "首页",
@@ -137,7 +150,8 @@
     "nav.signIn": "登录",
     "nav.signUp": "注册",
     "nav.signOut": "退出",
-    "nav.profile": "个人资料"
+    "nav.profile": "个人资料",
+    "nav.admin": "管理"
   },
   "ja": {
     "nav.home": "ホーム",
@@ -147,7 +161,8 @@
     "nav.signIn": "サインイン",
     "nav.signUp": "サインアップ",
     "nav.signOut": "サインアウト",
-    "nav.profile": "プロフィール"
+    "nav.profile": "プロフィール",
+    "nav.admin": "管理者"
   },
   "ko": {
     "nav.home": "홈",
@@ -157,7 +172,8 @@
     "nav.signIn": "로그인",
     "nav.signUp": "회원가입",
     "nav.signOut": "로그아웃",
-    "nav.profile": "프로필"
+    "nav.profile": "프로필",
+    "nav.admin": "관리자"
   },
   "hi": {
     "nav.home": "होम",
@@ -167,7 +183,8 @@
     "nav.signIn": "साइन इन करें",
     "nav.signUp": "साइन अप करें",
     "nav.signOut": "साइन आउट करें",
-    "nav.profile": "प्रोफ़ाइल"
+    "nav.profile": "प्रोफ़ाइल",
+    "nav.admin": "एडमिन"
   },
   "bn": {
     "nav.home": "হোম",
@@ -177,7 +194,8 @@
     "nav.signIn": "সাইন ইন করুন",
     "nav.signUp": "সাইন আপ করুন",
     "nav.signOut": "সাইন আউট করুন",
-    "nav.profile": "প্রোফাইল"
+    "nav.profile": "প্রোফাইল",
+    "nav.admin": "অ্যাডমিন"
   },
   "ta": {
     "nav.home": "முகப்பு",
@@ -187,7 +205,8 @@
     "nav.signIn": "உள்நுழையவும்",
     "nav.signUp": "பதிவுசெய்யவும்",
     "nav.signOut": "வெளியேறவும்",
-    "nav.profile": "சுயவிவரம்"
+    "nav.profile": "சுயவிவரம்",
+    "nav.admin": "நிர்வாகம்"
   },
   "te": {
     "nav.home": "హోమ్",
@@ -197,7 +216,8 @@
     "nav.signIn": "సైన్ ఇన్ చేయండి",
     "nav.signUp": "సైన్ అప్ చేయండి",
     "nav.signOut": "సైన్ అవుట్ చేయండి",
-    "nav.profile": "ప్రొఫైల్"
+    "nav.profile": "ప్రొఫైల్",
+    "nav.admin": "అడ్మిన్"
   },
   "mr": {
     "nav.home": "होम",
@@ -207,7 +227,8 @@
     "nav.signIn": "साइन इन करा",
     "nav.signUp": "साइन अप करा",
     "nav.signOut": "साइन आउट करा",
-    "nav.profile": "प्रोफाइल"
+    "nav.profile": "प्रोफाइल",
+    "nav.admin": "अॅडमिन"
   },
   "gu": {
     "nav.home": "હોમ",
@@ -217,7 +238,8 @@
     "nav.signIn": "સાઇન ઇન કરો",
     "nav.signUp": "સાઇન અપ કરો",
     "nav.signOut": "સાઇન આઉટ કરો",
-    "nav.profile": "પ્રોફાઇલ"
+    "nav.profile": "પ્રોફાઇલ",
+    "nav.admin": "એડમિન"
   },
   "ar": {
     "nav.home": "الرئيسية",
@@ -227,7 +249,8 @@
     "nav.signIn": "تسجيل الدخول",
     "nav.signUp": "إنشاء حساب",
     "nav.signOut": "تسجيل الخروج",
-    "nav.profile": "الملف الشخصي"
+    "nav.profile": "الملف الشخصي",
+    "nav.admin": "المسؤول"
   },
   "he": {
     "nav.home": "בית",
@@ -237,7 +260,8 @@
     "nav.signIn": "התחבר",
     "nav.signUp": "הירשם",
     "nav.signOut": "התנתק",
-    "nav.profile": "פרופיל"
+    "nav.profile": "פרופיל",
+    "nav.admin": "אדמין"
   },
   "fa": {
     "nav.home": "خانه",
@@ -247,7 +271,8 @@
     "nav.signIn": "ورود",
     "nav.signUp": "ثبت نام",
     "nav.signOut": "خروج",
-    "nav.profile": "پروفایل"
+    "nav.profile": "پروفایل",
+    "nav.admin": "مدیر"
   },
   "tr": {
     "nav.home": "Ana Sayfa",
@@ -257,7 +282,8 @@
     "nav.signIn": "Giriş Yap",
     "nav.signUp": "Kayıt Ol",
     "nav.signOut": "Çıkış Yap",
-    "nav.profile": "Profil"
+    "nav.profile": "Profil",
+    "nav.admin": "Yönetici"
   },
   "th": {
     "nav.home": "หน้าแรก",
@@ -267,6 +293,7 @@
     "nav.signIn": "เข้าสู่ระบบ",
     "nav.signUp": "สมัครสมาชิก",
     "nav.signOut": "ออกจากระบบ",
-    "nav.profile": "โปรไฟล์"
+    "nav.profile": "โปรไฟล์",
+    "nav.admin": "ผู้ดูแลระบบ"
   }
 }

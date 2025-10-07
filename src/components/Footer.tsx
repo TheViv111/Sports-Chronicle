@@ -81,7 +81,7 @@ const Footer = () => {
                  to="/admin"
                  className="text-muted-foreground hover:text-primary transition-colors text-xs opacity-50"
                >
-                 Admin
+                 {t("nav.admin")}
                </Link>
             </div>
           </div>
