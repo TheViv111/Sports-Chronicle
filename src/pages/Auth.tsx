@@ -52,7 +52,7 @@ const AuthPage = () => {
                     radii: {
                       borderRadiusButton: 'var(--radius)',
                       buttonBorderRadius: 'var(--radius)',
-                      inputBorderRadius: 'var(--radius)', // Corrected property name
+                      inputBorderRadius: 'var(--radius)',
                     },
                   },
                 },
@@ -68,10 +68,8 @@ const AuthPage = () => {
                     password_input_placeholder: t("auth.password"),
                     button_label: t("auth.signIn"),
                     social_provider_text: t("auth.signInWithGoogle"),
-                    link_text: t("auth.hasAccount"),
-                    forgot_password_link_text: t("auth.forgotPassword"), // Corrected property name
-                    no_account_text: t("auth.noAccount"),
-                    sign_up_link_text: t("nav.signUp"),
+                    link_text: t("auth.noAccount"), // "Don't have an account?"
+                    sign_up_link_text: t("nav.signUp"), // "Sign Up"
                   },
                   sign_up: {
                     email_label: t("auth.email"),
@@ -80,15 +78,14 @@ const AuthPage = () => {
                     password_input_placeholder: t("auth.password"),
                     button_label: t("auth.signUp"),
                     social_provider_text: t("auth.signUpWithGoogle"),
-                    link_text: t("auth.noAccount"),
-                    has_account_text: t("auth.hasAccount"), // Corrected property name
-                    sign_in_link_text: t("nav.signIn"),
+                    link_text: t("auth.hasAccount"), // "Already have an account?"
+                    sign_in_link_text: t("nav.signIn"), // "Sign In"
                   },
                   forgotten_password: {
                     email_label: t("auth.email"),
                     email_input_placeholder: t("contact.yourEmail"),
                     button_label: t("auth.sendResetInstructions"),
-                    link_text: t("auth.forgotPassword"),
+                    link_text: t("auth.forgotPassword"), // This is the correct place for "Forgot password?"
                   },
                   update_password: {
                     password_label: t("auth.password"),
