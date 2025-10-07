@@ -30,7 +30,20 @@ Deno.serve(async (req: Request) => {
     const resendApiKey = Deno.env.get('RESEND_API_KEY');
     
     if (!resendApiKey) {
-      throw new Error('Resend API key not configured');
+      console.error('Resend API key not configured in environment variables.');
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Server configuration error: Resend API key is missing." 
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
+      );
     }
 
     // Send email using Resend API
@@ -74,9 +87,21 @@ Deno.serve(async (req: Request) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.text();
+      const errorData = await response.json(); // Attempt to parse error as JSON
       console.error('Resend API error:', errorData);
-      throw new Error(`Failed to send email: ${response.status}`);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: errorData.message || `Failed to send email: ${response.status}` 
+        }),
+        {
+          status: response.status, // Use the actual status from Resend
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
+      );
     }
 
     const result = await response.json();
