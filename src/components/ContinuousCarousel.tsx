@@ -24,10 +24,9 @@ const ContinuousCarousel: React.FC<ContinuousCarouselProps> = ({
     },
     [
       Autoplay({
-        delay: 0, // No delay between slides for continuous effect
+        delay: 20, // Adjusted delay for a smoother, slower continuous effect
         stopOnInteraction: false,
         stopOnMouseEnter: true, // Pause on hover
-        speed: 2, // Increased speed value to make the animation slower
       }),
     ]
   );
