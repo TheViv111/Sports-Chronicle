@@ -27,7 +27,7 @@ const ContinuousCarousel: React.FC<ContinuousCarouselProps> = ({
         delay: 0, // No delay between slides for continuous effect
         stopOnInteraction: false,
         stopOnMouseEnter: true, // Pause on hover
-        speed: 0.5, // Adjust speed for smoother animation (lower is slower, higher is faster)
+        speed: 2, // Increased speed value to make the animation slower
       }),
     ]
   );
@@ -58,7 +58,8 @@ const ContinuousCarousel: React.FC<ContinuousCarouselProps> = ({
           ))}
         </div>
       </div>
-    </div>
+    </DialogContent>
+    </Dialog>
   );
 };
 
