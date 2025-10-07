@@ -13,6 +13,7 @@ import { useSession } from "@/components/SessionContextProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner"; // Using sonner for toasts
 import logo from "@/assets/logo.png";
+import { useIsMobile } from "@/hooks/use-mobile"; // Import the useIsMobile hook
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -21,6 +22,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { session } = useSession();
+  const isMobile = useIsMobile(); // Use the hook to determine if it's a mobile device
 
   const navItems = [
     { name: t("nav.home"), path: "/" },
@@ -128,10 +130,8 @@ const Header = () => {
           {/* Theme Toggle */}
           <ThemeToggle />
 
-          {/* Language Selector */}
-          <div className="hidden sm:flex">
-            <LanguageSelector variant="desktop" />
-          </div>
+          {/* Language Selector - Always visible, adapts to mobile/desktop */}
+          <LanguageSelector variant={isMobile ? "mobile" : "desktop"} />
 
           {/* Auth Buttons / Profile Dropdown */}
           {session ? (
@@ -216,11 +216,6 @@ const Header = () => {
                       {item.name}
                     </Link>
                   ))}
-                </div>
-
-                {/* Language selector for mobile */}
-                <div className="sm:hidden">
-                  <LanguageSelector variant="mobile" />
                 </div>
 
                 {/* Auth buttons / Profile for mobile */}

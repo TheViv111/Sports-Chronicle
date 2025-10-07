@@ -169,7 +169,23 @@ const Profile = () => {
 
   const handleAvatarChange = async (newUrl: string) => {
     if (!userId) return;
+    
+    // Update public.profiles table
     await updateProfileMutation.mutateAsync({ avatar_url: newUrl });
+
+    // Update auth.users.user_metadata to reflect in session and Header
+    const { error: updateAuthError } = await supabase.auth.updateUser({
+      data: { avatar_url: newUrl }
+    });
+
+    if (updateAuthError) {
+      console.error("Error updating user metadata avatar_url:", updateAuthError);
+      toast.error("Failed to update avatar in user session.");
+    } else {
+      console.log("User metadata avatar_url updated successfully.");
+      // The onAuthStateChange listener in SessionContextProvider should pick this up
+      // and update the session, which will then re-render the Header.
+    }
   };
 
   const onSubmit = (values: ProfileFormValues) => {
