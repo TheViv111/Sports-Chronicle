@@ -48,8 +48,8 @@ Deno.serve(async (req: Request) => {
 
     // Send email using Resend API
     const emailData = {
-      from: 'The Sports Chronicle <thesportschronicle@outlook.com>', // Updated 'from' address
-      to: ['contact@thesportschronicle.com'],
+      from: 'The Sports Chronicle <onboarding@resend.dev>', // Changed 'from' address to a Resend-verified domain
+      to: ['thesportschronicle@outlook.com'], // This is the correct recipient
       reply_to: email,
       subject: `Contact Form: ${subject}`,
       html: `
