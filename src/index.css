@@ -255,22 +255,4 @@
   .prose p > strong:first-child {
     @apply block text-lg font-semibold mt-6 mb-2; /* Make it block, larger, and add vertical spacing */
   }
-
-  /* CSS Marquee for continuous scroll */
-  @keyframes marquee-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* Scrolls half the total width (one set of original posts) */
-  }
-
-  .animate-marquee-scroll {
-    animation: marquee-scroll 30s linear infinite; /* Adjust duration as needed */
-  }
-
-  .marquee-container:hover .animate-marquee-scroll {
-    animation-play-state: paused; /* Pause on hover */
-  }
-
-  .marquee-track {
-    width: 200%; /* Double the width to accommodate duplicated content */
-  }
 }
