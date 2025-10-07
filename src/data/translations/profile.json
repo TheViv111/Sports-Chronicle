@@ -1,0 +1,218 @@
+{
+  "en": {
+    "profile.displayName": "Display Name",
+    "profile.yourDisplayName": "Your display name",
+    "profile.bio": "Bio",
+    "profile.yourBio": "Tell us about yourself...",
+    "profile.avatarUrl": "Avatar URL",
+    "profile.yourAvatarUrl": "URL to your avatar image"
+  },
+  "es": {
+    "profile.displayName": "Nombre de Visualización",
+    "profile.yourDisplayName": "Tu nombre de visualización",
+    "profile.bio": "Biografía",
+    "profile.yourBio": "Cuéntanos sobre ti...",
+    "profile.avatarUrl": "URL del Avatar",
+    "profile.yourAvatarUrl": "URL de tu imagen de avatar"
+  },
+  "fr": {
+    "profile.displayName": "Nom d'affichage",
+    "profile.yourDisplayName": "Votre nom d'affichage",
+    "profile.bio": "Biographie",
+    "profile.yourBio": "Parlez-nous de vous...",
+    "profile.avatarUrl": "URL de l'avatar",
+    "profile.yourAvatarUrl": "URL de votre image d'avatar"
+  },
+  "de": {
+    "profile.displayName": "Anzeigename",
+    "profile.yourDisplayName": "Ihr Anzeigename",
+    "profile.bio": "Bio",
+    "profile.yourBio": "Erzählen Sie uns etwas über sich...",
+    "profile.avatarUrl": "Avatar-URL",
+    "profile.yourAvatarUrl": "URL zu Ihrem Avatar-Bild"
+  },
+  "it": {
+    "profile.displayName": "Nome Visualizzato",
+    "profile.yourDisplayName": "Il tuo nome visualizzato",
+    "profile.bio": "Biografia",
+    "profile.yourBio": "Raccontaci di te...",
+    "profile.avatarUrl": "URL Avatar",
+    "profile.yourAvatarUrl": "URL della tua immagine avatar"
+  },
+  "pt": {
+    "profile.displayName": "Nome de Exibição",
+    "profile.yourDisplayName": "Seu nome de exibição",
+    "profile.bio": "Biografia",
+    "profile.yourBio": "Conte-nos sobre você...",
+    "profile.avatarUrl": "URL do Avatar",
+    "profile.yourAvatarUrl": "URL da sua imagem de avatar"
+  },
+  "ru": {
+    "profile.displayName": "Отображаемое имя",
+    "profile.yourDisplayName": "Ваше отображаемое имя",
+    "profile.bio": "Биография",
+    "profile.yourBio": "Расскажите о себе...",
+    "profile.avatarUrl": "URL аватара",
+    "profile.yourAvatarUrl": "URL вашего изображения аватара"
+  },
+  "pl": {
+    "profile.displayName": "Nazwa Wyświetlana",
+    "profile.yourDisplayName": "Twoja nazwa wyświetlana",
+    "profile.bio": "Biografia",
+    "profile.yourBio": "Opowiedz nam o sobie...",
+    "profile.avatarUrl": "URL Avatara",
+    "profile.yourAvatarUrl": "URL do Twojego obrazu avatara"
+  },
+  "nl": {
+    "profile.displayName": "Weergavenaam",
+    "profile.yourDisplayName": "Je weergavenaam",
+    "profile.bio": "Bio",
+    "profile.yourBio": "Vertel ons over jezelf...",
+    "profile.avatarUrl": "Avatar URL",
+    "profile.yourAvatarUrl": "URL naar je avatar afbeelding"
+  },
+  "sv": {
+    "profile.displayName": "Visningsnamn",
+    "profile.yourDisplayName": "Ditt visningsnamn",
+    "profile.bio": "Bio",
+    "profile.yourBio": "Berätta om dig själv...",
+    "profile.avatarUrl": "Avatar-URL",
+    "profile.yourAvatarUrl": "URL till din avatarbild"
+  },
+  "no": {
+    "profile.displayName": "Visningsnavn",
+    "profile.yourDisplayName": "Ditt visningsnavn",
+    "profile.bio": "Bio",
+    "profile.yourBio": "Fortell oss om deg selv...",
+    "profile.avatarUrl": "Avatar-URL",
+    "profile.yourAvatarUrl": "URL til avatarbildet ditt"
+  },
+  "da": {
+    "profile.displayName": "Visningsnavn",
+    "profile.yourDisplayName": "Dit visningsnavn",
+    "profile.bio": "Bio",
+    "profile.yourBio": "Fortæl os om dig selv...",
+    "profile.avatarUrl": "Avatar-URL",
+    "profile.yourAvatarUrl": "URL til dit avatarbillede"
+  },
+  "fi": {
+    "profile.displayName": "Näyttönimi",
+    "profile.yourDisplayName": "Näyttönimesi",
+    "profile.bio": "Bio",
+    "profile.yourBio": "Kerro meille itsestäsi...",
+    "profile.avatarUrl": "Avatarin URL",
+    "profile.yourAvatarUrl": "URL avatar-kuvaasi"
+  },
+  "zh": {
+    "profile.displayName": "显示名称",
+    "profile.yourDisplayName": "您的显示名称",
+    "profile.bio": "个人简介",
+    "profile.yourBio": "告诉我们关于您自己...",
+    "profile.avatarUrl": "头像网址",
+    "profile.yourAvatarUrl": "您的头像图片网址"
+  },
+  "ja": {
+    "profile.displayName": "表示名",
+    "profile.yourDisplayName": "あなたの表示名",
+    "profile.bio": "自己紹介",
+    "profile.yourBio": "あなた自身について教えてください...",
+    "profile.avatarUrl": "アバターURL",
+    "profile.yourAvatarUrl": "アバター画像のURL"
+  },
+  "ko": {
+    "profile.displayName": "표시 이름",
+    "profile.yourDisplayName": "당신의 표시 이름",
+    "profile.bio": "자기소개",
+    "profile.yourBio": "자신에 대해 알려주세요...",
+    "profile.avatarUrl": "아바타 URL",
+    "profile.yourAvatarUrl": "당신의 아바타 이미지 URL"
+  },
+  "hi": {
+    "profile.displayName": "प्रदर्शित नाम",
+    "profile.yourDisplayName": "आपका प्रदर्शित नाम",
+    "profile.bio": "बायो",
+    "profile.yourBio": "अपने बारे में बताएं...",
+    "profile.avatarUrl": "अवतार यूआरएल",
+    "profile.yourAvatarUrl": "आपकी अवतार छवि का यूआरएल"
+  },
+  "bn": {
+    "profile.displayName": "প্রদর্শন নাম",
+    "profile.yourDisplayName": "আপনার প্রদর্শন নাম",
+    "profile.bio": "বায়ো",
+    "profile.yourBio": "আপনার সম্পর্কে বলুন...",
+    "profile.avatarUrl": "অবতার ইউআরএল",
+    "profile.yourAvatarUrl": "আপনার অবতার ছবির ইউআরএল"
+  },
+  "ta": {
+    "profile.displayName": "காட்சி பெயர்",
+    "profile.yourDisplayName": "உங்கள் காட்சி பெயர்",
+    "profile.bio": "சுயவிவரம்",
+    "profile.yourBio": "உங்களைப் பற்றி எங்களிடம் கூறுங்கள்...",
+    "profile.avatarUrl": "அவதார் URL",
+    "profile.yourAvatarUrl": "உங்கள் அவதார் படத்தின் URL"
+  },
+  "te": {
+    "profile.displayName": "ప్రదర్శన పేరు",
+    "profile.yourDisplayName": "మీ ప్రదర్శన పేరు",
+    "profile.bio": "బయో",
+    "profile.yourBio": "మీ గురించి మాకు చెప్పండి...",
+    "profile.avatarUrl": "అవతార్ URL",
+    "profile.yourAvatarUrl": "మీ అవతార్ చిత్రం యొక్క URL"
+  },
+  "mr": {
+    "profile.displayName": "प्रदर्शन नाव",
+    "profile.yourDisplayName": "तुमचे प्रदर्शन नाव",
+    "profile.bio": "बायो",
+    "profile.yourBio": "तुमच्याबद्दल आम्हाला सांगा...",
+    "profile.avatarUrl": "अवतार URL",
+    "profile.yourAvatarUrl": "तुमच्या अवतार प्रतिमेचा URL"
+  },
+  "gu": {
+    "profile.displayName": "પ્રદર્શન નામ",
+    "profile.yourDisplayName": "તમારું પ્રદર્શન નામ",
+    "profile.bio": "બાયો",
+    "profile.yourBio": "તમારા વિશે અમને કહો...",
+    "profile.avatarUrl": "અવતાર URL",
+    "profile.yourAvatarUrl": "તમારી અવતાર છબીનો URL"
+  },
+  "ar": {
+    "profile.displayName": "اسم العرض",
+    "profile.yourDisplayName": "اسم العرض الخاص بك",
+    "profile.bio": "السيرة الذاتية",
+    "profile.yourBio": "أخبرنا عن نفسك...",
+    "profile.avatarUrl": "رابط الصورة الرمزية",
+    "profile.yourAvatarUrl": "رابط صورة ملفك الشخصي"
+  },
+  "he": {
+    "profile.displayName": "שם תצוגה",
+    "profile.yourDisplayName": "שם התצוגה שלך",
+    "profile.bio": "ביוגרפיה",
+    "profile.yourBio": "ספר לנו על עצמך...",
+    "profile.avatarUrl": "כתובת אתר של אווטאר",
+    "profile.yourAvatarUrl": "כתובת אתר של תמונת האווטאר שלך"
+  },
+  "fa": {
+    "profile.displayName": "نام نمایشی",
+    "profile.yourDisplayName": "نام نمایشی شما",
+    "profile.bio": "بیوگرافی",
+    "profile.yourBio": "درباره خودتان به ما بگویید...",
+    "profile.avatarUrl": "آدرس URL آواتار",
+    "profile.yourAvatarUrl": "آدرس URL تصویر آواتار شما"
+  },
+  "tr": {
+    "profile.displayName": "Görünen Ad",
+    "profile.yourDisplayName": "Görünen adınız",
+    "profile.bio": "Biyografi",
+    "profile.yourBio": "Bize kendinizden bahsedin...",
+    "profile.avatarUrl": "Avatar URL",
+    "profile.yourAvatarUrl": "Avatar resminizin URL'si"
+  },
+  "th": {
+    "profile.displayName": "ชื่อที่แสดง",
+    "profile.yourDisplayName": "ชื่อที่แสดงของคุณ",
+    "profile.bio": "ประวัติ",
+    "profile.yourBio": "บอกเราเกี่ยวกับตัวคุณ...",
+    "profile.avatarUrl": "URL รูปโปรไฟล์",
+    "profile.yourAvatarUrl": "URL รูปโปรไฟล์ของคุณ"
+  }
+}

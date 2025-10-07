@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, User as UserIcon, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { useTranslation } from "@/contexts/TranslationContext";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useSession } from "@/components/SessionContextProvider"; // Import useSession
+import { supabase } from "@/integrations/supabase/client"; // Import supabase client
+import { toast } from "sonner"; // Import sonner toast
 import logo from "@/assets/logo.png";
 
 const Header = () => {
@@ -14,7 +19,8 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const { t, currentLanguage, setLanguage } = useTranslation();
+  const { t } = useTranslation();
+  const { session } = useSession(); // Get session from context
 
   const navItems = [
     { name: t("nav.home"), path: "/" },
@@ -23,7 +29,6 @@ const Header = () => {
     { name: t("nav.contact"), path: "/contact" },
     { name: "Admin", path: "/admin" },
   ];
-
 
   const isActivePage = (path: string) => {
     if (path === "/" && location.pathname === "/") return true;
@@ -37,6 +42,17 @@ const Header = () => {
       navigate(`/blog?search=${encodeURIComponent(searchQuery)}`);
       setIsSearchOpen(false);
       setSearchQuery("");
+    }
+  };
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error signing out:", error);
+      toast.error("Failed to sign out. Please try again.");
+    } else {
+      toast.success("You have been signed out.");
+      navigate("/auth");
     }
   };
 
@@ -117,17 +133,52 @@ const Header = () => {
             <LanguageSelector variant="desktop" />
           </div>
 
-          {/* Auth Buttons */}
-          <div className="hidden lg:flex items-center space-x-2">
-            <Link to="/auth">
-              <Button variant="ghost" size="sm">
-                {t("nav.signIn")}
-              </Button>
-            </Link>
-            <Link to="/auth">
-              <Button size="sm">{t("nav.signUp")}</Button>
-            </Link>
-          </div>
+          {/* Auth Buttons / Profile Dropdown */}
+          {session ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={session.user?.user_metadata?.avatar_url || undefined} alt="User Avatar" />
+                    <AvatarFallback>
+                      {session.user?.email?.charAt(0).toUpperCase() || <UserIcon className="h-4 w-4" />}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{session.user?.user_metadata?.display_name || session.user?.email}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {session.user?.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  <UserIcon className="mr-2 h-4 w-4" />
+                  <span>{t("nav.profile")}</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>{t("nav.signOut")}</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="hidden lg:flex items-center space-x-2">
+              <Link to="/auth">
+                <Button variant="ghost" size="sm">
+                  {t("nav.signIn")}
+                </Button>
+              </Link>
+              <Link to="/auth">
+                <Button size="sm">{t("nav.signUp")}</Button>
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Menu */}
           <Sheet>
@@ -172,17 +223,32 @@ const Header = () => {
                   <LanguageSelector variant="mobile" />
                 </div>
 
-                {/* Auth buttons */}
-                <div className="lg:hidden border-t pt-4 flex flex-col space-y-3">
-                  <Link to="/auth">
-                    <Button variant="ghost" className="w-full justify-start">
-                      {t("nav.signIn")}
+                {/* Auth buttons / Profile for mobile */}
+                {session ? (
+                  <div className="lg:hidden border-t pt-4 flex flex-col space-y-3">
+                    <Link to="/profile">
+                      <Button variant="ghost" className="w-full justify-start">
+                        <UserIcon className="mr-2 h-4 w-4" />
+                        {t("nav.profile")}
+                      </Button>
+                    </Link>
+                    <Button onClick={handleSignOut} variant="ghost" className="w-full justify-start">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      {t("nav.signOut")}
                     </Button>
-                  </Link>
-                  <Link to="/auth">
-                    <Button className="w-full">{t("nav.signUp")}</Button>
-                  </Link>
-                </div>
+                  </div>
+                ) : (
+                  <div className="lg:hidden border-t pt-4 flex flex-col space-y-3">
+                    <Link to="/auth">
+                      <Button variant="ghost" className="w-full justify-start">
+                        {t("nav.signIn")}
+                      </Button>
+                    </Link>
+                    <Link to="/auth">
+                      <Button className="w-full">{t("nav.signUp")}</Button>
+                    </Link>
+                  </div>
+                )}
               </div>
             </SheetContent>
           </Sheet>
