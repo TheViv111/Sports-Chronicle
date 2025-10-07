@@ -113,28 +113,6 @@ const Home = () => {
           )}
         </div>
       </section>
-
-      {/* Second Carousel Section (using the same posts) */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="font-heading text-3xl font-bold mb-8 text-center reveal-on-scroll">
-            {t("latestPosts.title")} {/* Reusing title for simplicity */}
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-12 text-center reveal-on-scroll">
-            {t("latestPosts.subtitle")} {/* Reusing subtitle for simplicity */}
-          </p>
-
-          {loadingLatestPosts ? (
-            <LoadingScreen message={t("latestPosts.loading")} />
-          ) : latestPosts.length > 0 ? (
-            <ContinuousCarousel posts={latestPosts} />
-          ) : (
-            <p className="text-muted-foreground text-center py-8">
-              {t("latestPosts.noPosts")}
-            </p>
-          )}
-        </div>
-      </section>
     </div>
   );
 };
