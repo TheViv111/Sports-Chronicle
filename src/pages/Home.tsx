@@ -7,8 +7,10 @@ import { useTranslation } from "@/contexts/TranslationContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/LoadingScreen";
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay'; // Import Autoplay plugin
+// Removed Embla Carousel imports
+// import useEmblaCarousel from 'embla-carousel-react';
+// import Autoplay from 'embla-carousel-autoplay'; 
+import ContinuousCarousel from "@/components/ContinuousCarousel"; // New import
 
 type BlogPostType = Tables<'blog_posts'>;
 
@@ -17,11 +19,11 @@ const Home = () => {
   const [loadingPosts, setLoadingPosts] = useState(true);
   const { t } = useTranslation();
 
-  // Initialize Embla Carousel with Autoplay plugin
-  const [emblaRef] = useEmblaCarousel(
-    { loop: true, align: 'start' },
-    [Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false, stopOnLastSnap: false, direction: 'forward' })] // Explicitly set direction to 'forward'
-  );
+  // Removed Embla Carousel initialization
+  // const [emblaRef] = useEmblaCarousel(
+  //   { loop: true, align: 'start' },
+  //   [Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false, stopOnLastSnap: false, direction: 'forward' })]
+  // );
 
   useEffect(() => {
     loadPosts();
@@ -101,30 +103,7 @@ const Home = () => {
           {loadingPosts ? (
             <LoadingScreen message={t("latestPosts.loading")} />
           ) : posts.length > 0 ? (
-            <div className="relative">
-              <div className="embla" ref={emblaRef}>
-                <div className="embla__container">
-                  {posts.map((blogPost) => (
-                    <div key={blogPost.id} className="embla__slide flex-none w-full sm:w-1/2 lg:w-1/3">
-                      <BlogCard 
-                        post={{
-                          ...blogPost,
-                          date: new Date(blogPost.created_at).toLocaleDateString("en-US", { 
-                            year: "numeric", 
-                            month: "short", 
-                            day: "numeric" 
-                          }),
-                          readTime: blogPost.read_time || "5 min read",
-                          image: blogPost.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"
-                        }} 
-                        className="scroll-reveal"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* Removed manual navigation buttons as autoplay is enabled */}
-            </div>
+            <ContinuousCarousel posts={posts} /> {/* Using the new continuous carousel */}
           ) : (
             <p className="text-muted-foreground text-center py-8">
               {t("latestPosts.noPosts")}
