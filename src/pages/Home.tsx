@@ -2,12 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import BlogCard from "@/components/BlogCard"; // Keep BlogCard for type definition
+import BlogCard from "@/components/BlogCard";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/LoadingScreen";
-import ContinuousCarousel from "@/components/ContinuousCarousel"; // Import the new carousel component
 
 type BlogPostType = Tables<'blog_posts'>;
 
@@ -27,7 +26,7 @@ const Home = () => {
         .from('blog_posts')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(6);
+        .limit(6); // Fetch enough posts for a good marquee effect
 
       if (error) throw error;
       setLatestPosts(data || []);
@@ -57,7 +56,7 @@ const Home = () => {
   }, []);
 
   // Prepare posts for the carousel, adding derived fields
-  const postsForCarousel = latestPosts.map(post => ({
+  const postsForDisplay = latestPosts.map(post => ({
     ...post,
     date: new Date(post.created_at).toLocaleDateString("en-US", {
       year: "numeric",
@@ -67,6 +66,9 @@ const Home = () => {
     readTime: post.read_time || "5 min read",
     image: post.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"
   }));
+
+  // Duplicate posts for a seamless continuous scroll effect
+  const marqueePosts = postsForDisplay.length > 0 ? [...postsForDisplay, ...postsForDisplay] : [];
 
   return (
     <div className="min-h-screen">
@@ -93,7 +95,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Latest Posts Section with Carousel */}
+      {/* Latest Posts Section with CSS Marquee */}
       <section className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4">
           <h2 className="font-heading text-3xl font-bold mb-8 text-center reveal-on-scroll">
@@ -105,8 +107,20 @@ const Home = () => {
 
           {loadingLatestPosts ? (
             <LoadingScreen message={t("latestPosts.loading")} />
-          ) : postsForCarousel.length > 0 ? (
-            <ContinuousCarousel posts={postsForCarousel} />
+          ) : marqueePosts.length > 0 ? (
+            <div className="marquee-container overflow-hidden relative py-4">
+              <div className="marquee-track flex whitespace-nowrap animate-marquee-scroll">
+                {marqueePosts.map((post, index) => (
+                  <div
+                    key={`${post.id}-${index}`} // Unique key for duplicated items
+                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-4" // Responsive widths for cards
+                    style={{ width: `calc(100% / ${postsForDisplay.length})` }} // Ensure each original set takes 100% width
+                  >
+                    <BlogCard post={post} />
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
             <p className="text-muted-foreground text-center py-8">
               {t("latestPosts.noPosts")}
