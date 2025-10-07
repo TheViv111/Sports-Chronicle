@@ -88,6 +88,16 @@ const BlogPost = () => {
       {/* Article Header */}
       <article className="container mx-auto px-4 pb-12">
         <div className="max-w-4xl mx-auto">
+          {/* Title */}
+          <h1 className="font-heading text-3xl md:text-5xl font-bold mb-4 leading-tight">
+            {post.title}
+          </h1>
+
+          {/* Category Badge */}
+          <Badge variant="outline" className="uppercase text-xs mb-6">
+            {post.category}
+          </Badge>
+
           {/* Hero Image */}
           <div className="aspect-[21/9] mb-8 overflow-hidden rounded-lg">
             <img
@@ -98,7 +108,7 @@ const BlogPost = () => {
           </div>
 
           {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-4 mb-6">
+          <div className="flex flex-wrap items-center gap-4 mb-8">
             <div className="flex items-center text-muted-foreground text-sm">
               <Calendar className="mr-2 h-4 w-4" />
               {formatDate(post.created_at)}
@@ -112,15 +122,6 @@ const BlogPost = () => {
               {post.author}
             </div>
           </div>
-
-          <Badge variant="outline" className="uppercase text-xs mb-6">
-            {post.category}
-          </Badge>
-
-          {/* Title */}
-          <h1 className="font-heading text-3xl md:text-5xl font-bold mb-6 leading-tight">
-            {post.title}
-          </h1>
 
           {/* Content */}
           <div className="prose prose-lg max-w-none">
