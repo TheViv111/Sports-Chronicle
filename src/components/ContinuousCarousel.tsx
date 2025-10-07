@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
 import { cn } from '@/lib/utils';
 
 interface ContinuousCarouselProps {
@@ -21,20 +20,14 @@ const ContinuousCarousel: React.FC<ContinuousCarouselProps> = ({
       loop: true,
       dragFree: true, // Allows for more fluid dragging
       ...options,
-    },
-    [
-      Autoplay({
-        delay: 20, // Adjusted delay for a smoother, slower continuous effect
-        stopOnInteraction: false,
-        stopOnMouseEnter: true, // Pause on hover
-      }),
-    ]
+    }
+    // Autoplay plugin removed here
   );
 
   const [slides, setSlides] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
-    // Duplicate children to ensure seamless looping for dragFree + loop
+    // Duplicate children to ensure seamless looping for dragFree
     if (React.Children.count(children) > 0) {
       const childrenArray = React.Children.toArray(children);
       // Duplicate enough times to fill the viewport and allow seamless loop
