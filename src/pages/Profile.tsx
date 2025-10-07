@@ -19,11 +19,14 @@ import { useTranslation } from "@/contexts/TranslationContext";
 import { useSession } from "@/components/SessionContextProvider";
 import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/LoadingScreen"; // Import LoadingScreen
+import AvatarActionsDialog from "@/components/AvatarActionsDialog";
+import ChangeAvatarDialog from "@/components/ChangeAvatarDialog";
+import ViewAvatarDialog from "@/components/ViewAvatarDialog";
 
 const profileSchema = z.object({
   display_name: z.string().min(2, { message: "Display name must be at least 2 characters." }).max(50, { message: "Display name must not be longer than 50 characters." }).optional(),
   bio: z.string().max(500, { message: "Bio must not be longer than 500 characters." }).optional(),
-  avatar_url: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal("")),
+  // avatar_url is now managed through dialogs, not direct form input
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -36,6 +39,10 @@ const Profile = () => {
 
   const userId = session?.user?.id;
   const userEmail = session?.user?.email;
+
+  const [isAvatarActionsOpen, setIsAvatarActionsOpen] = React.useState(false);
+  const [isChangeAvatarOpen, setIsChangeAvatarOpen] = React.useState(false);
+  const [isViewAvatarOpen, setIsViewAvatarOpen] = React.useState(false);
 
   // Redirect if not authenticated and session is loaded
   React.useEffect(() => {
@@ -53,12 +60,12 @@ const Profile = () => {
         .from("profiles")
         .select("*")
         .eq("id", userId)
-        .maybeSingle(); // Changed to maybeSingle()
+        .maybeSingle();
 
       if (error) throw error;
-      return data; // data will be null if no profile found
+      return data;
     },
-    enabled: !!userId, // Only run query if userId is available
+    enabled: !!userId,
   });
 
   const createProfileMutation = useMutation({
@@ -70,10 +77,10 @@ const Profile = () => {
           id: userId,
           display_name: values.display_name || userEmail?.split('@')[0] || "New User",
           bio: values.bio,
-          avatar_url: values.avatar_url,
+          avatar_url: profile?.avatar_url || `https://www.gravatar.com/avatar/${userEmail ? z.string().email().parse(userEmail) : ''}?d=identicon&s=256`, // Use existing or Gravatar default
           first_name: values.display_name?.split(' ')[0] || null,
           last_name: values.display_name?.split(' ').slice(1).join(' ') || null,
-          preferred_language: 'en', // Default language
+          preferred_language: 'en',
         })
         .select()
         .single();
@@ -92,7 +99,7 @@ const Profile = () => {
   });
 
   const updateProfileMutation = useMutation({
-    mutationFn: async (values: ProfileFormValues) => {
+    mutationFn: async (values: ProfileFormValues & { avatar_url?: string | null }) => {
       if (!userId) throw new Error("User not authenticated.");
       const { error } = await supabase
         .from("profiles")
@@ -117,18 +124,15 @@ const Profile = () => {
     defaultValues: {
       display_name: "",
       bio: "",
-      avatar_url: "",
     },
     mode: "onChange",
   });
 
-  // Use useEffect to reset form values when profile data changes
   React.useEffect(() => {
     if (profile) {
       form.reset({
         display_name: profile.display_name || "",
         bio: profile.bio || "",
-        avatar_url: profile.avatar_url || "",
       });
     }
   }, [profile, form.reset]);
@@ -144,6 +148,11 @@ const Profile = () => {
       toast.success("You have been signed out.");
       navigate("/signin");
     }
+  };
+
+  const handleAvatarChange = async (newUrl: string) => {
+    if (!userId) return;
+    await updateProfileMutation.mutateAsync({ avatar_url: newUrl });
   };
 
   const onSubmit = (values: ProfileFormValues) => {
@@ -166,7 +175,6 @@ const Profile = () => {
     );
   }
 
-  // If no profile exists for the user, show a message and allow creation
   if (!profile && !isProfileLoading && session) {
     return (
       <React.Fragment>
@@ -209,19 +217,6 @@ const Profile = () => {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="avatar_url"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("profile.avatarUrl")}</FormLabel>
-                        <FormControl>
-                          <Input placeholder={t("profile.yourAvatarUrl")} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                   <Button type="submit" className="w-full" disabled={createProfileMutation.isPending}>
                     {createProfileMutation.isPending ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -250,12 +245,21 @@ const Profile = () => {
       <div className="container mx-auto px-4 max-w-3xl">
         <Card>
           <CardHeader className="text-center">
-            <Avatar className="h-24 w-24 mx-auto mb-4">
-              <AvatarImage src={profile.avatar_url || undefined} alt={profile.display_name || "User Avatar"} />
-              <AvatarFallback>
-                {profile.display_name ? profile.display_name.charAt(0).toUpperCase() : <UserIcon className="h-12 w-12 text-muted-foreground" />}
-              </AvatarFallback>
-            </Avatar>
+            <Button
+              variant="ghost"
+              className="relative h-24 w-24 mx-auto mb-4 rounded-full p-0 group"
+              onClick={() => setIsAvatarActionsOpen(true)}
+            >
+              <Avatar className="h-24 w-24">
+                <AvatarImage src={profile.avatar_url || undefined} alt={profile.display_name || "User Avatar"} />
+                <AvatarFallback>
+                  {profile.display_name ? profile.display_name.charAt(0).toUpperCase() : <UserIcon className="h-12 w-12 text-muted-foreground" />}
+                </AvatarFallback>
+              </Avatar>
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+                <Edit className="h-8 w-8 text-white" />
+              </div>
+            </Button>
             <CardTitle className="font-heading text-3xl font-bold">
               {profile.display_name || userEmail}
             </CardTitle>
@@ -287,19 +291,6 @@ const Profile = () => {
                       <FormLabel>{t("profile.bio")}</FormLabel>
                       <FormControl>
                         <Textarea placeholder={t("profile.yourBio")} {...field} disabled={!isEditing} className="min-h-[100px]" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="avatar_url"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("profile.avatarUrl")}</FormLabel>
-                      <FormControl>
-                        <Input placeholder={t("profile.yourAvatarUrl")} {...field} disabled={!isEditing} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -339,6 +330,32 @@ const Profile = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Avatar Action Dialog */}
+      <AvatarActionsDialog
+        isOpen={isAvatarActionsOpen}
+        onClose={() => setIsAvatarActionsOpen(false)}
+        onView={() => setIsViewAvatarOpen(true)}
+        onChange={() => setIsChangeAvatarOpen(true)}
+      />
+
+      {/* Change Avatar Dialog */}
+      {userId && (
+        <ChangeAvatarDialog
+          isOpen={isChangeAvatarOpen}
+          onClose={() => setIsChangeAvatarOpen(false)}
+          userId={userId}
+          currentAvatarUrl={profile?.avatar_url || null}
+          onAvatarChange={handleAvatarChange}
+        />
+      )}
+
+      {/* View Avatar Dialog */}
+      <ViewAvatarDialog
+        isOpen={isViewAvatarOpen}
+        onClose={() => setIsViewAvatarOpen(false)}
+        avatarUrl={profile?.avatar_url || ''}
+      />
     </div>
   );
 };
