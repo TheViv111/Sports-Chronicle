@@ -17,43 +17,46 @@ interface BlogCardProps {
 
 const BlogCard = ({ post, className = "" }: BlogCardProps) => {
   return (
-    <Card className={`blog-card group overflow-hidden ${className}`}>
-      <div className="aspect-[21/9] overflow-hidden"> {/* Changed aspect ratio from 16/9 to 21/9 for even smaller height */}
-        <img
-          src={post.image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"} // Fallback image
-          alt={post.title}
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <CardContent className="p-6 blog-card-content">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <span>{post.date}</span>
-            <span>•</span>
-            <span>{post.readTime}</span>
-          </div>
+    <Link to={`/blog/${post.slug}`} className="block"> {/* Wrap the entire card with Link */}
+      <Card className={`blog-card group overflow-hidden h-full ${className}`}> {/* Ensure card takes full height */}
+        <div className="aspect-[21/9] overflow-hidden">
+          <img
+            src={post.image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"} // Fallback image
+            alt={post.title}
+            className="w-full h-full object-cover"
+          />
         </div>
-        
-        <Badge variant="outline" className="uppercase text-xs mb-3">
-          {post.category}
-        </Badge>
-        
-        <h3 className="font-heading text-xl font-semibold mb-3 line-clamp-2">
-          {post.title}
-        </h3>
-        
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-          {post.excerpt}
-        </p>
-        
-        <Link to={`/blog/${post.slug}`}>
-          <Button variant="ghost" className="group p-0 h-auto btn-hover-lift">
+        <CardContent className="p-6 blog-card-content flex flex-col justify-between h-full"> {/* Adjust content for flex layout */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <span>{post.date}</span>
+                <span>•</span>
+                <span>{post.readTime}</span>
+              </div>
+            </div>
+            
+            <Badge variant="outline" className="uppercase text-xs mb-3">
+              {post.category}
+            </Badge>
+            
+            <h3 className="font-heading text-xl font-semibold mb-3 line-clamp-2">
+              {post.title}
+            </h3>
+            
+            <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+              {post.excerpt}
+            </p>
+          </div>
+          
+          {/* The button is now just for visual consistency, the whole card is clickable */}
+          <Button variant="ghost" className="group p-0 h-auto btn-hover-lift self-start">
             <span className="text-sm font-medium">Read article</span>
             <ArrowRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
           </Button>
-        </Link>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
