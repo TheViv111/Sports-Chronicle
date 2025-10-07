@@ -1,0 +1,195 @@
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Search, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useTranslation } from "@/contexts/TranslationContext";
+import logo from "@/assets/logo.png";
+
+const Header = () => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { t, currentLanguage, setLanguage } = useTranslation();
+
+  const navItems = [
+    { name: t("nav.home"), path: "/" },
+    { name: t("nav.blog"), path: "/blog" },
+    { name: t("nav.about"), path: "/about" },
+    { name: t("nav.contact"), path: "/contact" },
+    { name: "Admin", path: "/admin" },
+  ];
+
+
+  const isActivePage = (path: string) => {
+    if (path === "/" && location.pathname === "/") return true;
+    if (path !== "/" && location.pathname.startsWith(path)) return true;
+    return false;
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/blog?search=${encodeURIComponent(searchQuery)}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-6">
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
+          <img 
+            src={logo} 
+            alt="The Sports Chronicle" 
+            className="h-8 w-8 sm:h-10 sm:w-10 rounded-full object-cover border-2 border-primary/20" 
+          />
+          <span className="font-heading text-sm sm:text-xl font-semibold">
+            The Sports Chronicle
+          </span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActivePage(item.path)
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right Side Actions */}
+        <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
+          {/* Search */}
+          <div className="relative">
+            {isSearchOpen ? (
+              <form onSubmit={handleSearch} className="flex items-center space-x-2">
+                <Input
+                  placeholder={t("common.search")}
+                  className="w-32 sm:w-40 md:w-48 h-8"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                  onBlur={() => {
+                    setTimeout(() => setIsSearchOpen(false), 150);
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsSearchOpen(false)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </form>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsSearchOpen(true)}
+                className="h-8 w-8 p-0"
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
+          {/* Language Selector */}
+          <div className="hidden sm:flex">
+            <LanguageSelector variant="desktop" />
+          </div>
+
+          {/* Auth Buttons */}
+          <div className="hidden lg:flex items-center space-x-2">
+            <Link to="/auth">
+              <Button variant="ghost" size="sm">
+                {t("nav.signIn")}
+              </Button>
+            </Link>
+            <Link to="/auth">
+              <Button size="sm">{t("nav.signUp")}</Button>
+            </Link>
+          </div>
+
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="sm" className="lg:hidden h-8 w-8 p-0">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] bg-background">
+              <div className="flex flex-col space-y-6 mt-8">
+                {/* Logo in mobile menu */}
+                <div className="flex items-center space-x-3 pb-4 border-b">
+                  <img 
+                    src={logo} 
+                    alt="The Sports Chronicle" 
+                    className="h-8 w-8 rounded-full object-cover border-2 border-primary/20" 
+                  />
+                  <SheetTitle className="font-heading text-lg font-semibold">
+                    The Sports Chronicle
+                  </SheetTitle>
+                </div>
+
+                {/* Navigation */}
+                <div className="flex flex-col space-y-3">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      className={`text-base font-medium transition-colors hover:text-primary py-2 px-3 rounded-md ${
+                        isActivePage(item.path)
+                          ? "text-primary bg-primary/10"
+                          : "text-muted-foreground hover:bg-accent"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Language selector for mobile */}
+                <div className="sm:hidden">
+                  <LanguageSelector variant="mobile" />
+                </div>
+
+                {/* Auth buttons */}
+                <div className="lg:hidden border-t pt-4 flex flex-col space-y-3">
+                  <Link to="/auth">
+                    <Button variant="ghost" className="w-full justify-start">
+                      {t("nav.signIn")}
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button className="w-full">{t("nav.signUp")}</Button>
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;

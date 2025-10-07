@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* The Sports Chronicle Design System */
+
+@layer base {
+  :root {
+    /* Base Colors */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%;
+    
+    /* Sports Chronicle Brand */
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    
+    /* Semantic Colors */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+    
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 9%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Spacing & Sizing */
+    --radius: 0.5rem;
+    --container-max: 1200px;
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+    --shadow-hover: 0 20px 40px -15px hsl(var(--primary) / 0.4);
+    
+    /* Sports Category Colors */
+    --basketball: 30 100% 50%;
+    --soccer: 120 100% 35%;
+    --swimming: 200 100% 50%;
+    --athletics: 0 100% 50%;
+  }
+
+  .dark {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 98%;
+    
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+    
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 98%;
+    
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  /* Scroll reveal animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .scroll-reveal {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .scroll-reveal-left {
+    opacity: 0;
+    animation: fadeInLeft 0.8s ease-out forwards;
+  }
+
+  .scroll-reveal-right {
+    opacity: 0;
+    animation: fadeInRight 0.8s ease-out forwards;
+  }
+
+  .scroll-reveal-scale {
+    opacity: 0;
+    animation: scaleIn 0.6s ease-out forwards;
+  }
+
+  /* Staggered animations */
+  .scroll-reveal:nth-child(1) { animation-delay: 0.1s; }
+  .scroll-reveal:nth-child(2) { animation-delay: 0.2s; }
+  .scroll-reveal:nth-child(3) { animation-delay: 0.3s; }
+  .scroll-reveal:nth-child(4) { animation-delay: 0.4s; }
+  .scroll-reveal:nth-child(5) { animation-delay: 0.5s; }
+  .scroll-reveal:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Blog Carousel Animation */
+  .carousel-track {
+    animation: scroll-left 30s linear infinite;
+  }
+  
+  .carousel-track:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  /* Category Pills */
+  .category-pill {
+    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-300;
+  }
+  
+  .category-pill.active {
+    @apply bg-primary text-primary-foreground shadow-md;
+  }
+  
+  .category-pill:not(.active) {
+    @apply bg-secondary text-secondary-foreground hover:bg-primary/10 hover:text-primary hover:shadow-sm hover:scale-105;
+  }
+  
+  /* Enhanced Blog Card Hover Effects */
+  .blog-card {
+    @apply transition-all duration-500 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02];
+  }
+
+  .blog-card img {
+    @apply transition-transform duration-500 group-hover:scale-110;
+  }
+
+  .blog-card-content {
+    @apply transition-all duration-300 group-hover:text-primary;
+  }
+  
+  /* Enhanced button hover effects */
+  .btn-hover-lift {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:shadow-primary/25;
+  }
+
+  .btn-hover-glow {
+    @apply transition-all duration-300 hover:shadow-glow hover:scale-105;
+  }
+
+  /* Page transition effects */
+  .page-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  
+  /* Language Dropdown */
+  .language-dropdown {
+    @apply relative inline-block;
+  }
+}
