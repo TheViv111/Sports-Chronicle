@@ -257,28 +257,20 @@
   }
 
   /* CSS Marquee for continuous scroll */
-  .marquee-container {
-    /* The flex on the container allows marquee-content blocks to sit side-by-side */
-    display: flex;
-    overflow: hidden; /* Hide content outside the container */
-    position: relative;
-    width: 100%; /* Ensure it takes full width of its parent */
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Scrolls half the total width (one set of original posts) */
   }
 
-  .marquee-content {
-    display: flex;
-    flex-shrink: 0; /* Prevent items from shrinking */
+  .animate-marquee-scroll {
     animation: marquee-scroll 30s linear infinite; /* Adjust duration as needed */
-    /* The width of this content block will be determined by its children's widths */
   }
 
   .marquee-container:hover .animate-marquee-scroll {
     animation-play-state: paused; /* Pause on hover */
   }
 
-  @keyframes marquee-scroll {
-    from { transform: translateX(0); }
-    /* Translate by the full width of one .marquee-content block */
-    to { transform: translateX(-100%); } 
+  .marquee-track {
+    width: 200%; /* Double the width to accommodate duplicated content */
   }
 }
