@@ -7,7 +7,6 @@ import { useTranslation } from "@/contexts/TranslationContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/LoadingScreen";
-import ContinuousCarousel from "@/components/ContinuousCarousel";
 
 type BlogPostType = Tables<'blog_posts'>;
 
@@ -27,7 +26,7 @@ const Home = () => {
         .from('blog_posts')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(6); // Fetch enough posts for both carousels if needed
+        .limit(6);
 
       if (error) throw error;
       setLatestPosts(data || []);
@@ -81,7 +80,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Latest Posts Section with Carousel */}
+      {/* Latest Posts Section with Grid */}
       <section className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4">
           <h2 className="font-heading text-3xl font-bold mb-8 text-center reveal-on-scroll">
@@ -94,7 +93,23 @@ const Home = () => {
           {loadingLatestPosts ? (
             <LoadingScreen message={t("latestPosts.loading")} />
           ) : latestPosts.length > 0 ? (
-            <ContinuousCarousel posts={latestPosts} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {latestPosts.map((post) => (
+                <BlogCard
+                  key={post.id}
+                  post={{
+                    ...post,
+                    date: new Date(post.created_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric"
+                    }),
+                    readTime: post.read_time || "5 min read",
+                    image: post.cover_image || "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg"
+                  }}
+                />
+              ))}
+            </div>
           ) : (
             <p className="text-muted-foreground text-center py-8">
               {t("latestPosts.noPosts")}
