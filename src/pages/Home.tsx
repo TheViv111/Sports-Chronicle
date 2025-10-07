@@ -68,7 +68,8 @@ const Home = () => {
   }));
 
   // Duplicate posts for a seamless continuous scroll effect
-  const marqueePosts = postsForDisplay.length > 0 ? [...postsForDisplay, ...postsForDisplay] : [];
+  // We need at least two sets for a continuous loop
+  const marqueeContent = postsForDisplay.length > 0 ? [...postsForDisplay, ...postsForDisplay] : [];
 
   return (
     <div className="min-h-screen">
@@ -107,14 +108,25 @@ const Home = () => {
 
           {loadingLatestPosts ? (
             <LoadingScreen message={t("latestPosts.loading")} />
-          ) : marqueePosts.length > 0 ? (
-            <div className="marquee-container overflow-hidden relative py-4">
-              <div className="marquee-track flex whitespace-nowrap animate-marquee-scroll">
-                {marqueePosts.map((post, index) => (
+          ) : postsForDisplay.length > 0 ? (
+            <div className="marquee-container overflow-hidden relative py-4 flex">
+              {/* First set of posts */}
+              <div className="marquee-content flex-shrink-0 animate-marquee-scroll">
+                {postsForDisplay.map((post, index) => (
                   <div
-                    key={`${post.id}-${index}`} // Unique key for duplicated items
+                    key={`${post.id}-1-${index}`} // Unique key for first set
                     className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-4" // Responsive widths for cards
-                    style={{ width: `calc(100% / ${postsForDisplay.length})` }} // Ensure each original set takes 100% width
+                  >
+                    <BlogCard post={post} />
+                  </div>
+                ))}
+              </div>
+              {/* Second set of posts (duplicate for seamless loop) */}
+              <div className="marquee-content flex-shrink-0 animate-marquee-scroll">
+                {postsForDisplay.map((post, index) => (
+                  <div
+                    key={`${post.id}-2-${index}`} // Unique key for second set
+                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-4" // Responsive widths for cards
                   >
                     <BlogCard post={post} />
                   </div>
