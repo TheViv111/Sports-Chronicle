@@ -51,8 +51,8 @@ const AuthPage = () => {
                     },
                     radii: {
                       borderRadiusButton: 'var(--radius)',
-                      buttonBorderRadius: 'var(--radius)', // Corrected property name
-                      input: 'var(--radius)',
+                      buttonBorderRadius: 'var(--radius)',
+                      inputBorderRadius: 'var(--radius)', // Corrected property name
                     },
                   },
                 },
@@ -67,9 +67,9 @@ const AuthPage = () => {
                     email_input_placeholder: t("contact.yourEmail"),
                     password_input_placeholder: t("auth.password"),
                     button_label: t("auth.signIn"),
-                    social_provider_text: t("auth.signInWithGoogle"), // Corrected property name
+                    social_provider_text: t("auth.signInWithGoogle"),
                     link_text: t("auth.hasAccount"),
-                    forgotten_password_link_text: t("auth.forgotPassword"),
+                    forgot_password_link_text: t("auth.forgotPassword"), // Corrected property name
                     no_account_text: t("auth.noAccount"),
                     sign_up_link_text: t("nav.signUp"),
                   },
@@ -79,9 +79,9 @@ const AuthPage = () => {
                     email_input_placeholder: t("contact.yourEmail"),
                     password_input_placeholder: t("auth.password"),
                     button_label: t("auth.signUp"),
-                    social_provider_text: t("auth.signUpWithGoogle"), // Corrected property name
+                    social_provider_text: t("auth.signUpWithGoogle"),
                     link_text: t("auth.noAccount"),
-                    have_account_text: t("auth.hasAccount"),
+                    has_account_text: t("auth.hasAccount"), // Corrected property name
                     sign_in_link_text: t("nav.signIn"),
                   },
                   forgotten_password: {

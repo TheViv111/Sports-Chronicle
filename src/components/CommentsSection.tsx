@@ -16,9 +16,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { Tables } from "@/integrations/supabase/types";
 
-interface Comment extends Tables<'comments'> {
+// Define a more precise type for comments including the joined profile data
+type CommentWithProfile = Tables<'comments'> & {
   profiles: Pick<Tables<'profiles'>, 'display_name' | 'avatar_url'> | null;
-}
+};
 
 const commentSchema = z.object({
   content: z.string().min(1, { message: "Comment cannot be empty." }).max(500, { message: "Comment is too long." }),
@@ -79,7 +80,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ postId }) => {
     };
   }, []);
 
-  const { data: comments, isLoading, error } = useQuery<Comment[], Error>({
+  const { data: comments, isLoading, error } = useQuery<CommentWithProfile[], Error>({
     queryKey: ["comments", postId],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -92,7 +93,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ postId }) => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data as Comment[];
+      return data as CommentWithProfile[];
     },
   });
 
