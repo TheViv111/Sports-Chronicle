@@ -33,27 +33,34 @@ const Contact = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Removed 'Authorization' header as it's not needed for this public edge function
         },
         body: JSON.stringify(contactData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        let errorMessage = t("common.error");
+        try {
+          const errorJson = await response.json();
+          errorMessage = errorJson.error || errorMessage;
+        } catch {
+          errorMessage = await response.text();
+        }
+        console.error('Edge Function error response:', response.status, errorMessage);
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
       console.log('Contact form result:', result);
 
-      toast.success("Message sent successfully!", {
-        description: "Thank you for your message. We'll get back to you soon.",
+      toast.success(t("contact.messageSentSuccess"), {
+        description: t("contact.messageSentDescription"),
       });
 
       (e.target as HTMLFormElement).reset();
     } catch (error) {
       console.error("Error sending message:", error);
-      toast.error("Failed to send message.", {
-        description: "There was an issue sending your message. Please try again later.",
+      toast.error(t("contact.failedToSend"), {
+        description: (error as Error).message || t("common.tryAgain"),
       });
     } finally {
       setIsSubmitting(false);

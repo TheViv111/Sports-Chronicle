@@ -19,7 +19,10 @@
     "contact.editorial": "Editorial Team",
     "contact.editorialInquiries": "Have a story tip or want to contribute? Our editorial team is always looking for compelling sports stories.",
     "contact.advertising": "Advertising",
-    "contact.advertisingOpportunities": "Interested in advertising opportunities? Contact our business development team to learn about our packages."
+    "contact.advertisingOpportunities": "Interested in advertising opportunities? Contact our business development team to learn about our packages.",
+    "contact.messageSentSuccess": "Message sent successfully!",
+    "contact.messageSentDescription": "Thank you for your message. We'll get back to you soon.",
+    "contact.failedToSend": "Failed to send message."
   },
   "es": {
     "contact.pageTitle": "Ponte en Contacto",
@@ -41,7 +44,10 @@
     "contact.editorial": "Equipo Editorial",
     "contact.editorialInquiries": "¿Tienes un consejo de historia o quieres contribuir? Nuestro equipo editorial siempre busca historias deportivas convincentes.",
     "contact.advertising": "Publicidad",
-    "contact.advertisingOpportunities": "¿Interesado en oportunidades publicitarias? Contacta a nuestro equipo de desarrollo de negocios para conocer nuestros paquetes."
+    "contact.advertisingOpportunities": "¿Interesado en oportunidades publicitarias? Contacta a nuestro equipo de desarrollo de negocios para conocer nuestros paquetes.",
+    "contact.messageSentSuccess": "¡Mensaje enviado con éxito!",
+    "contact.messageSentDescription": "Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.",
+    "contact.failedToSend": "Error al enviar mensaje."
   },
   "fr": {
     "contact.pageTitle": "Entrer en Contact",
@@ -63,7 +69,10 @@
     "contact.editorial": "Équipe Éditoriale",
     "contact.editorialInquiries": "Vous avez un conseil d'histoire ou voulez contribuer ? Notre équipe éditoriale recherche toujours des histoires sportives convaincantes.",
     "contact.advertising": "Publicité",
-    "contact.advertisingOpportunities": "Intéressé par les opportunités publicitaires ? Contactez notre équipe de développement commercial pour en savoir plus sur nos forfaits."
+    "contact.advertisingOpportunities": "Intéressé par les opportunités publicitaires ? Contactez notre équipe de développement commercial pour en savoir plus sur nos forfaits.",
+    "contact.messageSentSuccess": "Message envoyé avec succès !",
+    "contact.messageSentDescription": "Merci pour votre message. Nous vous répondrons bientôt.",
+    "contact.failedToSend": "Échec de l'envoi du message."
   },
   "de": {
     "contact.pageTitle": "Kontakt aufnehmen",
@@ -85,7 +94,10 @@
     "contact.editorial": "Redaktionsteam",
     "contact.editorialInquiries": "Haben Sie einen Story-Tipp oder möchten beitragen? Unser Redaktionsteam sucht immer nach überzeugenden Sportgeschichten.",
     "contact.advertising": "Werbung",
-    "contact.advertisingOpportunities": "Interessiert an Werbemöglichkeiten? Kontaktieren Sie unser Business Development Team, um mehr über unsere Pakete zu erfahren."
+    "contact.advertisingOpportunities": "Interessiert an Werbemöglichkeiten? Kontaktieren Sie unser Business Development Team, um mehr über unsere Pakete zu erfahren.",
+    "contact.messageSentSuccess": "Nachricht erfolgreich gesendet!",
+    "contact.messageSentDescription": "Vielen Dank für Ihre Nachricht. Wir werden uns in Kürze bei Ihnen melden.",
+    "contact.failedToSend": "Nachricht konnte nicht gesendet werden."
   },
   "zh": {
     "contact.pageTitle": "联系我们",
@@ -107,7 +119,10 @@
     "contact.editorial": "编辑团队",
     "contact.editorialInquiries": "有新闻线索或想要贡献？我们的编辑团队总是在寻找引人注目的体育故事。",
     "contact.advertising": "广告",
-    "contact.advertisingOpportunities": "对广告机会感兴趣？联系我们的业务发展团队了解我们的套餐。"
+    "contact.advertisingOpportunities": "对广告机会感兴趣？联系我们的业务发展团队了解我们的套餐。",
+    "contact.messageSentSuccess": "消息发送成功！",
+    "contact.messageSentDescription": "感谢您的留言。我们会尽快回复您。",
+    "contact.failedToSend": "消息发送失败。"
   },
   "hi": {
     "contact.pageTitle": "संपर्क में रहें",
@@ -129,6 +144,9 @@
     "contact.editorial": "संपादकीय टीम",
     "contact.editorialInquiries": "कोई कहानी की टिप है या योगदान देना चाहते हैं? हमारी संपादकीय टीम हमेशा आकर्षक खेल कहानियों की तलाश में रहती है।",
     "contact.advertising": "विज्ञापन",
-    "contact.advertisingOpportunities": "विज्ञापन के अवसरों में रुचि है? हमारे पैकेज के बारे में जानने के लिए हमारी व्यापार विकास टीम से संपर्क करें।"
+    "contact.advertisingOpportunities": "विज्ञापन के अवसरों में रुचि है? हमारे पैकेज के बारे में जानने के लिए हमारी व्यापार विकास टीम से संपर्क करें।",
+    "contact.messageSentSuccess": "संदेश सफलतापूर्वक भेजा गया!",
+    "contact.messageSentDescription": "आपके संदेश के लिए धन्यवाद। हम जल्द ही आपसे संपर्क करेंगे।",
+    "contact.failedToSend": "संदेश भेजने में विफल।"
   }
 }
