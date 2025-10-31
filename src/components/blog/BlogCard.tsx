@@ -1,87 +1,49 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Tables } from "@/integrations/supabase/types";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "react-router-dom";
+import { transformBlogPostForDisplay, BlogPostWithDisplay } from "@/lib/blog-utils";
 import { useTranslation } from "@/contexts/TranslationContext";
-import { BlogPostWithDisplay } from "@/lib/blog-utils";
-import { cn } from "@/lib/utils"; // Import cn utility
 
 interface BlogCardProps {
-  post: BlogPostWithDisplay;
-  className?: string;
-  style?: React.CSSProperties; // Add style prop for staggered animations
+  post: Tables<'blog_posts'> | BlogPostWithDisplay;
 }
 
-const BlogCard = ({ post, className = "", style }: BlogCardProps) => {
-  const { t } = useTranslation();
+export default function BlogCard({ post }: BlogCardProps) {
+  const { currentLanguage } = useTranslation();
 
-  // Function to get category-specific badge variant
-  const getCategoryBadgeVariant = (category: string) => {
-    const lowerCaseCategory = category.toLowerCase();
-    switch (lowerCaseCategory) {
-      case 'basketball':
-        return 'basketball';
-      case 'soccer':
-        return 'soccer';
-      case 'swimming':
-        return 'swimming';
-      case 'tennis':
-        return 'tennis';
-      case 'baseball':
-        return 'baseball';
-      case 'athletics':
-        return 'athletics';
-      case 'football':
-        return 'football';
-      default:
-        return 'outline'; // Fallback to a standard variant
-    }
-  };
+  const displayPost = (post as any).date ? (post as BlogPostWithDisplay) : transformBlogPostForDisplay(post as Tables<'blog_posts'>, currentLanguage);
+
+  const badgeVariant = (displayPost.category || "").toLowerCase() as any;
+  const badgeLabel = displayPost.displayCategory || displayPost.category;
+  const imageSrc = displayPost.cover_image || (displayPost as any).image || "/placeholder.svg";
 
   return (
-    <Link to={`/blog/${post.slug}`} className="block">
-      <Card className={cn("blog-card group overflow-hidden h-full", className)} style={style}>
-        <div className="aspect-[21/9] overflow-hidden">
+    <Link to={`/blog/${displayPost.slug}`}>
+      <Card className="overflow-hidden transition-colors hover:bg-muted/50">
+        <div className="aspect-[16/9] mb-4 overflow-hidden">
           <img
-            src={post.image}
-            alt={post.title}
+            src={imageSrc}
+            alt={displayPost.title}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
-        <CardContent className="p-6 blog-card-content flex flex-col justify-between h-full">
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <span>{post.date}</span>
-                <span>•</span>
-                <span>{post.readTime}</span>
-              </div>
-            </div>
-            
-            <Badge 
-              variant={getCategoryBadgeVariant(post.category) as "default" | "secondary" | "destructive" | "outline" | "ghost" | "basketball" | "soccer" | "swimming" | "tennis" | "baseball" | "athletics" | "football"} 
-              className="uppercase text-xs mb-3"
-            >
-              {post.category}
-            </Badge>
-            
-            <h3 className="font-heading text-xl font-semibold mb-3 line-clamp-2">
-              {post.title}
-            </h3>
-            
-            <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-              {post.excerpt}
-            </p>
+        <CardHeader>
+          <CardTitle className="line-clamp-2">{displayPost.title}</CardTitle>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>{displayPost.date}</span>
+            <span>•</span>
+            <span>{displayPost.readTime}</span>
           </div>
-          
-          <span className="group flex items-center text-sm font-medium text-primary hover:text-primary/90 transition-colors self-start">
-            {t("blog.readArticle")}
-            <ArrowRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
-          </span>
+        </CardHeader>
+        <CardContent>
+          <p className="line-clamp-3">{displayPost.excerpt}</p>
         </CardContent>
+        <CardFooter className="flex items-center justify-between">
+          <Badge variant={badgeVariant}>{badgeLabel}</Badge>
+        </CardFooter>
       </Card>
     </Link>
   );
-};
-
-export default BlogCard;
+}

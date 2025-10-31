@@ -61,7 +61,7 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[95%] sm:w-[90%] lg:w-[80%] rounded-2xl border border-white/20 dark:border-white/10 bg-background/50 backdrop-blur-xl shadow-lg supports-[backdrop-filter]:bg-background/40">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-6">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 sm:space-x-3">

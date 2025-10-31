@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Tables } from "@/integrations/supabase/types";
 import { useTranslation } from "@/contexts/TranslationContext";
 import BlogPostForm from "@/components/blog/BlogPostForm"; // Import the new BlogPostForm
+import TranslationsEditor from "@/components/blog/TranslationsEditor";
 import { formatBlogPostDate } from "@/lib/blog-utils"; // Import the utility function
 import { SEO } from "@/components/common/SEO";
 
@@ -289,6 +290,7 @@ const Admin = () => {
             <TabsTrigger value="create">
               {editingPost ? t("admin.editPost") : t("admin.createPost")}
             </TabsTrigger>
+            <TabsTrigger value="translations">{t("admin.manageTranslations") || "Translations"}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="posts">
@@ -369,6 +371,10 @@ const Admin = () => {
                 />
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="translations">
+            <TranslationsEditor posts={posts} onRefresh={loadPosts} />
           </TabsContent>
         </Tabs>
       </div>

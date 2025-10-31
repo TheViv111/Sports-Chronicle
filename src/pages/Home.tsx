@@ -14,13 +14,13 @@ import { SEO } from "@/components/common/SEO";
 const Home = () => {
   const [latestPosts, setLatestPosts] = useState<BlogPostWithDisplay[]>([]);
   const [loadingLatestPosts, setLoadingLatestPosts] = useState(true);
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
 
   useScrollReveal('.reveal-on-scroll');
 
   useEffect(() => {
     loadLatestPosts();
-  }, []);
+  }, [currentLanguage]);
 
   const loadLatestPosts = async () => {
     try {
@@ -32,7 +32,7 @@ const Home = () => {
         .limit(6);
 
       if (error) throw error;
-      setLatestPosts(data ? data.map(transformBlogPostForDisplay) : []);
+      setLatestPosts(data ? data.map((p) => transformBlogPostForDisplay(p, currentLanguage)) : []);
     } catch (error) {
       console.error('Error loading latest posts:', error);
     } finally {

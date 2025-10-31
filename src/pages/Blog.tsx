@@ -18,14 +18,14 @@ const Blog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [posts, setPosts] = useState<BlogPostWithDisplay[]>([]);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
+  const { t, currentLanguage } = useTranslation();
 
   useScrollReveal('.reveal-on-scroll');
   useScrollReveal('.staggered-grid > .reveal-on-scroll', { threshold: 0.1 });
 
   useEffect(() => {
     loadPosts();
-  }, []);
+  }, [currentLanguage]);
 
   const loadPosts = async () => {
     try {
@@ -36,7 +36,7 @@ const Blog = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setPosts(data ? data.map(transformBlogPostForDisplay) : []);
+      setPosts(data ? data.map((p) => transformBlogPostForDisplay(p, currentLanguage)) : []);
     } catch (error) {
       console.error('Error loading posts:', error);
     } finally {
