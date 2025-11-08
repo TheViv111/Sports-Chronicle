@@ -6,10 +6,12 @@ import viteCompression from "vite-plugin-compression";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: './',  // Add this line for correct base path in production
+  base: process.env.NODE_ENV === 'production' ? '/dist/' : '/',
   server: {
     host: "::",
-    port: 8081,
+    port: 5173,
+    strictPort: true,
+    allowedHosts: ['sports-chronicle-2.onrender.com'],
   },
   plugins: [
     react(),

@@ -92,24 +92,62 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
 
   const quillRef = useRef<ReactQuill>(null);
   
-  // Define font families with Google Fonts and their corresponding CSS classes
+  // Define system fonts that are available on most devices
   const fontFamilies = [
-    { label: 'Arial', value: 'Arial, sans-serif', class: 'ql-font-arial' },
-    { label: 'Times New Roman', value: '"Times New Roman", serif', class: 'ql-font-times' },
-    { label: 'Georgia', value: 'Georgia, serif', class: 'ql-font-georgia' },
-    { label: 'Courier New', value: '"Courier New", monospace', class: 'ql-font-courier' },
-    { label: 'Verdana', value: 'Verdana, sans-serif', class: 'ql-font-verdana' },
-    { label: 'Roboto', value: '"Roboto", sans-serif', class: 'ql-font-roboto' },
-    { label: 'Open Sans', value: '"Open Sans", sans-serif', class: 'ql-font-opensans' },
-    { label: 'Lato', value: '"Lato", sans-serif', class: 'ql-font-lato' },
-    { label: 'Montserrat', value: '"Montserrat", sans-serif', class: 'ql-font-montserrat' },
-    { label: 'Roboto Condensed', value: '"Roboto Condensed", sans-serif', class: 'ql-font-roboto-condensed' },
-    { label: 'Source Sans Pro', value: '"Source Sans Pro", sans-serif', class: 'ql-font-sourcesans' },
-    { label: 'Oswald', value: '"Oswald", sans-serif', class: 'ql-font-oswald' },
-    { label: 'Raleway', value: '"Raleway", sans-serif', class: 'ql-font-raleway' },
-    { label: 'Poppins', value: '"Poppins", sans-serif', class: 'ql-font-poppins' },
-    { label: 'Merriweather', value: '"Merriweather", serif', class: 'ql-font-merriweather' },
-    { label: 'Playfair Display', value: '"Playfair Display", serif', class: 'ql-font-playfair' },
+    { 
+      key: 'system', 
+      label: 'System Default', 
+      value: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', 
+      class: 'ql-font-system' 
+    },
+    { 
+      key: 'arial', 
+      label: 'Arial', 
+      value: 'Arial, Helvetica, sans-serif', 
+      class: 'ql-font-arial' 
+    },
+    { 
+      key: 'times', 
+      label: 'Times New Roman', 
+      value: '"Times New Roman", Times, serif', 
+      class: 'ql-font-times' 
+    },
+    { 
+      key: 'georgia', 
+      label: 'Georgia', 
+      value: 'Georgia, serif', 
+      class: 'ql-font-georgia' 
+    },
+    { 
+      key: 'courier', 
+      label: 'Courier New', 
+      value: '"Courier New", Courier, monospace', 
+      class: 'ql-font-courier' 
+    },
+    { 
+      key: 'verdana', 
+      label: 'Verdana', 
+      value: 'Verdana, Geneva, sans-serif', 
+      class: 'ql-font-verdana' 
+    },
+    { 
+      key: 'tahoma', 
+      label: 'Tahoma', 
+      value: 'Tahoma, Geneva, sans-serif', 
+      class: 'ql-font-tahoma' 
+    },
+    { 
+      key: 'trebuchet', 
+      label: 'Trebuchet MS', 
+      value: '"Trebuchet MS", Helvetica, sans-serif', 
+      class: 'ql-font-trebuchet' 
+    },
+    { 
+      key: 'impact', 
+      label: 'Impact', 
+      value: 'Impact, Charcoal, sans-serif', 
+      class: 'ql-font-impact' 
+    }
   ];
 
   // Define font sizes for the dropdown
@@ -117,47 +155,25 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
     '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '40px', '48px'
   ];
 
-  // Load Google Fonts
-  useEffect(() => {
-    const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=' + [
-      'Roboto:400,400i,500,500i,700,700i',
-      'Open+Sans:400,400i,600,600i,700,700i',
-      'Lato:400,400i,700,700i',
-      'Montserrat:400,400i,500,500i,600,600i,700,700i',
-      'Roboto+Condensed:400,400i,700,700i',
-      'Source+Sans+Pro:400,400i,600,600i,700,700i',
-      'Oswald:400,500,600,700',
-      'Raleway:400,400i,500,500i,600,600i,700,700i',
-      'Poppins:400,400i,500,500i,600,600i,700,700i',
-      'Merriweather:400,400i,700,700i',
-      'Playfair+Display:400,400i,500,500i,600,600i,700,700i'
-    ].join('&family=') + '&display=swap';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
+  // System fonts are used - no external font loading needed
 
   // Custom toolbar with font family and size dropdowns
   const modules = useMemo(() => {
     // Register font format
     const Font = ReactQuill.Quill.import('formats/font');
-    const fonts = fontFamilies.map(f => f.label);
+    const fonts = fontFamilies.map(f => f.class.replace('ql-font-', ''));
     Font.whitelist = fonts;
     ReactQuill.Quill.register(Font, true);
+    
+    // Register font size format
+    const Size = ReactQuill.Quill.import('attributors/style/size');
+    Size.whitelist = fontSizeOptions;
+    ReactQuill.Quill.register(Size, true);
 
     // Register custom font class
     const FontAttributor = ReactQuill.Quill.import('attributors/class/font');
     FontAttributor.whitelist = fonts;
     ReactQuill.Quill.register(FontAttributor, true);
-
-    // Register size style for the font size dropdown
-    const Size = ReactQuill.Quill.import('attributors/style/size');
-    Size.whitelist = fontSizeOptions;
-    ReactQuill.Quill.register(Size, true);
 
     // Register formats for toggleable styles
     const Bold = ReactQuill.Quill.import('formats/bold');
@@ -167,18 +183,18 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
     ReactQuill.Quill.register(Italic, true);
     ReactQuill.Quill.register(Underline, true);
 
-    // Custom font handler
+    // Custom font handler: apply to selection, or whole content if none
     const fontHandler = (value: string) => {
       const quill = quillRef.current?.getEditor();
-      if (quill) {
-        const selection = quill.getSelection();
-        if (selection) {
-          if (value === 'false') {
-            quill.format('font', false);
-          } else {
-            quill.format('font', value);
-          }
-        }
+      if (!quill) return;
+      const range = quill.getSelection();
+      const length = quill.getLength();
+      const targetValue = value === 'sans-serif' ? false : value;
+      if (!range || range.length === 0) {
+        // No selection: apply to whole content for clearer UX
+        quill.formatText(0, length, 'font', targetValue);
+      } else {
+        quill.format('font', targetValue);
       }
     };
 
@@ -187,7 +203,7 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
         container: [
           ['bold', 'italic', 'underline', 'strike'],
           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          [{ 'font': fonts }],
+          [{ 'font': fontFamilies.map(f => f.class.replace('ql-font-', '')) }],
           [{ 'size': fontSizeOptions }],
           [{ 'color': [] }, { 'background': [] }],
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
@@ -252,7 +268,6 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
     };
   }, []);
 
-
   // Style for the editor with font families
   const editorStyle = {
     minHeight: '300px',
@@ -261,47 +276,49 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
     borderRadius: '0 0 4px 4px'
   } as React.CSSProperties;
 
-  // Add font styles and fix dropdown
+  // Apply font styles to the editor
   useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
       /* Apply font families to the editor content */
-      ${fontFamilies.map(font => {
-        return `
-          .${font.class} {
-            font-family: ${font.value} !important;
-          }
-          .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.label}"] {
-            font-family: ${font.value} !important;
-            padding-left: 12px !important;
-          }
-          .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="${font.label}"] {
-            font-family: ${font.value} !important;
-          }
-          .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.label}"]::before {
-            content: "${font.label}" !important;
-            font-family: ${font.value} !important;
-          }
-        `;
-      }).join('')}
+      ${fontFamilies.map(font => `
+        .${font.class} {
+          font-family: ${font.value} !important;
+        }
+        .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.class.replace('ql-font-', '')}"] {
+          font-family: ${font.value} !important;
+          padding-left: 12px !important;
+        }
+        .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="${font.class.replace('ql-font-', '')}"] {
+          font-family: ${font.value} !important;
+        }
+        .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.class.replace('ql-font-', '')}"]::before {
+          content: "${font.label}" !important;
+          font-family: ${font.value} !important;
+        }
+      `).join('')}
       
       /* Ensure the editor content can display different fonts */
       .ql-editor {
-        font-family: inherit;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
       }
-      
+
       /* Make sure the font dropdown is wide enough */
       .ql-snow .ql-picker.ql-font {
-        width: 150px !important;
+        width: 180px !important;
       }
       
-      /* Set default font for the editor */
-      .ql-editor {
-        font-family: 'Arial', sans-serif;
-        min-height: 300px;
+      /* Improve font size dropdown */
+      .ql-snow .ql-picker.ql-size {
+        width: 100px !important;
       }
       
-      /* Toolbar styling */
+      /* Set default font size for the editor */
+      .ql-editor p {
+        font-size: 16px;
+        margin-bottom: 1em;
       .ql-toolbar.ql-snow {
         border: 1px solid #e2e8f0;
         border-radius: 4px 4px 0 0;
@@ -402,14 +419,14 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
       
       /* Apply the actual fonts to the dropdown items and labels */
       ${fontFamilies.map(font => `
-        .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.label}"] {
+        .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.key}"] {
           font-family: ${font.value} !important;
         }
-        .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="${font.label}"] {
+        .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="${font.key}"] {
           font-family: ${font.value} !important;
         }
-        /* Set the content of the dropdown items to show the font name */
-        .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.label}"]::before {
+        /* Show human-friendly names in the dropdown */
+        .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="${font.key}"]::before {
           content: "${font.label}" !important;
           font-family: ${font.value} !important;
         }
@@ -422,7 +439,7 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
       
       /* Apply the selected font to the content */
       ${fontFamilies.map(font => `
-        .ql-font-${font.label.replace(/\s+/g, '-').toLowerCase()} {
+        .ql-font-${font.key} {
           font-family: ${font.value} !important;
         }
       `).join('')}
@@ -454,15 +471,14 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({
   const handleFontChange = (value: string) => {
     const quill = quillRef.current?.getEditor();
     if (quill) {
-      const range = quill.getSelection(true);
-      if (range) {
-        if (value === 'sans-serif') {
-          // Remove font formatting
-          quill.formatText(range.index, range.length, 'font', false);
-        } else {
-          // Apply the selected font
-          quill.format('font', value);
-        }
+      const range = quill.getSelection();
+      const length = quill.getLength();
+      const targetValue = value === 'sans-serif' ? false : value;
+      if (!range || range.length === 0) {
+        // No selection: apply to whole content for clearer UX
+        quill.formatText(0, length, 'font', targetValue);
+      } else {
+        quill.format('font', targetValue);
       }
     }
   };
