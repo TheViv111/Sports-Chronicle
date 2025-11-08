@@ -6,12 +6,24 @@ import viteCompression from "vite-plugin-compression";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: process.env.NODE_ENV === 'production' ? '/dist/' : '/',
+  base: '/',
   server: {
     host: "::",
     port: 5173,
     strictPort: true,
-    allowedHosts: ['sports-chronicle-2.onrender.com'],
+    open: true,
+    proxy: {
+      // Proxy API requests to avoid CORS issues
+      '/api': {
+        target: 'https://whgjiirmcbsiqhjzgldy.supabase.co',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    },
+    fs: {
+      // Allow serving files from the project root
+      allow: ['..']
+    }
   },
   plugins: [
     react({
@@ -42,9 +54,12 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
     chunkSizeWarningLimit: 1000,
     minify: 'esbuild',
     sourcemap: mode !== 'production',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         manualChunks: (id) => {
