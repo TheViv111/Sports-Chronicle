@@ -28,15 +28,18 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react({
-      babel: { 
-        plugins: [["babel-plugin-react-compiler", { compilationMode: "annotation" }]],
-      },
-    }),
+      babel: {
+        plugins: [
+          ['babel-plugin-react-compiler', {}]
+        ]
+      }
+    }), 
     // Visualize bundle size in production
     mode === 'analyze' && visualizer({
       open: true,
-      filename: 'dist/bundle-analyzer.html',
-    }),
+      gzipSize: true,
+      brotliSize: true,
+    }), 
     // PWA support
     VitePWA({
       registerType: 'autoUpdate',
