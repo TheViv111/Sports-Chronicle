@@ -68,7 +68,7 @@ export type LanguageCode = keyof typeof supportedLanguages;
 interface TranslationContextType {
   currentLanguage: LanguageCode;
   setLanguage: (language: LanguageCode) => void;
-  t: (key: string, fallback?: string) => string;
+  t: (key: string, fallback?: string) => any; // Changed return type to any to handle nested objects
   isRTL: boolean;
   currentPath: string;
 }
@@ -96,27 +96,31 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
     document.documentElement.lang = currentLanguage;
   }, [currentLanguage]);
 
+  // Preload all translation files at build time
+  const translationModules = import.meta.glob('../data/translations/*.json', { import: 'default', eager: false });
+
   const loadTranslations = useCallback(async (language: LanguageCode) => {
     try {
       setIsLoading(true);
       
       const loadTranslationFile = async (lang: string) => {
         try {
-          // Construct the URL to the translation file
-          const url = new URL(
-            `../data/translations/${lang}.json?url`,
-            import.meta.url
-          ).href;
+          const modulePath = `../data/translations/${lang}.json`;
           
-          // Fetch the JSON file
-          const response = await fetch(url);
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-          
-          const data = await response.json();
-          return data;
+          if (import.meta.env.DEV) {
+            // In development, use dynamic import
+            const module = await import(/* @vite-ignore */ modulePath);
+            return module.default;
+          } else {
+            // In production, use the preloaded modules
+            const module = translationModules[modulePath];
+            if (!module) throw new Error(`Translation file not found: ${lang}.json`);
+            const data = await module();
+            return data;
+          }
         } catch (error) {
           console.warn(`Failed to load translations for ${lang}:`, error);
-          throw error; // Re-throw to be caught by the outer catch
+          throw error;
         }
       };
 
@@ -165,7 +169,7 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
     }
   };
 
-  const getTranslation = (key: string, fallback?: string): string => {
+  const getTranslation = (key: string, fallback?: string): any => {
     // If translations are still loading, return the key as is
     if (isLoading) return key;
     
