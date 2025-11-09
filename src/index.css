@@ -71,12 +71,12 @@
     --secondary-foreground: 0 0% 98%;
     
     --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted-foreground: 0 0% 64%;
     
     --accent: 0 0% 15%;
     --accent-foreground: 0 0% 98%;
     
-    --card: 0 0% 9%;
+    --card: 0 0% 12%;
     --card-foreground: 0 0% 98%;
     
     --popover: 0 0% 9%;
@@ -94,9 +94,14 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground min-h-screen transition-colors duration-200;
   }
   
+  /* Ensure the root element takes full height */
+  #root, html, body {
+    @apply h-full;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
   }

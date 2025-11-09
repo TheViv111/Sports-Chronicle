@@ -14,7 +14,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: "dark",
+  theme: "system",
   setTheme: () => null,
 }
 
@@ -22,7 +22,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
-  defaultTheme = "dark",
+  defaultTheme = "system",
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
@@ -33,26 +33,23 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove("light", "dark")
-
-    let themeToApply = theme
     
-    if (theme === "system") {
-      themeToApply = window.matchMedia("(prefers-color-scheme: dark)").matches 
-        ? "dark" 
-        : "light"
-    }
-
+    // Remove all theme classes first
+    root.classList.remove('light', 'dark')
+    
+    // Determine which theme to apply
+    let themeToApply = theme === 'system'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      : theme
+    
+    // Add the appropriate theme class
     root.classList.add(themeToApply)
+    
+    // Set the color scheme for form controls
     root.style.colorScheme = themeToApply
     
-    // Force a reflow to ensure the transition is applied
-    const rootStyle = window.getComputedStyle(root)
-    const transition = rootStyle.transition
-    root.style.transition = 'none'
-    // Trigger reflow
-    root.offsetHeight
-    root.style.transition = transition
+    // Add smooth transition
+    root.classList.add('transition-colors', 'duration-200')
     
     // Store the theme preference
     localStorage.setItem(storageKey, theme)

@@ -1,9 +1,11 @@
 import { Tables } from "@/integrations/supabase/types";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { transformBlogPostForDisplay, BlogPostWithDisplay } from "@/lib/blog-utils";
 import { useTranslation } from "@/contexts/TranslationContext";
+import { useState } from "react";
+import { PlaceholderImage } from "@/components/common/PlaceholderImage";
 
 interface BlogCardProps {
   post: Tables<'blog_posts'> | BlogPostWithDisplay;
@@ -16,18 +18,27 @@ export default function BlogCard({ post }: BlogCardProps) {
 
   const badgeVariant = (displayPost.category || "").toLowerCase() as any;
   const badgeLabel = displayPost.displayCategory || displayPost.category;
-  const imageSrc = displayPost.cover_image || (displayPost as any).image || "/placeholder.svg";
+  const imageSrc = displayPost.cover_image || (displayPost as any).image;
+  const [imageError, setImageError] = useState(!imageSrc);
 
   return (
     <Link to={`/blog/${displayPost.slug}`}>
       <Card className="overflow-hidden transition-colors hover:bg-muted/50">
         <div className="aspect-[16/9] mb-4 overflow-hidden">
-          <img
-            src={imageSrc}
-            alt={displayPost.title}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          {!imageError ? (
+            <img
+              src={imageSrc}
+              alt={displayPost.title}
+              className="w-full h-full object-cover"
+              loading="lazy"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <PlaceholderImage 
+              category={displayPost.category} 
+              className="w-full h-full"
+            />
+          )}
         </div>
         <CardHeader>
           <CardTitle className="line-clamp-2">{displayPost.title}</CardTitle>
