@@ -3,8 +3,19 @@
   "buildCommand": "pnpm run build",
   "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": "dist",
+  "public": "public",
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+    {
+      "src": "^/translations/(.*)",
+      "dest": "/translations/$1"
+    },
+    {
+      "src": "^/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|json|txt|xml))$",
+      "dest": "/$1"
+    },
+    {
+      "src": "^/.*",
+      "dest": "/index.html"
+    }
   ]
 }

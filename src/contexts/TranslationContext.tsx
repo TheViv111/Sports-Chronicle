@@ -55,12 +55,25 @@ const DEFAULT_LANGUAGE = 'en';
 // Helper function to load translations
 async function loadTranslations(lang: string) {
   try {
-    const base = import.meta.env.BASE_URL ?? '/';
+    // Use absolute path for production, relative for development
+    const isProduction = import.meta.env.PROD;
+    const base = isProduction ? '/' : import.meta.env.BASE_URL || '/';
     const url = `${base}translations/${lang}.json`;
+    const absoluteUrl = isProduction 
+      ? new URL(`/translations/${lang}.json`, window.location.origin).toString()
+      : url;
 
-    const response = await fetch(url, { cache: 'no-store' });
+    const response = await fetch(absoluteUrl, { 
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
+    });
+    
     if (!response.ok) {
-      throw new Error(`Failed to load translations for ${lang} (status ${response.status}) at ${url}`);
+      console.error(`Failed to load translations from: ${absoluteUrl}`);
+      throw new Error(`Failed to load translations for ${lang} (status ${response.status}) at ${absoluteUrl}`);
     }
 
     const contentType = response.headers.get('content-type') || '';

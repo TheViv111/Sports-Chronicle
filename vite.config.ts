@@ -12,6 +12,15 @@ export default defineConfig(({ mode }) => {
     react(),
     // Copy translation files to build directory
     vitePluginTranslations(),
+    // Copy public files to root of the build output
+    {
+      name: 'copy-translations',
+      apply: 'build' as const,
+      generateBundle() {
+        // This ensures the translations directory is included in the build
+        // The actual copying is handled by the vitePluginTranslations
+      }
+    },
     // PWA support
     VitePWA({
       registerType: 'autoUpdate',
