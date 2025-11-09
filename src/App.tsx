@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
 import { TranslationProvider } from "@/contexts/TranslationContext";
 import { SessionContextProvider } from "@/components/auth/SessionContextProvider";
+import { ProtectedAdminRoute } from "@/components/auth/ProtectedAdminRoute";
 import { HelmetProvider } from "react-helmet-async";
 import React, { Suspense } from "react";
 import LoadingScreen from "@/components/common/LoadingScreen";
@@ -27,8 +28,8 @@ const App = () => (
     <HelmetProvider>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <TooltipProvider>
+          <Sonner />
           <TranslationProvider>
-            <Sonner />
             <BrowserRouter>
               <SessionContextProvider>
                 <Suspense fallback={<LoadingScreen message="Loading..." />}>
@@ -39,7 +40,7 @@ const App = () => (
                     <Route path="blog/:slug" element={<BlogPost />} />
                     <Route path="about" element={<About />} />
                     <Route path="contact" element={<Contact />} />
-                    <Route path="admin">
+                    <Route path="admin" element={<ProtectedAdminRoute />}>
                       <Route index element={<Navigate to="posts" replace />} />
                       <Route path=":tab" element={<Admin />} />
                       <Route path="edit/:id" element={<Admin />} />

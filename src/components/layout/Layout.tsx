@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Toaster as Sonner } from "@/components/ui/sonner"; // Ensure Sonner is here if it's global
+
 
 const Layout = () => {
   const location = useLocation();
@@ -16,7 +16,7 @@ const Layout = () => {
         <Outlet />
       </main>
       {shouldRenderHeaderFooter && <Footer />}
-      <Sonner /> {/* Global toast provider */}
+
     </div>
   );
 };

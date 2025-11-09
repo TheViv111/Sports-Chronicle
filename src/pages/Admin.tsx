@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-
-type AdminTab = 'posts' | 'create' | 'edit';
+import { supabase } from "@/lib/supabase";
+import { useTranslation } from "@/contexts/TranslationContext";
+import { BlogPost } from "@/types/supabase";
+import { formatBlogPostDate } from "@/lib/blog-utils";
+import { toast } from "sonner";
+import { Trash2, Edit, Loader2, Home } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
-import { Trash2, Edit, Loader2, ArrowLeft, Home } from "lucide-react";
-import { supabase } from "@/lib/supabase";
-import { useTranslation } from "@/contexts/TranslationContext";
 import BlogPostForm from "@/components/blog/BlogPostForm";
-import { formatBlogPostDate } from "@/lib/blog-utils";
 import { SEO } from "@/components/common/SEO";
-import { BlogPost } from "@/types/supabase";
 import Header from "@/components/layout/Header";
+
+type AdminTab = 'posts' | 'create' | 'edit';
 
 // Define the form values type
 type BlogPostFormValues = {
@@ -28,30 +26,45 @@ type BlogPostFormValues = {
   cover_image?: string;
 };
 
-interface AdminProps {
-  tab?: 'posts' | 'create' | 'edit';
-}
+// Admin component handles its own tab state
 
 const Admin = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const navigate = useNavigate();
-  const { tab: tabParam = 'posts', id } = useParams<{ tab?: AdminTab; id?: string }>();
+  const { tab: tabParam = 'posts' } = useParams<{ tab?: AdminTab }>();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<AdminTab>('posts');
   const { t } = useTranslation();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const auth = localStorage.getItem("admin_authenticated");
-    if (auth === "true") {
-      setIsAuthenticated(true);
-      loadPosts();
-    }
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+      
+      if (session?.user) {
+        loadPosts();
+      }
+    };
+
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        loadPosts();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    loadPosts();
   }, []);
 
   useEffect(() => {
@@ -99,41 +112,7 @@ const Admin = () => {
     }
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    if (username === "admin" && password === "admin123") {
-      setIsAuthenticated(true);
-      localStorage.setItem("admin_authenticated", "true");
-      await loadPosts();
-      toast.success(t("admin.loginSuccess"), {
-        description: t("admin.welcomeDashboard"),
-      });
-    } else {
-      toast.error(t("admin.loginFailed"), {
-        description: t("admin.invalidCredentials"),
-      });
-    }
-
-    setIsLoading(false);
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("admin_authenticated");
-    setUsername("");
-    setPassword("");
-    setPosts([]);
-    toast.info(t("admin.loggedOut"), {
-      description: t("admin.loggedOutSuccessfully"),
-    });
-  };
-
   const handleCreateOrUpdatePost = async (values: BlogPostFormValues) => {
-    setIsLoading(true);
     const slug = values.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const now = new Date().toISOString();
 
@@ -195,8 +174,6 @@ const Admin = () => {
       toast.error(editingPost ? t("admin.errorUpdatingPost") : t("admin.errorCreatingPost"), {
         description: editingPost ? t("admin.failedToUpdatePost") : t("admin.failedToCreatePost"),
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -231,71 +208,48 @@ const Admin = () => {
     }
   };
 
-  if (!isAuthenticated) {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/');
+  };
+
+  if (loading) {
     return (
-      <>
-        <SEO 
-          title="Admin Dashboard - The Sports Chronicle"
-          description="Manage blog posts, categories and site settings for The Sports Chronicle."
-          canonicalUrl="https://thesportschronicle.com/admin"
-          schemaType="WebPage"
-        />
-        <Header />
-        <div className="min-h-screen flex items-center justify-center py-12 px-4">
-          <div className="w-full max-w-md">
-            <div className="mb-4 text-center">
-              <Link to="/">
-                <Button variant="ghost" className="btn-hover-lift">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  {t("common.backToSite")}
-                </Button>
-              </Link>
-            </div>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-center">{t("admin.loginTitle")}</CardTitle>
-              <CardDescription className="text-center">
-                {t("admin.loginSubtitle")}
-              </CardDescription>
-            </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <Label htmlFor="username">{t("admin.username")}</Label>
-                <Input
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder={t("admin.username")}
-                  required
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="password">{t("admin.password")}</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t("admin.password")}
-                  required
-                  className="mt-1"
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? t("admin.loggingIn") : t("admin.loginButton")}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 text-center">
+          <div>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+              {t("admin.accessDenied")}
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              {t("admin.signInRequired")}
+            </p>
+          </div>
+          <div className="mt-8 space-y-4">
+            <Button
+              onClick={() => navigate('/signin')}
+              className="w-full"
+            >
+              {t("auth.signIn")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => navigate('/')}
+              className="w-full"
+            >
+              {t("common.backToHome")}
+            </Button>
+          </div>
         </div>
       </div>
-      </>
     );
   }
 
@@ -370,7 +324,7 @@ const Admin = () => {
                           <div className="flex items-center gap-2">
                             <Badge variant="outline">{post.category}</Badge>
                             <span className="text-xs text-muted-foreground">
-                              {formatBlogPostDate(post.created_at)} • {post.read_time || "5 min read"}
+                              {post.created_at ? formatBlogPostDate(post.created_at) : ''} • {post.read_time || "5 min read"}
                             </span>
                           </div>
                         </div>
@@ -385,7 +339,7 @@ const Admin = () => {
                           <Button
                             size="sm"
                             variant="destructive"
-                            onClick={() => handleDeletePost(post.id)}
+                            onClick={() => post.id && handleDeletePost(post.id)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -417,7 +371,7 @@ const Admin = () => {
                   initialData={editingPost}
                   onSubmit={handleCreateOrUpdatePost}
                   onCancel={editingPost ? handleCancelEdit : undefined}
-                  isSubmitting={isLoading}
+                  isSubmitting={false}
                 />
               </CardContent>
             </Card>

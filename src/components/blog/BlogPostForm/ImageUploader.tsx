@@ -52,7 +52,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
         // Upload the file
         const { data, error: uploadError } = await supabase.storage
-          .from('blog-images')
+          .from('blog-assets')
           .upload(filePath, file, {
             cacheControl: '3600',
             upsert: false,
@@ -64,7 +64,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
         // Get the public URL
         const { data: { publicUrl } } = supabase.storage
-          .from('blog-images')
+          .from('blog-assets')
           .getPublicUrl(data.path);
 
         // Update the form field

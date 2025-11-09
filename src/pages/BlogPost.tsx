@@ -8,11 +8,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Tables } from "@/integrations/supabase/types";
 import LoadingScreen from "@/components/common/LoadingScreen";
 import CommentsSection from "@/components/blog/CommentsSection";
-import ReactMarkdown from "react-markdown";
+import DOMPurify from "dompurify";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { formatBlogPostDate, transformBlogPostForDisplay } from "@/lib/blog-utils";
 import useScrollReveal from "@/hooks/useScrollReveal";
-import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import { SEO } from "@/components/common/SEO";
 
 type BlogPostType = Tables<'blog_posts'>;
@@ -44,7 +43,7 @@ const BlogPost = () => {
     gcTime: 1000 * 60 * 10,
   });
 
-  const { data: relatedPosts, isLoading: isRelatedPostsLoading, error: relatedPostsError } = useQuery({
+  const { data: relatedPosts, isLoading: isRelatedPostsLoading } = useQuery({
     queryKey: ['relatedPosts', post?.category, post?.id, currentLanguage],
     queryFn: async () => {
       if (!post) return [];
@@ -137,8 +136,17 @@ const BlogPost = () => {
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none reveal-on-scroll">
-            <ReactMarkdown>{displayPost.content || ''}</ReactMarkdown>
+          <div className="reveal-on-scroll">
+            <div 
+              className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-heading prose-h1:text-3xl prose-h1:md:text-4xl prose-h2:text-2xl prose-h2:md:text-3xl prose-h3:text-xl prose-h3:md:text-2xl prose-p:mb-4 prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-2 prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:py-1 prose-blockquote:my-4 prose-pre:bg-muted prose-pre:p-4 prose-pre:rounded-lg prose-a:text-primary hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg prose-img:my-6"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(displayPost.content || "", { 
+                  ADD_TAGS: ["iframe"], 
+                  ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
+                  USE_PROFILES: { html: true }
+                })
+              }}
+            />
           </div>
 
           <CommentsSection postId={displayPost.id} />
