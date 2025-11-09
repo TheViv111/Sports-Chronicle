@@ -1,4 +1,5 @@
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -37,23 +38,24 @@ const App = () => (
               <SessionContextProvider>
                 <Suspense fallback={<LoadingScreen message="Loading..." />}>
                   <Routes>
-                  <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />} />
-                    <Route path="blog" element={<Blog />} />
-                    <Route path="blog/:slug" element={<BlogPost />} />
-                    <Route path="about" element={<About />} />
-                    <Route path="contact" element={<Contact />} />
-                    <Route path="admin" element={<ProtectedAdminRoute />}>
-                      <Route index element={<Navigate to="posts" replace />} />
-                      <Route path=":tab" element={<Admin />} />
-                      <Route path="edit/:id" element={<Admin />} />
+                    <Route path="/" element={<Layout />}>
+                      <Route index element={<Home />} />
+                      <Route path="blog" element={<Blog />} />
+                      <Route path="blog/:slug" element={<BlogPost />} />
+                      <Route path="about" element={<About />} />
+                      <Route path="contact" element={<Contact />} />
+                      <Route path="admin" element={<ProtectedAdminRoute />}>
+                        <Route index element={<Navigate to="posts" replace />} />
+                        <Route path=":tab" element={<Admin />} />
+                        <Route path="edit/:id" element={<Admin />} />
+                      </Route>
+                      <Route path="signin" element={<SignIn />} />
+                      <Route path="signup" element={<SignUp />} />
+                      <Route path="profile" element={<Profile />} />
                     </Route>
-                    <Route path="signin" element={<SignIn />} />
-                    <Route path="signup" element={<SignUp />} />
-                    <Route path="profile" element={<Profile />} />
-                  </Route>
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                  <Analytics />
                 </Suspense>
               </SessionContextProvider>
             </BrowserRouter>
