@@ -23,6 +23,9 @@ const SignIn = React.lazy(() => import("./pages/SignIn"));
 const SignUp = React.lazy(() => import("./pages/SignUp"));
 const Profile = React.lazy(() => import("./pages/Profile"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
+// Used in route configuration below
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Sitemap = React.lazy(() => import("./pages/Sitemap"));
 
 const queryClient = new QueryClient();
 
@@ -47,6 +50,7 @@ const App = () => (
                       <Route path="blog/:slug" element={<BlogPost />} />
                       <Route path="users/:id" element={<UserProfile />} />
                       <Route path="about" element={<About />} />
+                      <Route path="sitemap.xml" element={<Sitemap />} />
                       <Route path="contact" element={<Contact />} />
                       <Route path="admin" element={<ProtectedAdminRoute />}>
                         <Route index element={<Navigate to="posts" replace />} />
