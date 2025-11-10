@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Menu, X, User as UserIcon, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSession } from "@/components/auth/SessionContextProvider";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner"; // Using sonner for toasts
+import { toast } from "sonner";
 import logo from "@/assets/logo.png";
-import { useIsMobile } from "@/hooks/use-mobile"; // Import the useIsMobile hook
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -24,11 +24,32 @@ const Header = () => {
   const { session } = useSession();
   const isMobile = useIsMobile(); // Use the hook to determine if it's a mobile device
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (session?.user?.email) {
+        const { data: { user } } = await supabase.auth.getUser();
+        const userEmail = user?.email?.toLowerCase();
+        const allowedEmails = [
+          'vivaan.handa@pathwaysschool.in',
+          'shouryag258@gmail.com',
+          'ved.mehta@pathwaysschool.in'
+        ];
+        setIsAdmin(userEmail ? allowedEmails.includes(userEmail) : false);
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, [session]);
+
   const navItems = [
     { name: t("nav.home"), path: "/" },
     { name: t("nav.blog"), path: "/blog" },
     { name: t("nav.about"), path: "/about" },
-    { name: t("nav.admin"), path: "/admin" },
+    ...(isAdmin ? [{ name: t("nav.admin"), path: "/admin" }] : []),
     { name: t("nav.contact"), path: "/contact" },
   ];
 
@@ -207,16 +228,13 @@ const Header = () => {
                 </div>
 
                 {/* Navigation */}
-                <div className="flex flex-col space-y-3">
+                <div className="flex flex-col space-y-4">
                   {navItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.path}
-                      className={`text-base font-medium link-hover-slide tap-press transition-colors hover:text-primary py-2 px-3 rounded-md ${
-                        isActivePage(item.path)
-                          ? "text-primary bg-primary/10"
-                          : "text-muted-foreground hover:bg-accent"
-                      }`}
+                      className={`text-lg font-medium transition-colors hover:text-primary ${isActivePage(item.path) ? "text-primary" : "text-foreground"}`}
+                      onClick={() => {}}
                     >
                       {item.name}
                     </Link>

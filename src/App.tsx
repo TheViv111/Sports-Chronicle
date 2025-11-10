@@ -14,6 +14,7 @@ import Layout from "./components/layout/Layout";
 const Home = React.lazy(() => import("./pages/Home"));
 const Blog = React.lazy(() => import("./pages/Blog"));
 const BlogPost = React.lazy(() => import("./pages/BlogPost"));
+const UserProfile = React.lazy(() => import("./pages/UserProfile"));
 const About = React.lazy(() => import("./pages/About"));
 const Contact = React.lazy(() => import("./pages/Contact"));
 const Admin = React.lazy(() => import("./pages/Admin"));
@@ -42,6 +43,7 @@ const App = () => (
                       <Route index element={<Home />} />
                       <Route path="blog" element={<Blog />} />
                       <Route path="blog/:slug" element={<BlogPost />} />
+                      <Route path="users/:id" element={<UserProfile />} />
                       <Route path="about" element={<About />} />
                       <Route path="contact" element={<Contact />} />
                       <Route path="admin" element={<ProtectedAdminRoute />}>

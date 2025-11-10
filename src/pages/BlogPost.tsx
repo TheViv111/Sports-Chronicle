@@ -12,6 +12,7 @@ import { useTranslation } from "@/contexts/TranslationContext";
 import { formatBlogPostDate, transformBlogPostForDisplay } from "@/lib/blog-utils";
 import useScrollReveal from "@/hooks/useScrollReveal";
 import { SEO } from "@/components/common/SEO";
+import CommentsSection from "@/components/comments/CommentsSection";
 
 type BlogPostType = Tables<'blog_posts'>;
 
@@ -158,6 +159,9 @@ const BlogPost = () => {
           </div>
         </div>
       </article>
+
+      {/* Comments Section */}
+      <CommentsSection postId={post.id} />
 
       {isRelatedPostsLoading ? (
         <div className="py-16 bg-secondary/20 text-center">
