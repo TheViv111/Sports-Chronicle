@@ -1,5 +1,6 @@
 {
   "files": [],
+  "exclude": ["node_modules/@vercel/speed-insights/**/*"],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
     "baseUrl": ".",
