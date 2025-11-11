@@ -23,4 +23,4 @@ User-agent: facebookexternalhit
 Allow: /
 
 # Sitemap location
-Sitemap: https://thesportschronicle.com/sitemap.xml
+Sitemap: https://the-sports-chronicle.vercel.app/sitemap.xml

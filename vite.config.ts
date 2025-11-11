@@ -8,8 +8,26 @@ import vitePluginTranslations from './vite.translations';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  const fs = require('fs');
+  const path = require('path');
   const plugins = [
-    // Removed sitemap plugin as we'll handle it differently
+    // Handle sitemap.xml requests in development
+    {
+      name: 'serve-sitemap',
+      configureServer(server: any) {
+        server.middlewares.use((req: any, res: any, next: () => void) => {
+          if (req.url === '/sitemap.xml') {
+            const sitemapPath = path.resolve(__dirname, 'public/sitemap.xml');
+            if (fs.existsSync(sitemapPath)) {
+              res.setHeader('Content-Type', 'application/xml');
+              res.end(fs.readFileSync(sitemapPath, 'utf-8'));
+              return;
+            }
+          }
+          next();
+        });
+      }
+    },
     react({
       // Add this to support path aliases in JSX
       jsxImportSource: '@emotion/react',
@@ -18,11 +36,20 @@ export default defineConfig(({ mode }) => {
     vitePluginTranslations(),
     // Copy public files to root of the build output
     {
-      name: 'copy-translations',
+      name: 'copy-public-assets',
       apply: 'build' as const,
-      generateBundle() {
-        // This ensures the translations directory is included in the build
-        // The actual copying is handled by the vitePluginTranslations
+      writeBundle() {
+        const fs = require('fs');
+        const path = require('path');
+        
+        // Ensure sitemap.xml is copied to the root of the build
+        const sitemapPath = path.resolve(__dirname, 'public/sitemap.xml');
+        const destPath = path.resolve(__dirname, 'dist/sitemap.xml');
+        
+        if (fs.existsSync(sitemapPath)) {
+          fs.copyFileSync(sitemapPath, destPath);
+          console.log('Sitemap copied to build directory');
+        }
       }
     },
     // PWA support
