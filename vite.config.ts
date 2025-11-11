@@ -7,25 +7,33 @@ import { VitePWA } from 'vite-plugin-pwa';
 import vitePluginTranslations from './vite.translations';
 
 // https://vitejs.dev/config/
+import type { ViteDevServer } from 'vite';
+import type { IncomingMessage, ServerResponse } from 'http';
+import type { NextFunction } from 'connect';
+
 export default defineConfig(({ mode }) => {
-  const fs = require('fs');
-  const path = require('path');
   const plugins = [
     // Handle sitemap.xml requests in development
     {
       name: 'serve-sitemap',
-      configureServer(server: any) {
-        server.middlewares.use((req: any, res: any, next: () => void) => {
-          if (req.url === '/sitemap.xml') {
-            const sitemapPath = path.resolve(__dirname, 'public/sitemap.xml');
-            if (fs.existsSync(sitemapPath)) {
-              res.setHeader('Content-Type', 'application/xml');
-              res.end(fs.readFileSync(sitemapPath, 'utf-8'));
-              return;
+      configureServer(server: ViteDevServer) {
+        return () => {
+          server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: NextFunction) => {
+            if (req.url === '/sitemap.xml') {
+              const sitemapPath = new URL('./public/sitemap.xml', import.meta.url).pathname;
+              import('fs').then(({ readFileSync, existsSync }) => {
+                if (existsSync(sitemapPath)) {
+                  res.setHeader('Content-Type', 'application/xml');
+                  res.end(readFileSync(sitemapPath, 'utf-8'));
+                } else {
+                  next();
+                }
+              }).catch(next);
+            } else {
+              next();
             }
-          }
-          next();
-        });
+          });
+        };
       }
     },
     react({
@@ -38,16 +46,18 @@ export default defineConfig(({ mode }) => {
     {
       name: 'copy-public-assets',
       apply: 'build' as const,
-      writeBundle() {
-        const fs = require('fs');
-        const path = require('path');
+      async writeBundle() {
+        const { copyFileSync, existsSync } = await import('fs');
+        const { resolve } = await import('path');
+        const { fileURLToPath } = await import('url');
         
         // Ensure sitemap.xml is copied to the root of the build
-        const sitemapPath = path.resolve(__dirname, 'public/sitemap.xml');
-        const destPath = path.resolve(__dirname, 'dist/sitemap.xml');
+        const __dirname = fileURLToPath(new URL('.', import.meta.url));
+        const sitemapPath = resolve(__dirname, 'public/sitemap.xml');
+        const destPath = resolve(__dirname, 'dist/sitemap.xml');
         
-        if (fs.existsSync(sitemapPath)) {
-          fs.copyFileSync(sitemapPath, destPath);
+        if (existsSync(sitemapPath)) {
+          copyFileSync(sitemapPath, destPath);
           console.log('Sitemap copied to build directory');
         }
       }
