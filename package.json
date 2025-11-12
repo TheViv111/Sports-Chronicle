@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run gen:sitemap && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,json}\"",
-    "generate:translations": "node scripts/generateLanguageFiles.js"
+    "generate:translations": "node scripts/generateLanguageFiles.js",
+    "gen:sitemap": "node scripts/generateSitemap.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

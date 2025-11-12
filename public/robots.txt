@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 
+
 # Sitemap
 Sitemap: https://the-sports-chronicle.vercel.app/sitemap.xml
 
@@ -21,6 +22,3 @@ Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
-
-# Sitemap location
-Sitemap: https://the-sports-chronicle.vercel.app/sitemap.xml

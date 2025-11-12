@@ -13,55 +13,12 @@ import type { NextFunction } from 'connect';
 
 export default defineConfig(({ mode }) => {
   const plugins = [
-    // Handle sitemap.xml requests in development
-    {
-      name: 'serve-sitemap',
-      configureServer(server: ViteDevServer) {
-        return () => {
-          server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: NextFunction) => {
-            if (req.url === '/sitemap.xml') {
-              const sitemapPath = new URL('./public/sitemap.xml', import.meta.url).pathname;
-              import('fs').then(({ readFileSync, existsSync }) => {
-                if (existsSync(sitemapPath)) {
-                  res.setHeader('Content-Type', 'application/xml');
-                  res.end(readFileSync(sitemapPath, 'utf-8'));
-                } else {
-                  next();
-                }
-              }).catch(next);
-            } else {
-              next();
-            }
-          });
-        };
-      }
-    },
     react({
       // Add this to support path aliases in JSX
       jsxImportSource: '@emotion/react',
     }),
     // Copy translation files to build directory
     vitePluginTranslations(),
-    // Copy public files to root of the build output
-    {
-      name: 'copy-public-assets',
-      apply: 'build' as const,
-      async writeBundle() {
-        const { copyFileSync, existsSync } = await import('fs');
-        const { resolve } = await import('path');
-        const { fileURLToPath } = await import('url');
-        
-        // Ensure sitemap.xml is copied to the root of the build
-        const __dirname = fileURLToPath(new URL('.', import.meta.url));
-        const sitemapPath = resolve(__dirname, 'public/sitemap.xml');
-        const destPath = resolve(__dirname, 'dist/sitemap.xml');
-        
-        if (existsSync(sitemapPath)) {
-          copyFileSync(sitemapPath, destPath);
-          console.log('Sitemap copied to build directory');
-        }
-      }
-    },
     // PWA support
     VitePWA({
       registerType: 'autoUpdate',
