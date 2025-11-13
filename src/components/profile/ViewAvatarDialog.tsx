@@ -24,6 +24,9 @@ const ViewAvatarDialog: React.FC<ViewAvatarDialogProps> = ({ isOpen, onClose, av
               src={avatarUrl}
               alt="User Avatar"
               className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
+              onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
             />
           ) : (
             <div className="flex items-center justify-center w-full h-64 bg-muted rounded-lg text-muted-foreground">
