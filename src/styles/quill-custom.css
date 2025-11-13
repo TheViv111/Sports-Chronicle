@@ -9,6 +9,9 @@
 .ql-toolbar {
   background-color: #f8fafc;
   border-color: #e2e8f0 !important;
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .ql-container {
