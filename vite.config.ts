@@ -32,29 +32,52 @@ export default defineConfig(({ mode }) => {
               cacheName: 'supabase-api',
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 // 24 hours
+                maxAgeSeconds: 60 * 60 * 24 // 24 hours - API should be fresher
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
               }
             }
           },
           {
-            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|avif)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images',
               expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year - Chrome recommendation
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
               }
             }
           },
           {
-            urlPattern: /\.(?:woff|woff2|ttf|eot)$/i,
+            urlPattern: /\.(?:woff|woff2|ttf|eot|otf)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'fonts',
               expiration: {
-                maxEntries: 20,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year - Chrome recommendation
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
+          {
+            urlPattern: /\.(?:js|css)$/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'static-resources',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days minimum per Chrome
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
               }
             }
           }
@@ -132,12 +155,22 @@ export default defineConfig(({ mode }) => {
       port: 0,
       strictPort: false,
       open: true,
+      headers: {
+        // Chrome Performance Insights: Use efficient cache lifetimes (30 days minimum)
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        // Enable compression for better performance
+        'Content-Encoding': 'gzip'
+      },
       proxy: {
         // Proxy API requests to avoid CORS issues
         '/api': {
           target: 'https://whgjiirmcbsiqhjzgldy.supabase.co',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          rewrite: (path) => path.replace(/^\/api/, ''),
+          // Don't cache API responses
+          headers: {
+            'Cache-Control': 'no-cache, must-revalidate'
+          }
         }
       },
       fs: {

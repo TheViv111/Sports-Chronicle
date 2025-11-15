@@ -12,6 +12,7 @@ import { HelmetProvider } from "react-helmet-async";
 import React, { Suspense } from "react";
 import LoadingScreen from "@/components/common/LoadingScreen";
 import Layout from "./components/layout/Layout";
+import { CachePerformanceMonitor } from "@/components/common/CachePerformanceMonitor";
 const Home = React.lazy(() => import("./pages/Home"));
 const Blog = React.lazy(() => import("./pages/Blog"));
 const BlogPost = React.lazy(() => import("./pages/BlogPost"));
@@ -62,6 +63,7 @@ const App = () => (
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                   <Analytics />
+                  <CachePerformanceMonitor />
                 </Suspense>
               </SessionContextProvider>
             </BrowserRouter>
