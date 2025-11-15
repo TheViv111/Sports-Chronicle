@@ -23,44 +23,104 @@ export default defineConfig(({ mode }) => {
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,json,webp,avif}'],
+        // Advanced caching strategies for optimal performance
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/whgjiirmcbsiqhjzgldy\.supabase\.co\/.*/i,
-            handler: 'NetworkFirst',
+            // Critical resources - CacheFirst with network fallback
+            urlPattern: /\.(?:js|css)$/i,
+            handler: 'CacheFirst',
             options: {
-              cacheName: 'supabase-api',
+              cacheName: 'static-resources',
               expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 // 24 hours - API should be fresher
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year for better performance
               },
               cacheableResponse: {
-                statuses: [0, 200]
+                statuses: [0, 200],
+                headers: {
+                  'Cache-Control': 'public, max-age=31536000, immutable'
+                }
+              },
+              // Background sync for updates
+              backgroundSync: {
+                name: 'static-sync',
+                options: {
+                  maxRetentionTime: 24 * 60 // 24 hours
+                }
               }
             }
           },
           {
+            // Images with advanced caching and optimization
             urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|avif)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images',
               expiration: {
-                maxEntries: 200,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year - Chrome recommendation
+                maxEntries: 500,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
               },
               cacheableResponse: {
-                statuses: [0, 200]
+                statuses: [0, 200],
+                headers: {
+                  'Cache-Control': 'public, max-age=31536000, immutable'
+                }
               }
             }
           },
           {
+            // Fonts with aggressive caching
             urlPattern: /\.(?:woff|woff2|ttf|eot|otf)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'fonts',
               expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+                headers: {
+                  'Cache-Control': 'public, max-age=31536000, immutable'
+                }
+              },
+              // Fonts are critical, always cache first
+              fetchOptions: {
+                mode: 'cors',
+                credentials: 'omit'
+              }
+            }
+          },
+          {
+            // API with intelligent caching
+            urlPattern: /^https:\/\/whgjiirmcbsiqhjzgldy\.supabase\.co\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'supabase-api',
+              expiration: {
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 60 * 12 // 12 hours for fresher content
+              },
+              cacheableResponse: {
+                statuses: [0, 200, 404], // Cache 404s to prevent repeated failed requests
+                headers: {
+                  'Cache-Control': 'public, max-age=43200, must-revalidate'
+                }
+              },
+              // Network timeout for faster fallback to cache
+              networkTimeoutSeconds: 3
+            }
+          },
+          {
+            // External CDN resources
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts',
+              expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year - Chrome recommendation
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
               },
               cacheableResponse: {
                 statuses: [0, 200]
@@ -68,20 +128,24 @@ export default defineConfig(({ mode }) => {
             }
           },
           {
-            urlPattern: /\.(?:js|css)$/i,
+            // HTML pages - StaleWhileRevalidate for fresh content
+            urlPattern: /\.(?:html|htm)$/i,
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'static-resources',
+              cacheName: 'html-pages',
               expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days minimum per Chrome
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days for HTML
               },
               cacheableResponse: {
                 statuses: [0, 200]
               }
             }
           }
-        ]
+        ],
+        // Skip waiting for immediate updates
+        skipWaiting: true,
+        clientsClaim: true
       },
       manifest: {
         name: 'The Sports Chronicle',
@@ -156,10 +220,22 @@ export default defineConfig(({ mode }) => {
       strictPort: false,
       open: true,
       headers: {
-        // Chrome Performance Insights: Use efficient cache lifetimes (30 days minimum)
+        // Advanced Chrome Performance Insights: Use efficient cache lifetimes (30 days minimum)
         'Cache-Control': 'public, max-age=31536000, immutable',
         // Enable compression for better performance
-        'Content-Encoding': 'gzip'
+        'Content-Encoding': 'gzip, br',
+        // HTTP/2 Server Push hints and preconnect hints combined
+        'Link': [
+          '</assets/main.js>; rel=preload; as=script', 
+          '</assets/main.css>; rel=preload; as=style',
+          '<https://whgjiirmcbsiqhjzgldy.supabase.co>; rel=preconnect',
+          '<https://fonts.googleapis.com>; rel=preconnect', 
+          '<https://fonts.gstatic.com>; rel=preconnect'
+        ].join(', '),
+        // Security headers
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block'
       },
       proxy: {
         // Proxy API requests to avoid CORS issues
@@ -169,7 +245,8 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ''),
           // Don't cache API responses
           headers: {
-            'Cache-Control': 'no-cache, must-revalidate'
+            'Cache-Control': 'no-cache, must-revalidate',
+            'Vary': 'Accept-Encoding'
           }
         }
       },
