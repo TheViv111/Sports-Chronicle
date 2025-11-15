@@ -72,11 +72,16 @@ const About = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 staggered-grid">
                 <Card className="group hover:shadow-lg transition-all duration-300 reveal-on-scroll" style={{ '--stagger-delay': '0ms' } as React.CSSProperties}>
                   <CardContent className="p-6 text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-2xl">
-                        {t("about.team.editor.name").charAt(0)}
-                      </span>
-                    </div>
+                    <img
+                      src="/images/team/vivaan.png"
+                      alt={t("about.team.editor.name")}
+                      className="w-24 h-24 mx-auto mb-4 rounded-full object-cover ring-2 ring-primary/20"
+                      loading="lazy"
+                      decoding="async"
+                      width={96}
+                      height={96}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/images/team/vivaan.svg"; }}
+                    />
                     <h3 className="font-heading text-lg font-semibold mb-2">
                       {t("about.team.editor.name")}
                     </h3>
@@ -91,11 +96,16 @@ const About = () => {
 
                 <Card className="group hover:shadow-lg transition-all duration-300 reveal-on-scroll" style={{ '--stagger-delay': '100ms' } as React.CSSProperties}>
                   <CardContent className="p-6 text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-secondary to-secondary/80 rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-2xl">
-                        {t("about.team.analyst.name").charAt(0)}
-                      </span>
-                    </div>
+                    <img
+                      src="/images/team/ved.png"
+                      alt={t("about.team.analyst.name")}
+                      className="w-24 h-24 mx-auto mb-4 rounded-full object-cover ring-2 ring-primary/20"
+                      loading="lazy"
+                      decoding="async"
+                      width={96}
+                      height={96}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/images/team/vivaan.svg"; }}
+                    />
                     <h3 className="font-heading text-lg font-semibold mb-2">
                       {t("about.team.analyst.name")}
                     </h3>
@@ -110,11 +120,16 @@ const About = () => {
 
                 <Card className="group hover:shadow-lg transition-all duration-300 reveal-on-scroll" style={{ '--stagger-delay': '200ms' } as React.CSSProperties}>
                   <CardContent className="p-6 text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-accent to-accent/80 rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-2xl">
-                        {t("about.team.reporter.name").charAt(0)}
-                      </span>
-                    </div>
+                    <img
+                      src="/images/team/shourya.png"
+                      alt={t("about.team.reporter.name")}
+                      className="w-24 h-24 mx-auto mb-4 rounded-full object-cover ring-2 ring-primary/20"
+                      loading="lazy"
+                      decoding="async"
+                      width={96}
+                      height={96}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/images/team/shaurya.svg"; }}
+                    />
                     <h3 className="font-heading text-lg font-semibold mb-2">
                       {t("about.team.reporter.name")}
                     </h3>
@@ -129,11 +144,16 @@ const About = () => {
 
                 <Card className="group hover:shadow-lg transition-all duration-300 reveal-on-scroll" style={{ '--stagger-delay': '300ms' } as React.CSSProperties}>
                   <CardContent className="p-6 text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-muted to-muted-foreground rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-2xl">
-                        {t("about.team.photographer.name").charAt(0)}
-                      </span>
-                    </div>
+                    <img
+                      src="/images/team/shaurya.png"
+                      alt={t("about.team.photographer.name")}
+                      className="w-24 h-24 mx-auto mb-4 rounded-full object-cover ring-2 ring-primary/20"
+                      loading="lazy"
+                      decoding="async"
+                      width={96}
+                      height={96}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/images/team/shaurya.svg"; }}
+                    />
                     <h3 className="font-heading text-lg font-semibold mb-2">
                       {t("about.team.photographer.name")}
                     </h3>
@@ -146,6 +166,7 @@ const About = () => {
                   </CardContent>
                 </Card>
               </div>
+              
             </div>
 
             <h2 className="font-heading text-2xl font-semibold mt-8 mb-4 reveal-on-scroll">
