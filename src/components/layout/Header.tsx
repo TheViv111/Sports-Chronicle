@@ -87,9 +87,12 @@ const Header = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-1.5 sm:space-x-2 lg:space-x-3">
           <img 
-            src={logo} 
+            src="/android-chrome-192x192.png" 
             alt="The Sports Chronicle" 
             className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 rounded-full object-cover border-2 border-primary/20" 
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
           />
           <span className="font-heading text-xs sm:text-sm lg:text-xl font-semibold hidden xs:block sm:block">
             The Sports Chronicle
@@ -219,9 +222,12 @@ const Header = () => {
                 {/* Logo in mobile menu */}
                 <div className="flex items-center space-x-2 sm:space-x-3 pb-3 sm:pb-4 border-b">
                   <img 
-                    src={logo} 
+                    src="/android-chrome-192x192.png" 
                     alt="The Sports Chronicle" 
                     className="h-8 w-8 rounded-full object-cover border-2 border-primary/20" 
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
                   />
                   <SheetTitle className="font-heading text-base sm:text-lg font-semibold">
                     The Sports Chronicle

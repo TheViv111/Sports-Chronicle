@@ -4,7 +4,7 @@ import { useTranslation } from "@/contexts/TranslationContext";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, Loader2, ArrowLeft } from "lucide-react";
-import logo from "@/assets/logo.png";
+const logoSrc = "/android-chrome-192x192.png";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,7 +52,7 @@ const AuthFormWrapper: React.FC<AuthFormWrapperProps> = ({
           </Link>
         </div>
         <div className="flex flex-col items-center mb-6">
-          <img src={logo} alt="The Sports Chronicle" className="h-12 w-12 rounded-full shadow-sm mb-3" />
+          <img src={logoSrc} alt="The Sports Chronicle" className="h-12 w-12 rounded-full shadow-sm mb-3" loading="eager" decoding="async" fetchpriority="high" />
           <h1 className="font-heading text-3xl font-bold tracking-tight">
             {t(titleKey)}
           </h1>

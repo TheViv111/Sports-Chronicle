@@ -219,24 +219,6 @@ export default defineConfig(({ mode }) => {
       port: 0,
       strictPort: false,
       open: true,
-      headers: {
-        // Advanced Chrome Performance Insights: Use efficient cache lifetimes (30 days minimum)
-        'Cache-Control': 'public, max-age=31536000, immutable',
-        // Enable compression for better performance
-        'Content-Encoding': 'gzip, br',
-        // HTTP/2 Server Push hints and preconnect hints combined
-        'Link': [
-          '</assets/main.js>; rel=preload; as=script', 
-          '</assets/main.css>; rel=preload; as=style',
-          '<https://whgjiirmcbsiqhjzgldy.supabase.co>; rel=preconnect',
-          '<https://fonts.googleapis.com>; rel=preconnect', 
-          '<https://fonts.gstatic.com>; rel=preconnect'
-        ].join(', '),
-        // Security headers
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY',
-        'X-XSS-Protection': '1; mode=block'
-      },
       proxy: {
         // Proxy API requests to avoid CORS issues
         '/api': {

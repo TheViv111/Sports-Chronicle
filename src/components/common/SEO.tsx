@@ -135,6 +135,9 @@ export function SEO({
       <meta name="description" content={description} />
       <link rel="canonical" href={canonicalUrl} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://whgjiirmcbsiqhjzgldy.supabase.co" />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />

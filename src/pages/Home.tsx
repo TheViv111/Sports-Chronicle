@@ -21,7 +21,14 @@ const Home = () => {
   
 
   useEffect(() => {
-    loadLatestPosts();
+    const schedule = () => {
+      loadLatestPosts();
+    };
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(schedule);
+    } else {
+      setTimeout(schedule, 300);
+    }
   }, [currentLanguage]);
 
 const loadLatestPosts = useCallback(async () => {

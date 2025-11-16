@@ -33,11 +33,8 @@ export const useAdvancedCacheManager = () => {
     if (isPreloading) return;
     setIsPreloading(true);
 
-    const criticalResources = [
-      '/src/assets/logo.png',
-      '/src/components/blog/BlogCard.tsx',
-      '/src/pages/Home.tsx',
-    ];
+    const isDev = import.meta.env.DEV;
+    const criticalResources = isDev ? ['/android-chrome-192x192.png'] : [];
 
     const preloadPromises = criticalResources.map(async (resource) => {
       try {

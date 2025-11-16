@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Tables } from '@/integrations/supabase/types';
 import { useTranslation } from '@/contexts/TranslationContext';
 import useScrollReveal from '@/hooks/useScrollReveal';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Define the type for a blog post with display-specific fields
 type BlogPostWithDisplay = Tables<'blog_posts'> & {
@@ -22,12 +23,13 @@ interface BlogCarouselProps {
 
 const BlogCarousel: React.FC<BlogCarouselProps> = ({ posts }) => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true,
     align: 'start',
     skipSnaps: false
   }, [
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true }),
+    ...(isMobile ? [] : [Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })]),
   ]);
 
   useScrollReveal('.carousel-item-reveal', { threshold: 0.1 });
