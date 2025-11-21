@@ -13,6 +13,7 @@ import { useSession } from "@/components/auth/SessionContextProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
+import OptimizedImage from "@/components/common/OptimizedImage";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Header = () => {
@@ -86,13 +87,14 @@ const Header = () => {
       <div className="max-w-7xl mx-auto flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4 lg:px-6">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-1.5 sm:space-x-2 lg:space-x-3">
-          <img
+          <OptimizedImage
             src={logo}
             alt="The Sports Chronicle"
             className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 rounded-full object-cover border-2 border-primary/20"
             loading="eager"
-            decoding="async"
             fetchPriority="high"
+            width={40}
+            height={40}
           />
           <span className="font-heading text-xs sm:text-sm lg:text-xl font-semibold hidden xs:block sm:block">
             The Sports Chronicle
@@ -106,8 +108,8 @@ const Header = () => {
               key={item.name}
               to={item.path}
               className={`text-sm font-medium transition-colors hover:text-primary ${isActivePage(item.path)
-                  ? "text-primary"
-                  : "text-muted-foreground"
+                ? "text-primary"
+                : "text-muted-foreground"
                 }`}
             >
               {item.name}
