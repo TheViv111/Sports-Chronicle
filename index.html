@@ -15,11 +15,17 @@
   <link rel="dns-prefetch" href="//whgjiirmcbsiqhjzgldy.supabase.co" />
   <link rel="dns-prefetch" href="//fonts.googleapis.com" />
   <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+  <link rel="dns-prefetch" href="//vercel-insights.com" />
 
   <!-- Preconnect for critical external resources -->
   <link rel="preconnect" href="https://whgjiirmcbsiqhjzgldy.supabase.co" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical fonts for mobile performance -->
+  <link rel="preload" as="font" type="font/woff2"
+    href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
+    crossorigin />
 
   <!-- SEO and Open Graph -->
   <meta property="og:title" content="The Sports Chronicle" />
@@ -50,8 +56,10 @@
     /* Critical CSS for above-the-fold content */
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #f8fafc;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .loading {
@@ -79,9 +87,14 @@
         transform: rotate(360deg);
       }
     }
+
+    /* Prevent layout shift */
+    #root {
+      min-height: 100vh;
+    }
   </style>
 
-  <!-- Optimize font loading -->
+  <!-- Optimize font loading with font-display swap -->
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
     rel="stylesheet" media="print" onload="this.media='all'">
