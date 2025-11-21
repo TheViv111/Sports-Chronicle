@@ -24,7 +24,7 @@ export function SEO({
   description = 'Your ultimate destination for sports news, analysis, and insights. Covering basketball, soccer, swimming, and more sports worldwide.',
   canonicalUrl = 'https://thesportschronicle.com',
   type = 'website',
-  imageUrl = 'https://lovable.dev/opengraph-image-p98pqg.png',
+  imageUrl = '/og-image.png',
   schemaType = 'WebSite',
   articleData,
   noindex = false,
@@ -35,9 +35,8 @@ export function SEO({
     '@type': 'Organization',
     name: 'The Sports Chronicle',
     url: 'https://thesportschronicle.com',
-    logo: 'https://thesportschronicle.com/The%20Sports%20Chronicle%20Logo-modified.png',
+    logo: 'https://thesportschronicle.com/og-image.png',
     sameAs: [
-      'https://twitter.com/lovable_dev',
       'https://facebook.com/thesportschronicle',
       'https://instagram.com/thesportschronicle'
     ]
@@ -101,7 +100,7 @@ export function SEO({
       name: 'The Sports Chronicle',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://thesportschronicle.com/The%20Sports%20Chronicle%20Logo-modified.png'
+        url: 'https://thesportschronicle.com/og-image.png'
       }
     },
     description: description,
@@ -138,20 +137,20 @@ export function SEO({
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://whgjiirmcbsiqhjzgldy.supabase.co" />
-      
+
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={imageUrl} />
-      
+
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={imageUrl} />
-      
+
       {/* JSON-LD structured data */}
       <script type="application/ld+json">
         {JSON.stringify(schemaMarkup)}
