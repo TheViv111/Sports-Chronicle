@@ -277,8 +277,10 @@ export default defineConfig(({ mode }) => {
       },
       // Include all assets in the build
       assetsInclude: ['**/*.json'],
-      // Optimize chunk size
-      chunkSizeWarningLimit: 1000
+      // Optimize chunk size for mobile
+      chunkSizeWarningLimit: 500,
+      reportCompressedSize: false,
+      cssCodeSplit: true
     }
   };
 });

@@ -38,50 +38,65 @@ const queryClient = new QueryClient({
   }
 });
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <ThemeProvider
-        defaultTheme="system"
-        storageKey="vite-ui-theme"
-      >
-        <TooltipProvider>
-          <Sonner />
-          <SpeedInsights />
-          <TranslationProvider>
-            <BrowserRouter>
-              <SessionContextProvider>
-                <Suspense fallback={<LoadingScreen message="Loading..." />}>
-                  <Routes>
-                    <Route path="/" element={<Layout />}>
-                      <Route index element={<Home />} />
-                      <Route path="blog" element={<Blog />} />
-                      <Route path="blog/:slug" element={<BlogPost />} />
-                      <Route path="users/:id" element={<UserProfile />} />
-                      <Route path="about" element={<About />} />
-                      <Route path="contact" element={<Contact />} />
-                      <Route path="admin" element={<ProtectedAdminRoute />}>
-                        <Route index element={<Navigate to="posts" replace />} />
-                        <Route path=":tab" element={<Admin />} />
-                        <Route path="edit/:id" element={<Admin />} />
+const App = () => {
+  const [loadAnalytics, setLoadAnalytics] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoadAnalytics(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <ThemeProvider
+          defaultTheme="system"
+          storageKey="vite-ui-theme"
+        >
+          <TooltipProvider>
+            <Sonner />
+            <TranslationProvider>
+              <BrowserRouter>
+                <SessionContextProvider>
+                  <Suspense fallback={<LoadingScreen message="Loading..." />}>
+                    <Routes>
+                      <Route path="/" element={<Layout />}>
+                        <Route index element={<Home />} />
+                        <Route path="blog" element={<Blog />} />
+                        <Route path="blog/:slug" element={<BlogPost />} />
+                        <Route path="users/:id" element={<UserProfile />} />
+                        <Route path="about" element={<About />} />
+                        <Route path="contact" element={<Contact />} />
+                        <Route path="admin" element={<ProtectedAdminRoute />}>
+                          <Route index element={<Navigate to="posts" replace />} />
+                          <Route path=":tab" element={<Admin />} />
+                          <Route path="edit/:id" element={<Admin />} />
+                        </Route>
+                        <Route path="signin" element={<SignIn />} />
+                        <Route path="signup" element={<SignUp />} />
+                        <Route path="profile" element={<Profile />} />
+                        <Route path="sitemap.xml" element={<Sitemap />} />
                       </Route>
-                      <Route path="signin" element={<SignIn />} />
-                      <Route path="signup" element={<SignUp />} />
-                      <Route path="profile" element={<Profile />} />
-                      <Route path="sitemap.xml" element={<Sitemap />} />
-                    </Route>
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                  <Analytics />
-                  {import.meta.env.DEV && <CachePerformanceMonitor />}
-                </Suspense>
-              </SessionContextProvider>
-            </BrowserRouter>
-          </TranslationProvider>
-        </TooltipProvider>
-      </ThemeProvider>
-    </HelmetProvider>
-  </QueryClientProvider>
-);
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                    {loadAnalytics && (
+                      <>
+                        <Analytics />
+                        <SpeedInsights />
+                      </>
+                    )}
+                    {import.meta.env.DEV && <CachePerformanceMonitor />}
+                  </Suspense>
+                </SessionContextProvider>
+              </BrowserRouter>
+            </TranslationProvider>
+          </TooltipProvider>
+        </ThemeProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
