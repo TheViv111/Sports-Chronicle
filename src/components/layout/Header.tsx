@@ -226,6 +226,8 @@ const Header = () => {
                     src={logo}
                     alt="The Sports Chronicle"
                     className="h-8 w-8 rounded-full object-cover border-2 border-primary/20"
+                    width={32}
+                    height={32}
                     loading="eager"
                     decoding="async"
                     fetchPriority="high"

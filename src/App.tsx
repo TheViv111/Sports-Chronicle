@@ -13,6 +13,7 @@ import React, { Suspense } from "react";
 import LoadingScreen from "@/components/common/LoadingScreen";
 import Layout from "./components/layout/Layout";
 import { CachePerformanceMonitor } from "@/components/common/CachePerformanceMonitor";
+
 const Home = React.lazy(() => import("./pages/Home"));
 const Blog = React.lazy(() => import("./pages/Blog"));
 const BlogPost = React.lazy(() => import("./pages/BlogPost"));
@@ -26,13 +27,22 @@ const Profile = React.lazy(() => import("./pages/Profile"));
 const Sitemap = React.lazy(() => import("./pages/Sitemap"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      gcTime: 1000 * 60 * 30, // 30 minutes (formerly cacheTime)
+      refetchOnWindowFocus: false,
+      retry: 1
+    }
+  }
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
-      <ThemeProvider 
-        defaultTheme="system" 
+      <ThemeProvider
+        defaultTheme="system"
         storageKey="vite-ui-theme"
       >
         <TooltipProvider>
@@ -63,7 +73,7 @@ const App = () => (
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                   <Analytics />
-                  <CachePerformanceMonitor />
+                  {import.meta.env.DEV && <CachePerformanceMonitor />}
                 </Suspense>
               </SessionContextProvider>
             </BrowserRouter>

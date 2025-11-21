@@ -68,6 +68,7 @@ const OptimizedImage = ({
       width={width}
       height={height}
       fetchPriority={fetchPriority}
+      style={{ aspectRatio: width && height ? `${width}/${height}` : undefined }}
     />
   );
 };

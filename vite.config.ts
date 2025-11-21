@@ -13,10 +13,7 @@ import type { NextFunction } from 'connect';
 
 export default defineConfig(({ mode }) => {
   const plugins = [
-    react({
-      // Add this to support path aliases in JSX
-      jsxImportSource: '@emotion/react',
-    }),
+    react(),
     // Copy translation files to build directory
     vitePluginTranslations(),
     // PWA support
@@ -58,7 +55,7 @@ export default defineConfig(({ mode }) => {
             options: {
               cacheName: 'images',
               expiration: {
-                maxEntries: 500,
+                maxEntries: 200,
                 maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
               },
               cacheableResponse: {
@@ -100,7 +97,7 @@ export default defineConfig(({ mode }) => {
               cacheName: 'supabase-api',
               expiration: {
                 maxEntries: 200,
-                maxAgeSeconds: 60 * 60 * 12 // 12 hours for fresher content
+                maxAgeSeconds: 60 * 5 // 5 minutes for fresher content
               },
               cacheableResponse: {
                 statuses: [0, 200, 404], // Cache 404s to prevent repeated failed requests
@@ -169,15 +166,6 @@ export default defineConfig(({ mode }) => {
         ]
       }
     }),
-    // Compression
-    viteCompression({
-      algorithm: 'gzip',
-      ext: '.gz',
-    }),
-    viteCompression({
-      algorithm: 'brotliCompress',
-      ext: '.br',
-    })
   ];
 
   // Add visualizer in analyze mode
@@ -191,12 +179,18 @@ export default defineConfig(({ mode }) => {
     );
   }
 
-  // Add additional compression in production
+  // Add compression in production
   if (mode === 'production') {
     plugins.push(
       viteCompression({
         algorithm: 'gzip',
         ext: '.gz',
+        threshold: 1024,
+        deleteOriginFile: false,
+      }),
+      viteCompression({
+        algorithm: 'brotliCompress',
+        ext: '.br',
         threshold: 1024,
         deleteOriginFile: false,
       })
@@ -243,15 +237,38 @@ export default defineConfig(({ mode }) => {
       assetsDir: 'assets',
       sourcemap: mode !== 'production',
       minify: mode === 'production' ? 'terser' : false,
+      terserOptions: mode === 'production' ? {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.info'],
+          passes: 2
+        },
+        format: {
+          comments: false
+        }
+      } : undefined,
       rollupOptions: {
         output: {
-          manualChunks: {
-            react: ['react', 'react-dom', 'react-router-dom'],
-            ui: ['@radix-ui/react-avatar', '@radix-ui/react-dropdown-menu', '@radix-ui/react-dialog', '@radix-ui/react-label', '@radix-ui/react-scroll-area', '@radix-ui/react-select', '@radix-ui/react-separator', '@radix-ui/react-slot', '@radix-ui/react-tabs', '@radix-ui/react-tooltip'],
-            vendor: ['lodash', 'axios', 'clsx', 'tailwind-merge'],
-            carousel: ['embla-carousel-react', 'embla-carousel-autoplay'],
-            icons: ['lucide-react'],
-            supabase: ['@supabase/supabase-js', '@supabase/auth-ui-react', '@supabase/auth-ui-shared']
+          manualChunks: (id) => {
+            if (id.includes('node_modules')) {
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+                return 'react-vendor';
+              }
+              if (id.includes('@radix-ui')) {
+                return 'ui-vendor';
+              }
+              if (id.includes('@supabase')) {
+                return 'supabase-vendor';
+              }
+              if (id.includes('lucide-react')) {
+                return 'icons-vendor';
+              }
+              if (id.includes('lodash') || id.includes('axios') || id.includes('clsx')) {
+                return 'utils-vendor';
+              }
+              return 'vendor';
+            }
           },
           chunkFileNames: 'assets/[name]-[hash].js',
           entryFileNames: 'assets/[name]-[hash].js',
@@ -259,7 +276,9 @@ export default defineConfig(({ mode }) => {
         }
       },
       // Include all assets in the build
-      assetsInclude: ['**/*.json']
+      assetsInclude: ['**/*.json'],
+      // Optimize chunk size
+      chunkSizeWarningLimit: 1000
     }
   };
 });

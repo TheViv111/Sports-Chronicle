@@ -15,7 +15,7 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
   const { currentLanguage } = useTranslation();
-  
+
   const displayPost = (post as any).date ? (post as BlogPostWithDisplay) : transformBlogPostForDisplay(post as Tables<'blog_posts'>, currentLanguage);
   const badgeVariant = (displayPost.category || "").toLowerCase() as any;
   const badgeLabel = displayPost.displayCategory || displayPost.category;
@@ -28,16 +28,19 @@ export default function BlogCard({ post }: BlogCardProps) {
         <div className="aspect-[16/9] mb-4 overflow-hidden bg-muted">
           {!imageError && imageSrc ? (
             <Suspense fallback={<PlaceholderImage category={displayPost.category} className="w-full h-full" />}>
-              <OptimizedImage 
+              <OptimizedImage
                 src={imageSrc}
                 alt={displayPost.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 onError={() => setImageError(true)}
+                width={800}
+                height={450}
+                loading="lazy"
               />
             </Suspense>
           ) : (
-            <PlaceholderImage 
-              category={displayPost.category} 
+            <PlaceholderImage
+              category={displayPost.category}
               className="w-full h-full"
             />
           )}

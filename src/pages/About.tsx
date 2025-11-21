@@ -40,6 +40,11 @@ const About = () => {
                 src={skiingImage}
                 alt="Skiing action shot"
                 className="w-full h-full object-cover"
+                width={1260}
+                height={540}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
               />
             </div>
           </div>
