@@ -1,5 +1,7 @@
 import skiingImage from "@/assets/skiing-1.jpg";
 import shauryaGuptaNew from "@/assets/shaurya-gupta-new.jpg";
+import vivaanHandaNew from "@/assets/vivaan-handa-new.jpg";
+import shouryaGuptaNew from "@/assets/shourya-gupta-new.jpg";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { Card, CardContent } from "@/components/ui/card";
 import useScrollReveal from "@/hooks/useScrollReveal";
@@ -74,7 +76,7 @@ const About = () => {
                   <Card className="group hover:shadow-lg transition-all duration-300 reveal-on-scroll" style={{ '--stagger-delay': '0ms' } as React.CSSProperties}>
                     <CardContent className="p-6 text-center">
                       <img
-                        src="/images/team/vivaan.png"
+                        src={vivaanHandaNew}
                         alt={t("about.team.editor.name")}
                         className="w-24 h-24 mx-auto mb-4 rounded-full object-cover ring-2 ring-primary/20"
                         loading="lazy"
@@ -122,7 +124,7 @@ const About = () => {
                   <Card className="group hover:shadow-lg transition-all duration-300 reveal-on-scroll" style={{ '--stagger-delay': '200ms' } as React.CSSProperties}>
                     <CardContent className="p-6 text-center">
                       <img
-                        src="/images/team/shourya.png"
+                        src={shouryaGuptaNew}
                         alt={t("about.team.reporter.name")}
                         className="w-24 h-24 mx-auto mb-4 rounded-full object-cover ring-2 ring-primary/20"
                         loading="lazy"
