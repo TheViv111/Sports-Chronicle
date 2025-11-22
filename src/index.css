@@ -1,3 +1,6 @@
+/* Self-hosted fonts - No more Google dependencies! */
+@import url('/fonts/fonts.css');
+
 /* tailwindcss directives */
 @tailwind base;
 @tailwind components;
@@ -10,48 +13,48 @@
     /* Base Colors */
     --background: 0 0% 100%;
     --foreground: 0 0% 9%;
-    
+
     /* Sports Chronicle Brand */
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
-    
+
     /* Semantic Colors */
     --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 9%;
-    
+
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
-    
+
     --accent: 0 0% 96%;
     --accent-foreground: 0 0% 9%;
-    
+
     --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
-    
+
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
-    
+
     --border: 0 0% 90%;
     --input: 0 0% 90%;
     --ring: 0 0% 9%;
-    
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    
+
     /* Typography */
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
-    
+
     /* Spacing & Sizing */
     --radius: 0.5rem;
     --container-max: 1200px;
-    
+
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
     --shadow-hover: 0 20px 40px -15px hsl(var(--primary) / 0.4);
-    
+
     /* Performance optimizations */
     --transition-fast: 150ms ease-out;
     --transition-medium: 300ms ease-out;
@@ -61,25 +64,25 @@
   .dark {
     --background: 0 0% 9%;
     --foreground: 0 0% 98%;
-    
+
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
-    
+
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 98%;
-    
+
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 64%;
-    
+
     --accent: 0 0% 15%;
     --accent-foreground: 0 0% 98%;
-    
+
     --card: 0 0% 12%;
     --card-foreground: 0 0% 98%;
-    
+
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
-    
+
     --border: 0 0% 15%;
     --input: 0 0% 15%;
     --ring: 0 0% 98%;
@@ -96,19 +99,26 @@
     color: hsl(var(--foreground));
     @apply min-h-screen transition-colors duration-200;
   }
-  
+
   /* Ensure the root element takes full height */
-  #root, html, body {
+  #root,
+  html,
+  body {
     @apply h-full;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
   }
 }
 
 /* Ensure list items display bullet points */
-.prose ul > li {
+.prose ul>li {
   position: relative;
   list-style-type: disc;
   list-style-position: outside;
@@ -116,7 +126,7 @@
   padding-left: 0.5rem;
 }
 
-.prose ol > li {
+.prose ol>li {
   position: relative;
   list-style-type: decimal;
   list-style-position: outside;
@@ -125,21 +135,23 @@
 }
 
 /* Ensure list markers are visible in dark mode */
-.dark .prose ul > li::marker {
+.dark .prose ul>li::marker {
   color: #9ca3af;
 }
 
-dark .prose ol > li::marker {
+dark .prose ol>li::marker {
   color: #9ca3af;
 }
 
 @layer components {
+
   /* Scroll reveal animations */
   @keyframes fadeInUp {
     from {
       opacity: 0;
       transform: translateY(30px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -151,6 +163,7 @@ dark .prose ol > li::marker {
       opacity: 0;
       transform: translateX(-30px);
     }
+
     to {
       opacity: 1;
       transform: translateX(0);
@@ -162,6 +175,7 @@ dark .prose ol > li::marker {
       opacity: 0;
       transform: translateX(30px);
     }
+
     to {
       opacity: 1;
       transform: translateX(0);
@@ -237,7 +251,7 @@ dark .prose ol > li::marker {
   .blog-card-content {
     @apply transition-all duration-300 group-hover:text-primary;
   }
-  
+
   /* Enhanced button hover effects */
   .btn-hover-lift {
     @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:shadow-primary/25;
@@ -258,7 +272,7 @@ dark .prose ol > li::marker {
     transform: translateY(0);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   }
-  
+
   /* Language Dropdown */
   .language-dropdown {
     @apply relative inline-block;
@@ -268,22 +282,28 @@ dark .prose ol > li::marker {
   .prose h1 {
     @apply font-heading text-4xl md:text-5xl font-bold mb-6 mt-10;
   }
+
   .prose h2 {
     @apply font-heading text-3xl md:text-4xl font-bold mb-5 mt-9;
   }
+
   .prose h3 {
     @apply font-heading text-2xl md:text-3xl font-bold mb-4 mt-8;
   }
+
   .prose h4 {
     @apply font-heading text-xl md:text-2xl font-semibold mb-3 mt-7;
   }
-  .prose h5, .prose h6 {
+
+  .prose h5,
+  .prose h6 {
     @apply font-heading text-lg md:text-xl font-semibold mb-2 mt-6;
   }
-  
+
   /* Improved form field styling */
   .form-field-label {
-    @apply block text-lg font-semibold mt-6 mb-2; /* Make it block, larger, and add vertical spacing */
+    @apply block text-lg font-semibold mt-6 mb-2;
+    /* Make it block, larger, and add vertical spacing */
   }
 }
 
@@ -291,15 +311,19 @@ dark .prose ol > li::marker {
 .embla {
   overflow: hidden;
 }
+
 .embla__container {
   display: flex;
 }
+
 .embla__slide {
-  min-width: 0; /* prevent flex item overflow */
+  min-width: 0;
+  /* prevent flex item overflow */
 }
 
 /* Ensure root does not show horizontal scroll during transforms */
-html, body {
+html,
+body {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
@@ -308,9 +332,11 @@ html, body {
 .tap-press {
   @apply transition-transform active:scale-95 active:opacity-90;
 }
+
 .icon-hover-twist {
   @apply transition-transform duration-300 group-hover:rotate-12;
 }
+
 .link-hover-slide {
   @apply transition-all duration-200 hover:translate-x-1;
 }
@@ -321,21 +347,21 @@ html, body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   h1 {
     font-size: 1.5rem !important;
     line-height: 1.2;
   }
-  
+
   h2 {
     font-size: 1.25rem !important;
     line-height: 1.2;
   }
-  
+
   .text-xs {
     font-size: 0.75rem;
   }
-  
+
   .text-sm {
     font-size: 0.875rem;
   }
@@ -345,11 +371,11 @@ html, body {
   .hidden\:xs\:block {
     display: block;
   }
-  
+
   .xs\:text-xs {
     font-size: 0.75rem;
   }
-  
+
   .xs\:text-sm {
     font-size: 0.875rem;
   }
@@ -357,6 +383,7 @@ html, body {
 
 /* Optimize animations for mobile */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -368,7 +395,9 @@ html, body {
 
 /* Better touch targets for mobile */
 @media (pointer: coarse) {
-  button, a {
+
+  button,
+  a {
     min-height: 44px;
     min-width: 44px;
   }
@@ -393,6 +422,7 @@ main {
 
 /* Forced Reflow Mitigation - Reduce layout thrashing from third-party libraries */
 @layer utilities {
+
   /* Radix UI ScrollArea - Contain layout calculations */
   [data-radix-scroll-area-viewport] {
     contain: layout style;
