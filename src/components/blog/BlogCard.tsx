@@ -11,10 +11,9 @@ const OptimizedImage = lazy(() => import("@/components/common/OptimizedImage"));
 
 interface BlogCardProps {
   post: Tables<'blog_posts'> | BlogPostWithDisplay;
-  priority?: boolean; // For LCP optimization - first image should be priority
 }
 
-export default function BlogCard({ post, priority = false }: BlogCardProps) {
+export default function BlogCard({ post }: BlogCardProps) {
   const { currentLanguage } = useTranslation();
 
   const displayPost = (post as any).date ? (post as BlogPostWithDisplay) : transformBlogPostForDisplay(post as Tables<'blog_posts'>, currentLanguage);
@@ -36,8 +35,8 @@ export default function BlogCard({ post, priority = false }: BlogCardProps) {
                 onError={() => setImageError(true)}
                 width={800}
                 height={450}
-                loading={priority ? "eager" : "lazy"}
-                fetchPriority={priority ? "high" : "auto"}
+                loading="eager"
+                fetchPriority="high"
               />
             </Suspense>
           ) : (
