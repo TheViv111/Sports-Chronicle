@@ -12,7 +12,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSession } from "@/components/auth/SessionContextProvider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import logo from "@/assets/logo.png";
+import logo40 from "/logo-40.png";
+import logo80 from "/logo-80.png";
 import OptimizedImage from "@/components/common/OptimizedImage";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -87,11 +88,13 @@ const Header = () => {
       <div className="max-w-7xl mx-auto flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4 lg:px-6">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-1.5 sm:space-x-2 lg:space-x-3">
-          <OptimizedImage
-            src={logo}
+          <img
+            src={logo40}
+            srcSet={`${logo40} 1x, ${logo80} 2x`}
             alt="The Sports Chronicle"
             className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 rounded-full object-cover border-2 border-primary/20"
             loading="eager"
+            decoding="async"
             fetchPriority="high"
             width={40}
             height={40}
@@ -223,7 +226,8 @@ const Header = () => {
                 {/* Logo in mobile menu */}
                 <div className="flex items-center space-x-2 sm:space-x-3 pb-3 sm:pb-4 border-b">
                   <img
-                    src={logo}
+                    src={logo40}
+                    srcSet={`${logo40} 1x, ${logo80} 2x`}
                     alt="The Sports Chronicle"
                     className="h-8 w-8 rounded-full object-cover border-2 border-primary/20"
                     width={32}
